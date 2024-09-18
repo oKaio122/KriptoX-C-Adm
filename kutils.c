@@ -121,6 +121,8 @@ int logar_usuario(){
     scanf(" %8s", &senha);
     getchar();
 
+    // Ler os usuários
+
 
     return login_resposta;
 }

@@ -98,6 +98,7 @@ void menu_opcoes(/*Informações do Usuário */){
                 printf("Opção não encontrada\n");
                 break;
         }
+
     }while (opcao != 0);
 
 }

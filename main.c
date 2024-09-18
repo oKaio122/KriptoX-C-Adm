@@ -37,6 +37,8 @@ int main(){
             case 2:
                 printf("Registrando...\n");
                 break;
+            default:
+                printf("Opção não encontrada\n");
         }
     }while(opcao != 0);
 
@@ -98,6 +100,7 @@ void menu_opcoes(/*Informações do Usuário */){
                 printf("Opção não encontrada\n");
                 break;
         }
+
     }while (opcao != 0);
 
 }

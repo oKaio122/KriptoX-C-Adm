@@ -1,33 +1,11 @@
 #include <stdio.h>
 #include <string.h>
-#include <stdbool.h>
 #include <ctype.h>
 #include <kutils.h>
 
-typedef struct {
-    float ethereum;
-    float bitcoin;
-    float ripple;
-    float reais;
-} Saldo;
+int salvar_usuarios(User usuarios[], int *pos);
 
-typedef struct {
-    char data[255];
-    char operacao[255];
-    char moeda[10];
-    float cotacao;
-    float taxa;
-} Extrato;
-
-typedef struct {
-    char nome[255];
-    char cpf[12];
-    char senha[9];
-    Saldo saldo;
-    Extrato extrato[100];
-} User;
-
-int registrar_usuario(){
+int registrar_usuario(User usuarios[10], int pos){
 
     char cpf[12];
     char senha[9];
@@ -40,7 +18,7 @@ int registrar_usuario(){
     fgets(nome, 256, stdin);
 
     // Obter CPF válido
-    while(true){
+    while(1){
 
         int i;
 
@@ -65,7 +43,7 @@ int registrar_usuario(){
     }
 
     // Obter Senha válida
-    while(true){
+    while(1){
 
         int i;
 
@@ -100,17 +78,16 @@ int registrar_usuario(){
     usuario.saldo.ripple = 0;
 
     // Salvar usuário
+    int save_response = salvar_usuarios(usuarios, &pos);
+    printf("%d", save_response);
 
-
-
-    return 0;
+    return 1;
 }
 
 int logar_usuario(){
 
     char cpf[12];
     char senha[9];
-    int login_resposta; // Se 0 quer dizer que falhou, se 1 quer dizer que foi aprovado
     User usuario;
 
     printf("Insira o seu CPF:\n");
@@ -124,5 +101,31 @@ int logar_usuario(){
     // Ler os usuários
 
 
-    return login_resposta;
+    return 1;
 }
+
+// Salva os usuários no arquivo .bin
+int salvar_usuarios(User usuarios[], int *pos){
+    FILE *f = fopen("usuarios.bin", "wb");
+    if (f == NULL){
+        return 0;
+    }
+
+    int qtd = fwrite(usuarios, sizeof(User), 10, f);
+    if (qtd == 0){
+        return 0;
+    }
+
+    qtd = fwrite(pos, sizeof(int),1 , f);
+    if (qtd == 0){
+        return 0;
+    }
+
+    if (fclose(f)){
+        return 0;
+    }
+
+    return 1;
+}
+
+

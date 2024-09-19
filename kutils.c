@@ -5,18 +5,17 @@
 
 int salvar_usuarios(User usuarios[], int *pos);
 
-
 int registrar_usuario(User usuarios[10], int pos){
 
     char cpf[12];
     char senha[9];
     char nome[255];
-    User usuario;
 
     printf("Registrar usuário\n");
 
+
     printf("Qual o seu nome?\n");
-    fgets(nome, 256, stdin);
+    fgets(nome, 254, stdin);
 
     // Obter CPF válido
     while(1){
@@ -70,19 +69,20 @@ int registrar_usuario(User usuarios[10], int pos){
 
 
     // Dados iniciais do usuário
-    strcpy(usuario.nome, nome);
-    strcpy(usuario.cpf, cpf);
-    strcpy(usuario.senha, senha);
-    usuario.saldo.bitcoin = 0;
-    usuario.saldo.ethereum = 0;
-    usuario.saldo.reais = 0;
-    usuario.saldo.ripple = 0;
+    strcpy(usuarios[pos].nome, nome);
+    strcpy(usuarios[pos].cpf, cpf);
+    strcpy(usuarios[pos].senha, senha);
+    usuarios[pos].saldo.bitcoin = 0;
+    usuarios[pos].saldo.ethereum = 0;
+    usuarios[pos].saldo.reais = 0;
+    usuarios[pos].saldo.ripple = 0;
 
     // Salvar usuário
     salvar_usuarios(usuarios, &pos);
 
     return 1;
 }
+
 
 int logar_usuario(){
 

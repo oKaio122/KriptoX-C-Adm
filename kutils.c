@@ -4,18 +4,19 @@
 #include <kutils.h>
 
 int salvar_usuarios(User usuarios[], int *pos);
+int carregar_usuarios(User usuarios[], int *pos);
 
 int registrar_usuario(User usuarios[10], int pos){
 
     char cpf[12];
     char senha[9];
     char nome[255];
-    User usuario;
 
     printf("Registrar usuário\n");
 
+
     printf("Qual o seu nome?\n");
-    fgets(nome, 256, stdin);
+    fgets(nome, 254, stdin);
 
     // Obter CPF válido
     while(1){
@@ -69,20 +70,22 @@ int registrar_usuario(User usuarios[10], int pos){
 
 
     // Dados iniciais do usuário
-    strcpy(usuario.nome, nome);
-    strcpy(usuario.cpf, cpf);
-    strcpy(usuario.senha, senha);
-    usuario.saldo.bitcoin = 0;
-    usuario.saldo.ethereum = 0;
-    usuario.saldo.reais = 0;
-    usuario.saldo.ripple = 0;
+    strcpy(usuarios[pos].nome, nome);
+    strcpy(usuarios[pos].cpf, cpf);
+    strcpy(usuarios[pos].senha, senha);
+    usuarios[pos].saldo.bitcoin = 0;
+    usuarios[pos].saldo.ethereum = 0;
+    usuarios[pos].saldo.reais = 0;
+    usuarios[pos].saldo.ripple = 0;
 
     // Salvar usuário
-    int save_response = salvar_usuarios(usuarios, &pos);
-    printf("%d", save_response);
+    salvar_usuarios(usuarios, &pos);
+
+    printf("%s", usuarios[pos].nome);
 
     return 1;
 }
+
 
 int logar_usuario(){
 
@@ -128,4 +131,27 @@ int salvar_usuarios(User usuarios[], int *pos){
     return 1;
 }
 
+// Carrega os usuários na variável usuários
+int carregar_usuarios(User usuarios[], int *pos){
+    printf("Lendo arquivo bin...\n");
+    FILE *f = fopen("usuarios.bin", "rb");
+    if (f == NULL){
+        return 0;
+    }
 
+    int qtd = fread(usuarios, sizeof(User), 10, f);
+    if (qtd == 0){
+        return 0;
+    }
+
+    qtd = fread(pos, sizeof(int), 1, f);
+    if (qtd == 0){
+        return 0;
+    }
+
+    if (fclose(f)){
+        return 0;
+    }
+
+    return 1;
+}

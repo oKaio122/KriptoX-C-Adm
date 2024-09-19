@@ -4,6 +4,7 @@
 #include <kutils.h>
 
 int salvar_usuarios(User usuarios[], int *pos);
+int carregar_usuarios(User usuarios[], int *pos);
 
 int registrar_usuario(User usuarios[10], int pos){
 
@@ -80,6 +81,8 @@ int registrar_usuario(User usuarios[10], int pos){
     // Salvar usuário
     salvar_usuarios(usuarios, &pos);
 
+    printf("%s", usuarios[pos].nome);
+
     return 1;
 }
 
@@ -128,4 +131,27 @@ int salvar_usuarios(User usuarios[], int *pos){
     return 1;
 }
 
+// Carrega os usuários na variável usuários
+int carregar_usuarios(User usuarios[], int *pos){
+    printf("Lendo arquivo bin...\n");
+    FILE *f = fopen("usuarios.bin", "rb");
+    if (f == NULL){
+        return 0;
+    }
 
+    int qtd = fread(usuarios, sizeof(User), 10, f);
+    if (qtd == 0){
+        return 0;
+    }
+
+    qtd = fread(pos, sizeof(int), 1, f);
+    if (qtd == 0){
+        return 0;
+    }
+
+    if (fclose(f)){
+        return 0;
+    }
+
+    return 1;
+}

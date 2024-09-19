@@ -5,6 +5,7 @@
 
 int salvar_usuarios(User usuarios[], int *pos);
 
+
 int registrar_usuario(User usuarios[10], int pos){
 
     char cpf[12];
@@ -78,8 +79,7 @@ int registrar_usuario(User usuarios[10], int pos){
     usuario.saldo.ripple = 0;
 
     // Salvar usuário
-    int save_response = salvar_usuarios(usuarios, &pos);
-    printf("%d", save_response);
+    salvar_usuarios(usuarios, &pos);
 
     return 1;
 }

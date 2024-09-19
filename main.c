@@ -1,19 +1,23 @@
 #include <stdio.h>
 #include <locale.h>
+#include <string.h>
+#include <kutils.h>
 
-
-void menu_opcoes();
 
 
 int main(){
     setlocale(LC_ALL, "portuguese");
 
+    User usuarios[10];
+    int login_response;
+    int pos = 0;
     int opcao;
-    int login_response = 1;
+
+    // Carrega os usuários na variável usuarios
+    carregar_usuarios(usuarios, &pos);
 
     // Menu Principal
     do{
-
         printf("Bem-vindo ao KriptoX\n");
         printf("Menu Principal\n"
                "Selecione uma das opções abaixo:\n"
@@ -21,21 +25,17 @@ int main(){
                "1 - Logar\n"
                "2 - Registrar\n");
         scanf("%d", &opcao);
-
-        printf("%d", opcao);
+        getchar(); // Obtêm o \n
 
         switch (opcao) {
             case 0:
                 break;
             case 1:
-                printf("Logando...\n");
-                // se login_response == 1 (True) mandar para o menu de opcoes
-                if (login_response == 1){
-                    menu_opcoes(/*Informações do usuário*/);
-                }
+                pos = logar_usuario(usuarios);
+                menu_opcoes(usuarios, pos);
                 break;
             case 2:
-                printf("Registrando...\n");
+                registrar_usuario(usuarios, pos);
                 break;
             default:
                 printf("Opção não encontrada\n");
@@ -47,9 +47,9 @@ int main(){
     return 0;
 }
 
-void menu_opcoes(/*Informações do Usuário */){
-    int opcao;
+void menu_opcoes(User usuarios[10], int pos){
 
+    int opcao;
 
 // Menu de opcoes
     do{
@@ -63,7 +63,6 @@ void menu_opcoes(/*Informações do Usuário */){
                "6 - Vender Criptomoedas\n"
                "7 - Atualizar Cotação\n");
         scanf("%d", &opcao);
-
 
         switch (opcao){
             case 0:

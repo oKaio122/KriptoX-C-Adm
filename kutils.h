@@ -21,7 +21,7 @@ typedef struct {
     Extrato extrato[100];
 } User;
 
-int registrar_usuario(User usuarios[10], int pos);
+int registrar_usuario(User usuarios[10], int *pos);
 int salvar_usuarios(User usuarios[], int *pos);
 int carregar_usuarios(User usuarios[], int *pos);
 void receber_cpf_valido(char *cpf);

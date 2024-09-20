@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <locale.h>
 #include <string.h>
-#include <kutils.h>
+#include "kutils.h"
+
 
 
 
@@ -18,6 +19,7 @@ int main(){
 
     // Menu Principal
     do{
+        system('cls || clear'); // Limpar Console
         printf("Bem-vindo ao KriptoX\n");
         printf("Menu Principal\n"
                "Selecione uma das opções abaixo:\n"
@@ -35,7 +37,7 @@ int main(){
                 menu_opcoes(usuarios, pos);
                 break;
             case 2:
-                registrar_usuario(usuarios, pos);
+                registrar_usuario(usuarios, &pos);
                 break;
             default:
                 printf("Opção não encontrada\n");

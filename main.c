@@ -31,6 +31,7 @@ int main(){
             case 0:
                 break;
             case 1:
+                // A função retorna a posição do usuário logado
                 pos = logar_usuario(usuarios);
                 menu_opcoes(usuarios, pos);
                 break;

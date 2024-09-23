@@ -4,36 +4,61 @@
 #include <kutils.h>
 
 
-
-int registrar_usuario(User usuarios[10], int pos){
+int registrar_usuario(User usuarios[10], int *pos){
 
     char cpf[12];
     char senha[9];
-    char nome[255];
+    char nome[100];
+    int cpf_unico;
+    int i;
 
     printf("Registrar usuário\n");
 
 
     printf("Qual o seu nome?\n");
-    fgets(nome, 254, stdin);
+    scanf("%s", nome);
+    getchar();
 
-    // Obtêm um CPF válido (11 dígitos numéricos)
-    receber_cpf_valido(cpf);
+    // Obtêm um CPF válido (11 dígitos numéricos e único)
+    do{
+        receber_cpf_valido(cpf);
+        cpf_unico = 1;
+
+        // Checa se tem um usuário com o CPF enviado
+        for (i=0; i < 10; i++){
+            if (strcmp(usuarios[i].cpf, cpf) == 0){
+                printf("Esse CPF já está sendo utilizado!\n");
+                cpf_unico = 0;
+                break;
+            }
+        }
+    }while(!cpf_unico);
+
+
 
     // Obtêm uma senha válida (8 dígitos numéricos)
     receber_senha_valida(senha);
 
+    // Loop para encontrar uma posição vazia de usuários
+    for (i=0; i < 10; i++){
+        if (strcmp(usuarios[i].cpf, "") == 0){
+            printf("Número da array vazia: %d\n", i);
+            break;
+        }
+    }
+
     // Dados iniciais do usuário
-    strcpy(usuarios[pos].nome, nome);
-    strcpy(usuarios[pos].cpf, cpf);
-    strcpy(usuarios[pos].senha, senha);
-    usuarios[pos].saldo.bitcoin = 0;
-    usuarios[pos].saldo.ethereum = 0;
-    usuarios[pos].saldo.reais = 0;
-    usuarios[pos].saldo.ripple = 0;
+    strcpy(usuarios[i].nome, nome);
+    strcpy(usuarios[i].cpf, cpf);
+    strcpy(usuarios[i].senha, senha);
+    usuarios[i].saldo.bitcoin = 0;
+    usuarios[i].saldo.ethereum = 0;
+    usuarios[i].saldo.reais = 0;
+    usuarios[i].saldo.ripple = 0;
+    *pos = i;
 
     // Salva o novo usuário
-    salvar_usuarios(usuarios, &pos);
+    salvar_usuarios(usuarios, pos);
 
     printf("Registro concluído com sucesso!\n");
 
@@ -47,10 +72,7 @@ void receber_cpf_valido(char *cpf){
         int i;
 
         printf("Insira um CPF válido, com 11 dígitos:\n");
-        scanf(" %11s", cpf);
-        getchar();
-
-
+        scanf("%s", cpf);
 
         if (strlen(cpf) != 11){
             printf("CPF inválido! O CPF deve conter 11 dígitos numéricos!\n");
@@ -74,7 +96,7 @@ void receber_senha_valida(char *senha){
         int i;
 
         printf("Insira uma Senha válida, com 8 dígitos:\n");
-        scanf(" %8s", senha);
+        scanf("%s", senha);
         getchar();
 
 
@@ -94,14 +116,13 @@ void receber_senha_valida(char *senha){
     }
 }
 
+// Retorna a posição do usuário logado
 int logar_usuario(User usuarios[10]){
 
     int login_valido = 0;
     char cpf[12];
     char senha[9];
     int user;
-
-    printf("%s", usuarios[0].nome);
 
     printf("Login usuário\n");
     do{
@@ -112,16 +133,23 @@ int logar_usuario(User usuarios[10]){
 
         // Itera sobre os usuários para achar o usuario do operador
         for(user = 0; user < 10; user++){
-            printf("CPF: %s Senha: %s", usuarios[user].cpf, usuarios[user].senha);
-            if (strcmp(usuarios[user].cpf, cpf) && strcmp(usuarios[user].senha, senha)){
+
+            if (strcmp(usuarios[user].cpf, "") == 0){
+                printf("Número da array vazia: %d\n", user);
+                break;
+
+            }
+
+            if (strcmp(usuarios[user].cpf, cpf) == 0 && strcmp(usuarios[user].senha, senha) == 0){
                 login_valido = 1;
                 break;
             }
         }
-        if (login_valido == 0)
+
+        if (!login_valido)
             printf("Usuário não encontrado! Tente novamente.\n");
 
-    } while(login_valido != 1);
+    } while(!login_valido);
 
     printf("Logado com sucesso!\n");
 
@@ -174,4 +202,32 @@ int carregar_usuarios(User usuarios[], int *pos){
     }
 
     return 1;
+}
+
+// Valida a senha do usuário
+int validar_senha(User usuarios[], int pos){
+    char senha[9];
+
+    do{
+        receber_senha_valida(senha);
+    } while(strcmp(usuarios[pos].senha, senha) != 0);
+
+
+    printf("Senha validada com sucesso!\n");
+    return 1;
+}
+
+void consultar_saldo(User usuarios[], int pos){
+
+    printf("Consultar saldo\n");
+
+    validar_senha(usuarios, pos);
+
+    printf("Saldo de Reais: %f\n", usuarios[pos].saldo.reais);
+    printf("Saldo de Bitcoin: %f\n", usuarios[pos].saldo.bitcoin);
+    printf("Saldo de Ethereum: %f\n", usuarios[pos].saldo.ethereum);
+    printf("Saldo em Ripple: %f\n", usuarios[pos].saldo.ripple);
+
+    printf("Digite Enter para voltar ao menu principal.\n");
+    getchar(); // Recebe o \n do Enter
 }

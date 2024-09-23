@@ -22,9 +22,14 @@ typedef struct {
 } User;
 
 int registrar_usuario(User usuarios[10], int *pos);
-int salvar_usuarios(User usuarios[], int *pos);
-int carregar_usuarios(User usuarios[], int *pos);
 void receber_cpf_valido(char *cpf);
 void receber_senha_valida(char *senha);
+
+int salvar_usuarios(User usuarios[], int *pos);
+int carregar_usuarios(User usuarios[], int *pos);
+
 void menu_opcoes(User usuarios[10], int pos);
+
+
 int validar_senha(User usuarios[], int pos);
+void depositar_reais(User usuarios[], int pos);

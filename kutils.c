@@ -228,6 +228,34 @@ void consultar_saldo(User usuarios[], int pos){
     printf("Saldo de Ethereum: %f\n", usuarios[pos].saldo.ethereum);
     printf("Saldo em Ripple: %f\n", usuarios[pos].saldo.ripple);
 
-    printf("Digite Enter para voltar ao menu principal.\n");
+    printf("Digite Enter para voltar ao menu de opções.\n");
+    getchar(); // Recebe o \n do Enter
+}
+
+void depositar_reais(User usuarios[], int pos){
+    float qnt_deposito;
+
+    printf("Depositar Reais\n");
+
+    // Obtêm um depósito númerico e maior que 0
+    do{
+
+        printf("Insira a quantidade de reais que deseja depositar:");
+        scanf("%f", &qnt_deposito);
+        fflush(stdin); // Limpa o buffer em caso do usuário enviar muitos caracteres
+
+        if(qnt_deposito <= 0){
+            printf("A quantidade precisa ser maior que 0!\n");
+        }
+
+    }while(qnt_deposito <= 0);
+
+
+    usuarios[pos].saldo.reais += qnt_deposito;
+
+    printf("Depositado com sucesso!\n");
+    printf("Saldo em reais atualizado: %.2f\n", usuarios[pos].saldo.reais);
+
+    printf("Digite Enter para voltar ao menu de opções.\n");
     getchar(); // Recebe o \n do Enter
 }

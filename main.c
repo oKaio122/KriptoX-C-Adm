@@ -90,9 +90,8 @@ void menu_opcoes(User usuarios[10], int pos){
                 depositar_reais(usuarios, pos);
                 break;
             case 4:
-                printf("Saldo consultado!\n");
+                sacar_reais(usuarios, pos);
                 break;
-//                sacarReais();
             case 5:
                 printf("Saldo consultado!\n");
                 break;

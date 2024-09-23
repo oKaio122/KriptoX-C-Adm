@@ -259,3 +259,31 @@ void depositar_reais(User usuarios[], int pos){
     printf("Digite Enter para voltar ao menu de opções.\n");
     getchar(); // Recebe o \n do Enter
 }
+
+void sacar_reais(User usuarios[], int pos){
+    float qnt_sacar;
+
+    printf("Sacar Reais\n");
+
+    // Obtêm um depósito númerico e maior que 0
+    do{
+
+        printf("Insira a quantidade de reais que deseja depositar:");
+        scanf("%f", &qnt_sacar);
+        fflush(stdin); // Limpa o buffer em caso do usuário enviar muitos caracteres
+
+        if(qnt_sacar <= 0){
+            printf("A quantidade precisa ser maior que 0!\n");
+        }
+
+    }while(qnt_sacar <= 0);
+
+
+    usuarios[pos].saldo.reais -= qnt_sacar;
+
+    printf("Sacado com sucesso!\n");
+    printf("Saldo em reais atualizado: %.2f\n", usuarios[pos].saldo.reais);
+
+    printf("Digite Enter para voltar ao menu de opções.\n");
+    getchar(); // Recebe o \n do Enter
+}

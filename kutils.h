@@ -33,3 +33,4 @@ void menu_opcoes(User usuarios[10], int pos);
 
 int validar_senha(User usuarios[], int pos);
 void depositar_reais(User usuarios[], int pos);
+void sacar_reais(User usuarios[], int pos);

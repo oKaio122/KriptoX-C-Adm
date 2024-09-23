@@ -198,3 +198,33 @@ int carregar_usuarios(User usuarios[], int *pos){
 
     return 1;
 }
+
+int validar_senha(User usuarios[], int pos){
+    char senha[9];
+    int senha_valida = 0; // 0 == false 1 == true
+
+    do{
+        receber_senha_valida(senha);
+
+        if (strcmp(usuarios[pos].senha, senha) == 0){
+            break;
+        }
+    } while(senha_valida == 0);
+    printf("Senha validade com sucesso!");
+    return 1;
+}   
+
+void consultarSaldo(User usuarios[], int pos){
+    
+
+    printf("Consultar saldo");
+    
+    // Valida a senha do usuário
+    validar_senha(usuarios, pos);
+ 
+    printf("usuarios[pos].saldo[saldo].bitcoin;"); // Fiz isso so pra fazer a branch e o commit, nao sei se da certo :(. mals ae
+    printf("usuarios[pos].saldo[saldo].ethereum;");
+    printf("usuarios[pos].saldo[saldo].ripple;");
+    printf("usuarios[pos].saldo[saldo].reais;");
+
+}

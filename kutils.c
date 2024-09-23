@@ -291,7 +291,7 @@ void comprar_criptomoeda(User usuarios[], int pos){
     float qnt_moeda;
     float taxa;
     float preco_operacao;
-    int opcao;
+    int opcao, confirmacao;
 
     printf("Comprar criptomoeda\n");
 
@@ -338,6 +338,15 @@ void comprar_criptomoeda(User usuarios[], int pos){
 
     } while (preco_operacao > usuarios[pos].saldo.reais);
 
+    printf("Para confirmar a compra digite 1: ");
+    scanf("%d", &confirmacao);
+    getchar();
+
+    if (confirmacao != 1){
+        return;
+    }
+
+    // Parte das operações
     usuarios[pos].saldo.reais -= preco_operacao;
     // Adiciona a qnt de cripto na moeda selecionada
     if (strcmp(criptomoeda, "Bitcoin") == 0) {

@@ -217,6 +217,24 @@ int validar_senha(User usuarios[], int pos){
     return 1;
 }
 
+float receber_saldo_valido(char nome_saldo[], char operacao[]){
+    float quantidade;
+
+    do{
+
+        printf("Insira a quantidade de %s que deseja %s:", nome_saldo, operacao);
+        scanf("%f", &quantidade);
+        fflush(stdin); // Limpa o buffer em caso do usuário enviar muitos caracteres
+
+        if(quantidade <= 0){
+            printf("A quantidade precisa ser maior que 0!\n");
+        }
+
+    }while(quantidade <= 0);
+
+    return quantidade;
+}
+
 void consultar_saldo(User usuarios[], int pos){
 
     printf("Consultar saldo\n");
@@ -237,18 +255,8 @@ void depositar_reais(User usuarios[], int pos){
 
     printf("Depositar Reais\n");
 
-    // Obtêm um depósito númerico e maior que 0
-    do{
-
-        printf("Insira a quantidade de reais que deseja depositar:");
-        scanf("%f", &qnt_deposito);
-        fflush(stdin); // Limpa o buffer em caso do usuário enviar muitos caracteres
-
-        if(qnt_deposito <= 0){
-            printf("A quantidade precisa ser maior que 0!\n");
-        }
-
-    }while(qnt_deposito <= 0);
+    // Obtêm um número maior que 0 e que não tem caracteres
+    qnt_deposito = receber_saldo_valido("reais", "depositar");
 
 
     usuarios[pos].saldo.reais += qnt_deposito;
@@ -265,24 +273,97 @@ void sacar_reais(User usuarios[], int pos){
 
     printf("Sacar Reais\n");
 
-    // Obtêm um depósito númerico e maior que 0
-    do{
-
-        printf("Insira a quantidade de reais que deseja depositar:");
-        scanf("%f", &qnt_sacar);
-        fflush(stdin); // Limpa o buffer em caso do usuário enviar muitos caracteres
-
-        if(qnt_sacar <= 0){
-            printf("A quantidade precisa ser maior que 0!\n");
-        }
-
-    }while(qnt_sacar <= 0);
+    // Obtêm um número maior que 0 e que não tem caracteres
+    qnt_sacar = receber_saldo_valido("reais", "sacar");
 
 
     usuarios[pos].saldo.reais -= qnt_sacar;
 
     printf("Sacado com sucesso!\n");
     printf("Saldo em reais atualizado: %.2f\n", usuarios[pos].saldo.reais);
+
+    printf("Digite Enter para voltar ao menu de opções.\n");
+    getchar(); // Recebe o \n do Enter
+}
+
+void comprar_criptomoeda(User usuarios[], int pos){
+    char criptomoeda[10];
+    float qnt_moeda;
+    float taxa;
+    float preco_operacao;
+    int opcao, confirmacao;
+
+    printf("Comprar criptomoeda\n");
+
+    // Valida a senha antes do usuário poder comprar cripto
+    validar_senha(usuarios, pos);
+
+    // Implementar cotação
+    printf("Cotação atual: BTC 1 -> R$ Implementar \nETH 1 -> R$ Implementar \nXRP 1 -> R$ Implementar\n");
+
+    do{
+        printf("Qual criptomoeda você quer comprar?");
+        printf("Criptomoedas disponíveis:\n1 - Bitcoin \n2 - Ethereum \n3 - Ripple\n");
+        scanf("%d", &opcao);
+        fflush(stdin);
+
+        switch (opcao) {
+            case 1:
+                strncpy(criptomoeda, "Bitcoin", sizeof(criptomoeda)-1);
+                taxa = 0.02;
+                break;
+            case 2:
+                strncpy(criptomoeda, "Ethereum", sizeof(criptomoeda)-1);
+                taxa = 0.01;
+                break;
+            case 3:
+                strncpy(criptomoeda, "Ripple", sizeof(criptomoeda)-1);
+                taxa = 0.01;
+                break;
+            default:
+                printf("Opção não encontrada\n");
+                break;
+        }
+
+    }while(!opcao);
+    do{
+        // Obtêm um número maior que 0 e que não tem caracteres
+        qnt_moeda = receber_saldo_valido(criptomoeda, "comprar");
+
+        preco_operacao = (qnt_moeda * (1 + taxa) /* * cotacao */) ;
+
+        if (preco_operacao > usuarios[pos].saldo.reais){
+            printf("Saldo em reais insuficiente!");
+        }
+
+    } while (preco_operacao > usuarios[pos].saldo.reais);
+
+    printf("Para confirmar a compra digite 1: ");
+    scanf("%d", &confirmacao);
+    getchar();
+
+    if (confirmacao != 1){
+        return;
+    }
+
+    // Parte das operações
+    usuarios[pos].saldo.reais -= preco_operacao;
+    // Adiciona a qnt de cripto na moeda selecionada
+    if (strcmp(criptomoeda, "Bitcoin") == 0) {
+        usuarios[pos].saldo.bitcoin += qnt_moeda;
+    } else if (strcmp(criptomoeda, "Ethereum") == 0) {
+        usuarios[pos].saldo.ethereum += qnt_moeda;
+    } else if (strcmp(criptomoeda, "Ripple") == 0) {
+        usuarios[pos].saldo.ripple += qnt_moeda;
+    }
+
+    printf("Compra realizada com sucesso! Total com taxa: R$ %.2f, Taxa: R$ %.2f\n", preco_operacao, qnt_moeda * (taxa));
+    printf("Saldo em reais atualizado: R$ %.2f\n", usuarios[pos].saldo.reais);
+    // Printa o saldo da criptomoeda selecionada atualizado
+    printf("Saldo em %s atualizado: %.2f\n", criptomoeda,
+           strcmp(criptomoeda, "Bitcoin") == 0 ? usuarios[pos].saldo.bitcoin :
+           strcmp(criptomoeda, "Ethereum") == 0 ? usuarios[pos].saldo.ethereum :
+           usuarios[pos].saldo.ripple);
 
     printf("Digite Enter para voltar ao menu de opções.\n");
     getchar(); // Recebe o \n do Enter

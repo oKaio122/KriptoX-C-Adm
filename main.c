@@ -18,6 +18,7 @@ int main(){
 
     // Menu Principal
     do{
+        system('cls || clear'); // Limpar Console
         printf("Bem-vindo ao KriptoX\n");
         printf("Menu Principal\n"
                "Selecione uma das opções abaixo:\n"

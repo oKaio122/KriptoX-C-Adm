@@ -4,18 +4,19 @@
 #include <kutils.h>
 
 
-
-int registrar_usuario(User usuarios[10], int pos){
+int registrar_usuario(User usuarios[10], int *pos){
 
     char cpf[12];
     char senha[9];
-    char nome[255];
+    char nome[100];
+    int i;
 
     printf("Registrar usuário\n");
 
 
     printf("Qual o seu nome?\n");
-    fgets(nome, 254, stdin);
+    scanf("%s", nome);
+    getchar();
 
     // Obtêm um CPF válido (11 dígitos numéricos)
     receber_cpf_valido(cpf);
@@ -23,17 +24,26 @@ int registrar_usuario(User usuarios[10], int pos){
     // Obtêm uma senha válida (8 dígitos numéricos)
     receber_senha_valida(senha);
 
+    // Loop para encontrar uma posição vazia de usuários
+    for (i=0; i < 10; i++){
+        if (strcmp(usuarios[i].cpf, "") == 0){
+            printf("Número da array vazia: %d\n", i);
+            break;
+        }
+    }
+
     // Dados iniciais do usuário
-    strcpy(usuarios[pos].nome, nome);
-    strcpy(usuarios[pos].cpf, cpf);
-    strcpy(usuarios[pos].senha, senha);
-    usuarios[pos].saldo.bitcoin = 0;
-    usuarios[pos].saldo.ethereum = 0;
-    usuarios[pos].saldo.reais = 0;
-    usuarios[pos].saldo.ripple = 0;
+    strcpy(usuarios[i].nome, nome);
+    strcpy(usuarios[i].cpf, cpf);
+    strcpy(usuarios[i].senha, senha);
+    usuarios[i].saldo.bitcoin = 0;
+    usuarios[i].saldo.ethereum = 0;
+    usuarios[i].saldo.reais = 0;
+    usuarios[i].saldo.ripple = 0;
+    *pos = i;
 
     // Salva o novo usuário
-    salvar_usuarios(usuarios, &pos);
+    salvar_usuarios(usuarios, pos);
 
     printf("Registro concluído com sucesso!\n");
 
@@ -47,10 +57,7 @@ void receber_cpf_valido(char *cpf){
         int i;
 
         printf("Insira um CPF válido, com 11 dígitos:\n");
-        scanf(" %11s", cpf);
-        getchar();
-
-
+        scanf("%s", cpf);
 
         if (strlen(cpf) != 11){
             printf("CPF inválido! O CPF deve conter 11 dígitos numéricos!\n");
@@ -74,7 +81,7 @@ void receber_senha_valida(char *senha){
         int i;
 
         printf("Insira uma Senha válida, com 8 dígitos:\n");
-        scanf(" %8s", senha);
+        scanf("%s", senha);
         getchar();
 
 
@@ -99,9 +106,16 @@ int logar_usuario(User usuarios[10]){
     int login_valido = 0;
     char cpf[12];
     char senha[9];
-    int user;
+    int user, i;
 
-    printf("%s", usuarios[0].nome);
+    for (i=0; i < 10; i++){
+        if (strcmp(usuarios[i].cpf, "") == 0){
+            break;
+        }
+        printf("Nome: %s\n", usuarios[i].nome);
+        printf("CPF: %s\n", usuarios[i].cpf);
+        printf("Senha: %s\n\n\n\n", usuarios[i].senha);
+    }
 
     printf("Login usuário\n");
     do{
@@ -112,12 +126,21 @@ int logar_usuario(User usuarios[10]){
 
         // Itera sobre os usuários para achar o usuario do operador
         for(user = 0; user < 10; user++){
-            printf("CPF: %s Senha: %s", usuarios[user].cpf, usuarios[user].senha);
-            if (strcmp(usuarios[user].cpf, cpf) && strcmp(usuarios[user].senha, senha)){
+            if (strcmp(usuarios[i].cpf, "") == 0){
+            printf("Número da array vazia: %d\n", i);
+            break;
+            
+            }
+            printf("\n\nNome: %s\n", usuarios[user].nome);
+            printf("CPF igual: %s, CPF: %s\n", strcmp(usuarios[user].cpf, cpf) ? "true" : "false", usuarios[user].cpf);
+            printf("Senha igual: %s, Senha: %s\n\n\n", strcmp(usuarios[user].senha, senha) ? "true" : "false", usuarios[user].senha);
+
+            if (strcmp(usuarios[user].cpf, cpf) == 0 && strcmp(usuarios[user].senha, senha) == 0){
                 login_valido = 1;
                 break;
             }
         }
+
         if (login_valido == 0)
             printf("Usuário não encontrado! Tente novamente.\n");
 

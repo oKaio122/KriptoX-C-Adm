@@ -8,7 +8,6 @@
 #pragma clang diagnostic ignored "-Wimplicit-function-declaration"
 int main(){
     setlocale(LC_ALL, "portuguese");
-    system("cls||clear");
 
     User usuarios[10];
     int pos;
@@ -19,6 +18,8 @@ int main(){
 
     // Menu Principal
     do{
+        // Limpar Console
+        system("cls||clear");
         printf("Bem-vindo ao KriptoX\n");
         printf("Menu Principal\n"
                "Selecione uma das opções abaixo:\n"
@@ -51,12 +52,18 @@ int main(){
 
 
 void menu_opcoes(User usuarios[10], int pos){
-    system("cls||clear");
 
     int opcao;
 
 // Menu de opcoes
     do{
+        // Limpar Console
+        system("cls||clear");
+
+        // Salva os dados atualizados do usuário após ele fazer uma operação
+        salvar_usuarios(usuarios, &pos);
+
+
         printf("Qual opção você quer rodar?\n"
                "0 - Sair\n"
                "1 - Consultar Saldo\n"

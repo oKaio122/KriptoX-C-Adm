@@ -295,6 +295,9 @@ void comprar_criptomoeda(User usuarios[], int pos){
 
     printf("Comprar criptomoeda\n");
 
+    // Valida a senha antes do usuário poder comprar cripto
+    validar_senha(usuarios, pos);
+
     // Implementar cotação
     printf("Cotação atual: BTC 1 -> R$ Implementar \nETH 1 -> R$ Implementar \nXRP 1 -> R$ Implementar\n");
 

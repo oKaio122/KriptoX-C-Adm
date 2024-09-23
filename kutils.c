@@ -9,6 +9,7 @@ int registrar_usuario(User usuarios[10], int *pos){
     char cpf[12];
     char senha[9];
     char nome[100];
+    int cpf_unico;
     int i;
 
     printf("Registrar usuário\n");
@@ -18,8 +19,22 @@ int registrar_usuario(User usuarios[10], int *pos){
     scanf("%s", nome);
     getchar();
 
-    // Obtêm um CPF válido (11 dígitos numéricos)
-    receber_cpf_valido(cpf);
+    // Obtêm um CPF válido (11 dígitos numéricos e único)
+    do{
+        receber_cpf_valido(cpf);
+        cpf_unico = 1;
+
+        // Checa se tem um usuário com o CPF enviado
+        for (i=0; i < 10; i++){
+            if (strcmp(usuarios[i].cpf, cpf) == 0){
+                printf("Esse CPF já está sendo utilizado!\n");
+                cpf_unico = 0;
+                break;
+            }
+        }
+    }while(!cpf_unico);
+
+
 
     // Obtêm uma senha válida (8 dígitos numéricos)
     receber_senha_valida(senha);
@@ -101,21 +116,13 @@ void receber_senha_valida(char *senha){
     }
 }
 
+// Retorna a posição do usuário logado
 int logar_usuario(User usuarios[10]){
 
     int login_valido = 0;
     char cpf[12];
     char senha[9];
-    int user, i;
-
-    for (i=0; i < 10; i++){
-        if (strcmp(usuarios[i].cpf, "") == 0){
-            break;
-        }
-        printf("Nome: %s\n", usuarios[i].nome);
-        printf("CPF: %s\n", usuarios[i].cpf);
-        printf("Senha: %s\n\n\n\n", usuarios[i].senha);
-    }
+    int user;
 
     printf("Login usuário\n");
     do{
@@ -126,14 +133,12 @@ int logar_usuario(User usuarios[10]){
 
         // Itera sobre os usuários para achar o usuario do operador
         for(user = 0; user < 10; user++){
-            if (strcmp(usuarios[i].cpf, "") == 0){
-            printf("Número da array vazia: %d\n", i);
-            break;
-            
+
+            if (strcmp(usuarios[user].cpf, "") == 0){
+                printf("Número da array vazia: %d\n", user);
+                break;
+
             }
-            printf("\n\nNome: %s\n", usuarios[user].nome);
-            printf("CPF igual: %s, CPF: %s\n", strcmp(usuarios[user].cpf, cpf) ? "true" : "false", usuarios[user].cpf);
-            printf("Senha igual: %s, Senha: %s\n\n\n", strcmp(usuarios[user].senha, senha) ? "true" : "false", usuarios[user].senha);
 
             if (strcmp(usuarios[user].cpf, cpf) == 0 && strcmp(usuarios[user].senha, senha) == 0){
                 login_valido = 1;
@@ -141,10 +146,10 @@ int logar_usuario(User usuarios[10]){
             }
         }
 
-        if (login_valido == 0)
+        if (!login_valido)
             printf("Usuário não encontrado! Tente novamente.\n");
 
-    } while(login_valido != 1);
+    } while(!login_valido);
 
     printf("Logado com sucesso!\n");
 
@@ -199,32 +204,58 @@ int carregar_usuarios(User usuarios[], int *pos){
     return 1;
 }
 
+// Valida a senha do usuário
 int validar_senha(User usuarios[], int pos){
     char senha[9];
-    int senha_valida = 0; // 0 == false 1 == true
 
     do{
         receber_senha_valida(senha);
+    } while(strcmp(usuarios[pos].senha, senha) != 0);
 
-        if (strcmp(usuarios[pos].senha, senha) == 0){
-            break;
-        }
-    } while(senha_valida == 0);
-    printf("Senha validade com sucesso!");
+
+    printf("Senha validada com sucesso!\n");
     return 1;
-}   
+}
 
-void consultarSaldo(User usuarios[], int pos){
-    
+void consultar_saldo(User usuarios[], int pos){
 
-    printf("Consultar saldo");
-    
-    // Valida a senha do usuário
+    printf("Consultar saldo\n");
+
     validar_senha(usuarios, pos);
- 
-    printf("usuarios[pos].saldo[saldo].bitcoin;"); // Fiz isso so pra fazer a branch e o commit, nao sei se da certo :(. mals ae
-    printf("usuarios[pos].saldo[saldo].ethereum;");
-    printf("usuarios[pos].saldo[saldo].ripple;");
-    printf("usuarios[pos].saldo[saldo].reais;");
 
+    printf("Saldo de Reais: %f\n", usuarios[pos].saldo.reais);
+    printf("Saldo de Bitcoin: %f\n", usuarios[pos].saldo.bitcoin);
+    printf("Saldo de Ethereum: %f\n", usuarios[pos].saldo.ethereum);
+    printf("Saldo em Ripple: %f\n", usuarios[pos].saldo.ripple);
+
+    printf("Digite Enter para voltar ao menu de opções.\n");
+    getchar(); // Recebe o \n do Enter
+}
+
+void depositar_reais(User usuarios[], int pos){
+    float qnt_deposito;
+
+    printf("Depositar Reais\n");
+
+    // Obtêm um depósito númerico e maior que 0
+    do{
+
+        printf("Insira a quantidade de reais que deseja depositar:");
+        scanf("%f", &qnt_deposito);
+        fflush(stdin); // Limpa o buffer em caso do usuário enviar muitos caracteres
+
+        if(qnt_deposito <= 0){
+            printf("A quantidade precisa ser maior que 0!\n");
+        }
+
+    }while(qnt_deposito <= 0);
+
+
+    usuarios[pos].saldo.reais += qnt_deposito;
+
+    printf("Depositado com sucesso!\n");
+    printf("Saldo em reais atualizado: %.2f\n", usuarios[pos].saldo.reais);
+
+    printf("Digite Enter para voltar ao menu de opções.\n");
+    getchar(); // Recebe o \n do Enter
 }

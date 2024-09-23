@@ -2,12 +2,13 @@
 #include <locale.h>
 #include <kutils.h>
 
-void altera_pos(int *pos);
+
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wimplicit-function-declaration"
 int main(){
     setlocale(LC_ALL, "portuguese");
+    system("cls||clear");
 
     User usuarios[10];
     int pos;
@@ -32,6 +33,7 @@ int main(){
             case 0:
                 break;
             case 1:
+                // A função retorna a posição do usuário logado
                 pos = logar_usuario(usuarios);
                 menu_opcoes(usuarios, pos);
                 break;
@@ -50,6 +52,7 @@ int main(){
 
 
 void menu_opcoes(User usuarios[10], int pos){
+    system("cls||clear");
 
     int opcao;
 
@@ -78,9 +81,8 @@ void menu_opcoes(User usuarios[10], int pos){
                 break;
 //                consultarExtrato();
             case 3:
-                printf("Saldo consultado!\n");
+                depositar_reais(usuarios, pos);
                 break;
-//                depositarReais();
             case 4:
                 printf("Saldo consultado!\n");
                 break;

@@ -96,9 +96,8 @@ void menu_opcoes(User usuarios[10], int pos){
                 comprar_criptomoeda(usuarios, pos);
                 break;
             case 6:
-                printf("Saldo consultado!\n");
+                vender_criptomoeda(usuarios, pos);
                 break;
-//              venderCriptomoedas();
             case 7:
                 printf("Saldo consultado!\n");
                 break;

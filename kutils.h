@@ -37,3 +37,4 @@ int carregar_usuarios(User usuarios[], int *pos);
 void depositar_reais(User usuarios[], int pos);
 void sacar_reais(User usuarios[], int pos);
 void comprar_criptomoeda(User usuarios[], int pos);
+void vender_criptomoeda(User usuarios[], int pos);

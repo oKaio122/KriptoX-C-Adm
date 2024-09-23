@@ -368,3 +368,91 @@ void comprar_criptomoeda(User usuarios[], int pos){
     printf("Digite Enter para voltar ao menu de opções.\n");
     getchar(); // Recebe o \n do Enter
 }
+
+void vender_criptomoeda(User usuarios[], int pos){
+    char criptomoeda[10];
+    float qnt_moeda;
+    float taxa;
+    float preco_operacao;
+    float saldo_cripto;
+    int opcao, confirmacao;
+
+    printf("Vender criptomoeda\n");
+
+    // Valida a senha antes do usuário vender cripto
+    validar_senha(usuarios, pos);
+
+    // Implementar cotação
+    printf("Cotação atual: BTC 1 -> R$ Implementar \nETH 1 -> R$ Implementar \nXRP 1 -> R$ Implementar\n");
+
+    do{
+        printf("Qual criptomoeda você quer vender?");
+        printf("Criptomoedas disponíveis:\n1 - Bitcoin \n2 - Ethereum \n3 - Ripple\n");
+        scanf("%d", &opcao);
+        fflush(stdin);
+
+        switch (opcao) {
+            case 1:
+                strncpy(criptomoeda, "Bitcoin", sizeof(criptomoeda)-1);
+                saldo_cripto = usuarios[pos].saldo.bitcoin;
+                taxa = 0.03;
+                break;
+            case 2:
+                strncpy(criptomoeda, "Ethereum", sizeof(criptomoeda)-1);
+                saldo_cripto = usuarios[pos].saldo.ethereum;
+                taxa = 0.02;
+                break;
+            case 3:
+                strncpy(criptomoeda, "Ripple", sizeof(criptomoeda)-1);
+                saldo_cripto = usuarios[pos].saldo.ripple;
+                taxa = 0.01;
+                break;
+            default:
+                printf("Opção não encontrada\n");
+                break;
+        }
+
+    }while(!opcao);
+
+    do{
+        // Obtêm um número maior que 0 e que não tem caracteres
+        qnt_moeda = receber_saldo_valido(criptomoeda, "vender");
+
+        preco_operacao = (qnt_moeda * (1 + taxa)) ;
+
+        if (preco_operacao > usuarios[pos].saldo.reais){
+            printf("Saldo em %s insuficiente!\n", criptomoeda);
+        }
+
+    } while (preco_operacao > saldo_cripto);
+
+    printf("Para confirmar a venda digite 1: ");
+    scanf("%d", &confirmacao);
+    getchar();
+
+    if (confirmacao != 1){
+        return;
+    }
+
+    // Parte das operações
+    usuarios[pos].saldo.reais += preco_operacao /* * cotacao*/;  // Implementar cotacao
+    // Adiciona a qnt de cripto na moeda selecionada
+    if (strcmp(criptomoeda, "Bitcoin") == 0) {
+        usuarios[pos].saldo.bitcoin -= preco_operacao;
+    } else if (strcmp(criptomoeda, "Ethereum") == 0) {
+        usuarios[pos].saldo.ethereum -= preco_operacao;
+    } else if (strcmp(criptomoeda, "Ripple") == 0) {
+        usuarios[pos].saldo.ripple -= preco_operacao;
+    }
+
+    printf("Venda realizada com sucesso! Total ganho com taxa: R$ %.2f, Taxa: R$ %.2f\n", preco_operacao, preco_operacao * (taxa));
+    printf("Saldo em reais atualizado: R$ %.2f\n", usuarios[pos].saldo.reais);
+    // Printa o saldo da criptomoeda selecionada atualizado
+    printf("Saldo em %s atualizado: %.2f\n", criptomoeda,
+           strcmp(criptomoeda, "Bitcoin") == 0 ? usuarios[pos].saldo.bitcoin :
+           strcmp(criptomoeda, "Ethereum") == 0 ? usuarios[pos].saldo.ethereum :
+           usuarios[pos].saldo.ripple);
+
+    printf("Digite Enter para voltar ao menu de opções.\n");
+    getchar(); // Recebe o \n do Enter
+}

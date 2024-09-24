@@ -10,6 +10,7 @@ typedef struct {
     char operacao[255];
     char moeda[10];
     float cotacao;
+    float valor;
     float taxa;
 } Extrato;
 
@@ -38,3 +39,4 @@ void depositar_reais(User usuarios[], int pos);
 void sacar_reais(User usuarios[], int pos);
 void comprar_criptomoeda(User usuarios[], int pos);
 void vender_criptomoeda(User usuarios[], int pos);
+void consultar_extrato(User usuarios[], int pos);

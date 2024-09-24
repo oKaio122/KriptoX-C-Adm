@@ -42,7 +42,6 @@ int registrar_usuario(User usuarios[10], int *pos){
     // Loop para encontrar uma posição vazia de usuários
     for (i=0; i < 10; i++){
         if (strcmp(usuarios[i].cpf, "") == 0){
-            printf("Número da array vazia: %d\n", i);
             break;
         }
     }
@@ -135,7 +134,6 @@ int logar_usuario(User usuarios[10]){
         for(user = 0; user < 10; user++){
 
             if (strcmp(usuarios[user].cpf, "") == 0){
-                printf("Número da array vazia: %d\n", user);
                 break;
 
             }
@@ -239,12 +237,42 @@ void consultar_saldo(User usuarios[], int pos){
 
     printf("Consultar saldo\n");
 
-    validar_senha(usuarios, pos);
-
     printf("Saldo de Reais: %f\n", usuarios[pos].saldo.reais);
     printf("Saldo de Bitcoin: %f\n", usuarios[pos].saldo.bitcoin);
     printf("Saldo de Ethereum: %f\n", usuarios[pos].saldo.ethereum);
     printf("Saldo em Ripple: %f\n", usuarios[pos].saldo.ripple);
+
+    printf("Digite Enter para voltar ao menu de opções.\n");
+    getchar(); // Recebe o \n do Enter
+}
+
+void consultar_extrato(User usuarios[], int pos){
+
+    char *extrato_data;
+    int i;
+
+
+    printf("Consultar Extrato\n");
+
+
+    // Itera sobre os extratos
+    for(i = 0; i < 100; i++){
+
+        // Verifica se o extrato atual é lixo, se for quebrar o loop
+        extrato_data = usuarios[pos].extrato[i].data;
+        if (strcmp(extrato_data, "") == 0){
+            break;
+        }
+        printf("Extrato:\n");
+
+        printf("Data: %f", usuarios[pos].extrato[i].data);
+        printf("Operação: %f", usuarios[pos].extrato[i].operacao);
+        printf("Moeda: %f", usuarios[pos].extrato[i].moeda);
+        printf("Valor: %f", usuarios[pos].extrato[i].valor);
+        printf("Taxa paga: %f", usuarios[pos].extrato[i].taxa);
+        printf("Cotacao: %f", usuarios[pos].extrato[i].cotacao);
+    }
+
 
     printf("Digite Enter para voltar ao menu de opções.\n");
     getchar(); // Recebe o \n do Enter

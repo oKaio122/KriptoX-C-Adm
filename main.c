@@ -74,7 +74,8 @@ void menu_opcoes(User usuarios[10], int pos){
                "4 - Sacar Dinheiro\n"
                "5 - Comprar Criptomoedas\n"
                "6 - Vender Criptomoedas\n"
-               "7 - Atualizar Cotação\n");
+               "7 - Atualizar Cotação\n"
+               "8 - Transferir Saldo\n");
         scanf("%d", &opcao);
 
         switch (opcao){
@@ -83,11 +84,9 @@ void menu_opcoes(User usuarios[10], int pos){
             case 1:
                 consultar_saldo(usuarios, pos);
                 break;
-//                consultarSaldo();
             case 2:
-                printf("Saldo consultado!\n");
+                consultar_extrato(usuarios, pos);
                 break;
-//                consultarExtrato();
             case 3:
                 depositar_reais(usuarios, pos);
                 break;
@@ -98,13 +97,16 @@ void menu_opcoes(User usuarios[10], int pos){
                 comprar_criptomoeda(usuarios, pos);
                 break;
             case 6:
-                printf("Saldo consultado!\n");
+                vender_criptomoeda(usuarios, pos);
                 break;
-//              venderCriptomoedas();
             case 7:
-                printf("Saldo consultado!\n");
+                printf("Atualizar Cotação!\n");
                 break;
 //              atualizarCotacao();
+          case 8:
+                printf("Transferir Saldo!\n");
+                break;
+//              transferir_saldo();
             default:
                 printf("Opção não encontrada\n");
                 break;

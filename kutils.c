@@ -247,13 +247,11 @@ void consultar_saldo(User usuarios[], int pos){
 }
 
 void consultar_extrato(User usuarios[], int pos){
-
     char *extrato_data;
     int i;
 
 
     printf("Consultar Extrato\n");
-
 
     // Itera sobre os extratos
     for(i = 0; i < 100; i++){
@@ -280,10 +278,8 @@ void consultar_extrato(User usuarios[], int pos){
 
 void salvar_extrato(User usuarios[], int pos, char data[], char operacao[],
                     char moeda[], float cotacao,float valor, float taxa){
-
     char *extrato_data;
     int i;
-
 
     for(i = 0; i < 100; i++){
 
@@ -328,8 +324,17 @@ void sacar_reais(User usuarios[], int pos){
 
     printf("Sacar Reais\n");
 
-    // Obtêm um número maior que 0 e que não tem caracteres
-    qnt_sacar = receber_saldo_valido("reais", "sacar");
+    do{
+
+        // Obtêm um número maior que 0 e que não tem caracteres
+        qnt_sacar = receber_saldo_valido("reais", "sacar");
+
+        if (qnt_sacar > usuarios[pos].saldo.reais){
+            printf("Você não tem saldo o suficiente para sacar R$ %.2f! Seu saldo em R$: %.2f\n", qnt_sacar, usuarios[pos].saldo.reais);
+        }
+
+    } while (qnt_sacar > usuarios[pos].saldo.reais);
+
 
 
     usuarios[pos].saldo.reais -= qnt_sacar;
@@ -474,7 +479,7 @@ void vender_criptomoeda(User usuarios[], int pos){
         qnt_moeda = receber_saldo_valido(criptomoeda, "vender");
 
         preco_operacao = (qnt_moeda * (1 + taxa)) ;
-
+        printf("%.2f", preco_operacao);
         if (preco_operacao > usuarios[pos].saldo.reais){
             printf("Saldo em %s insuficiente!\n", criptomoeda);
         }

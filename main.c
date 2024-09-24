@@ -77,6 +77,7 @@ void menu_opcoes(User usuarios[10], int pos){
                "7 - Atualizar Cotação\n"
                "8 - Transferir Saldo\n");
         scanf("%d", &opcao);
+        getchar();
 
         switch (opcao){
             case 0:

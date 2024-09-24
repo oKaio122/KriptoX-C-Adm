@@ -278,6 +278,33 @@ void consultar_extrato(User usuarios[], int pos){
     getchar(); // Recebe o \n do Enter
 }
 
+void salvar_extrato(User usuarios[], int pos, char data[], char operacao[],
+                    char moeda[], float cotacao,float valor, float taxa){
+
+    char *extrato_data;
+    int i;
+
+
+    for(i = 0; i < 100; i++){
+
+        // Verifica se o extrato atual é lixo, se for quebrar o loop
+        extrato_data = usuarios[pos].extrato[i].data;
+        if (strcmp(extrato_data, "") == 0){
+            break;
+        }
+    }
+
+    strncpy(usuarios[pos].extrato[i].data, data, sizeof(usuarios[pos].extrato[i].data)-1);
+    strncpy(usuarios[pos].extrato[i].operacao, operacao, sizeof(usuarios[pos].extrato[i].operacao)-1);
+    strncpy(usuarios[pos].extrato[i].moeda, moeda, sizeof(usuarios[pos].extrato[i].moeda)-1);
+    usuarios[pos].extrato[i].valor = valor;
+    usuarios[pos].extrato[i].taxa = taxa;
+    usuarios[pos].extrato[i].cotacao = cotacao;
+
+    printf("Digite Enter para voltar ao menu de opções.\n");
+    getchar(); // Recebe o \n do Enter
+}
+
 void depositar_reais(User usuarios[], int pos){
     float qnt_deposito;
 

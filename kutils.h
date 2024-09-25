@@ -41,7 +41,7 @@ int logar_usuario(User usuarios[10]);
 
 float receber_saldo_valido(char nome_saldo[], char operacao[]);
 void receber_cpf_valido(char *cpf, int cancelar_autorizado);
-void receber_senha_valida(char *senha);
+void receber_senha_valida(char *senha, int cancelar_autorizado);
 int validar_senha(User usuarios[], int pos);
 void iniciar_cotacoes(Cotacoes *cotacao);
 

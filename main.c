@@ -10,11 +10,16 @@ int main(){
     setlocale(LC_ALL, "portuguese");
 
     User usuarios[10];
+    Cotacoes cotacao;
     int pos;
     int opcao;
 
+
     // Carrega os usuários na variável usuarios
-    carregar_usuarios(usuarios, &pos);
+    carregar_usuarios(usuarios, &pos, &cotacao);
+
+    // Coloca o preço padrão nas cotações se os valores estiverem como 0.0
+    iniciar_cotacoes(&cotacao);
 
     // Menu Principal
     do{
@@ -35,10 +40,10 @@ int main(){
             case 1:
                 // A função retorna a posição do usuário logado
                 pos = logar_usuario(usuarios);
-                menu_opcoes(usuarios, pos);
+                menu_opcoes(usuarios, pos, cotacao);
                 break;
             case 2:
-                registrar_usuario(usuarios, &pos);
+                registrar_usuario(usuarios, &pos, &cotacao);
                 break;
             default:
                 printf("Opção não encontrada\n");
@@ -51,7 +56,7 @@ int main(){
 }
 
 
-void menu_opcoes(User usuarios[10], int pos){
+void menu_opcoes(User usuarios[10], int pos, Cotacoes cotacao){
 
     int opcao;
 
@@ -61,7 +66,7 @@ void menu_opcoes(User usuarios[10], int pos){
         system("cls||clear");
 
         // Salva os dados atualizados do usuário após ele fazer uma operação
-        salvar_usuarios(usuarios, &pos);
+        salvar_usuarios(usuarios, &pos, &cotacao);
 
 
         printf("Qual opção você quer rodar?\n"
@@ -99,9 +104,8 @@ void menu_opcoes(User usuarios[10], int pos){
                 vender_criptomoeda(usuarios, pos);
                 break;
             case 7:
-                printf("Atualizar Cotação!\n");
+                atualizar_cotacao(usuarios, &pos, &cotacao);
                 break;
-//              atualizarCotacao();
           case 8:
                 printf("Transferir Saldo!\n");
                 break;

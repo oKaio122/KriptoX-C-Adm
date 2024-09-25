@@ -372,7 +372,7 @@ void comprar_criptomoeda(User usuarios[], int pos, Cotacoes cotacao){
     validar_senha(usuarios, pos);
 
     // Implementar cotação
-    printf("Cotação atual: BTC 1 -> R$ %f \nETH 1 -> R$ %f \nXRP 1 -> R$ %f \n", cotacao.bitcoin, cotacao.ethereum,cotacao.ripple);
+    printf("Cotação atual:\n BTC 1 -> R$ %f \nETH 1 -> R$ %f \nXRP 1 -> R$ %f \n", cotacao.bitcoin, cotacao.ethereum,cotacao.ripple);
 
     do{
         printf("Qual criptomoeda você quer comprar?\n");
@@ -433,7 +433,7 @@ void comprar_criptomoeda(User usuarios[], int pos, Cotacoes cotacao){
         usuarios[pos].saldo.ripple += qnt_moeda;
     }
 
-    printf("Compra realizada com sucesso! Total com taxa: R$ %.2f, Taxa: R$ %.2f\n", preco_operacao, qnt_moeda * (taxa));
+    printf("Compra realizada com sucesso! Total com taxa: R$ %.2f, Taxa: R$ %.2f\n", preco_operacao, preco_operacao * (taxa));
     printf("Saldo em reais atualizado: R$ %.2f\n", usuarios[pos].saldo.reais);
     // Printa o saldo da criptomoeda selecionada atualizado
     printf("Saldo em %s atualizado: %.2f\n", criptomoeda,
@@ -460,7 +460,7 @@ void vender_criptomoeda(User usuarios[], int pos, Cotacoes cotacao){
     validar_senha(usuarios, pos);
 
     // Implementar cotação
-    printf("Cotação atual: BTC 1 -> R$ %f \nETH 1 -> R$ %f \nXRP 1 -> R$ %f \n", cotacao.bitcoin, cotacao.ethereum,cotacao.ripple);
+    printf("Cotação atual:\n BTC 1 -> R$ %f \nETH 1 -> R$ %f \nXRP 1 -> R$ %f \n", cotacao.bitcoin, cotacao.ethereum,cotacao.ripple);
 
     do{
         printf("Qual criptomoeda você quer vender?\n");

@@ -17,7 +17,7 @@ int registrar_usuario(User usuarios[10], int *pos, Cotacoes *cotacao){
 
     // Obtêm um CPF válido (11 dígitos numéricos e único)
     do{
-        receber_cpf_valido(cpf);
+        receber_cpf_valido(cpf, 0);
         cpf_unico = 1;
 
         // Checa se tem um usuário com o CPF enviado
@@ -60,8 +60,8 @@ int registrar_usuario(User usuarios[10], int *pos, Cotacoes *cotacao){
     return 1;
 }
 
-// Obter CPF válido
-void receber_cpf_valido(char *cpf){
+// Obter CPF válido, também gerencia ação de CANCELAR do usuário
+void receber_cpf_valido(char *cpf, int cancelar_autorizado){
     int i;
     int cpf_valido;
 
@@ -70,6 +70,11 @@ void receber_cpf_valido(char *cpf){
 
         printf("Insira um CPF válido, com 11 dígitos:\n");
         scanf("%s", cpf);
+
+        // Checa se é para cancelar a operação
+        if (strcmp(cpf, "CANCELAR") == 0 && cancelar_autorizado){
+            break;
+        }
 
         if (strlen(cpf) != 11){
             printf("CPF inválido! O CPF deve conter 11 dígitos numéricos!\n");
@@ -125,7 +130,10 @@ int logar_usuario(User usuarios[10]){
     do{
 
         // Obter CPF e senha para checar com a dos outros usuários
-        receber_cpf_valido(cpf);
+        receber_cpf_valido(cpf, 1);
+        if (strcmp(cpf, "CANCELAR") == 0){
+            return -1;
+        }
         receber_senha_valida(senha);
 
         // Itera sobre os usuários para achar o usuario do operador
@@ -631,9 +639,10 @@ void transferir_saldo(User usuarios[], int pos, Cotacoes cotacao){
     // Obtem o usuário que quer transferir o saldo
     do{
         pessoa_valida = 0;
-        printf("Para qual CPF você quer transferir o saldo?\n");
+        printf("Para qual CPF você quer transferir o saldo? Para cancelar digite \"CANCELAR\"\n");
         // Obtem o CPF
-        receber_cpf_valido(cpf);
+        receber_cpf_valido(cpf, 1);
+        if (strcmp(cpf, "CANCELAR") == 0) return;
         for(user = 0; user < 10; user++){
             if (strcmp(usuarios[user].cpf, cpf) == 0){
                 pessoa_valida = 1;

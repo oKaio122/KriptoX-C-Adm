@@ -38,9 +38,10 @@ int main(){
             case 0:
                 break;
             case 1:
-                // A função retorna a posição do usuário logado
+                // A função retorna a posição do usuário logado, se for para cancelar login retorna -1
                 pos = logar_usuario(usuarios);
-                menu_opcoes(usuarios, pos, cotacao);
+                // Caso retorne -1 irá cancelar o login
+                if (pos >= 0) menu_opcoes(usuarios, pos, cotacao);
                 break;
             case 2:
                 registrar_usuario(usuarios, &pos, &cotacao);

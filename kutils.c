@@ -103,8 +103,6 @@ void receber_senha_valida(char *senha, int cancelar_autorizado){
         printf("Insira uma Senha válida, com 8 dígitos:\n");
         scanf("%s", senha);
 
-        printf("%d", strcmp(senha, "CANCELAR") == 0 && cancelar_autorizado);
-
         // Checa se é para cancelar a operação
         if ((strcmp(senha, "CANCELAR") == 0) && (cancelar_autorizado)){
             break;

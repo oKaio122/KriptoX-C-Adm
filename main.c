@@ -100,10 +100,10 @@ void menu_opcoes(User usuarios[10], int pos, Cotacoes cotacao){
                 sacar_reais(usuarios, pos);
                 break;
             case 5:
-                comprar_criptomoeda(usuarios, pos);
+                comprar_criptomoeda(usuarios, pos, cotacao);
                 break;
             case 6:
-                vender_criptomoeda(usuarios, pos);
+                vender_criptomoeda(usuarios, pos, cotacao);
                 break;
             case 7:
                 atualizar_cotacao(usuarios, &pos, &cotacao);

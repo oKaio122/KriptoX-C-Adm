@@ -107,8 +107,7 @@ void menu_opcoes(User usuarios[10], int pos, Cotacoes cotacao){
                 atualizar_cotacao(usuarios, &pos, &cotacao);
                 break;
           case 8:
-                printf("Transferir Saldo!\n");
-//              transferir_saldo();
+              transferir_saldo(usuarios, pos, cotacao);
                 break;
             default:
                 printf("Opção não encontrada\n");

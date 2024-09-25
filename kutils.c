@@ -358,11 +358,12 @@ void sacar_reais(User usuarios[], int pos){
     getchar(); // Recebe o \n do Enter
 }
 
-void comprar_criptomoeda(User usuarios[], int pos){
+void comprar_criptomoeda(User usuarios[], int pos, Cotacoes cotacao){
     char criptomoeda[10];
     float qnt_moeda;
     float taxa;
     float preco_operacao;
+    float cotacao_cripto;
     int opcao, confirmacao;
 
     printf("Comprar criptomoeda\n");
@@ -371,7 +372,7 @@ void comprar_criptomoeda(User usuarios[], int pos){
     validar_senha(usuarios, pos);
 
     // Implementar cotação
-    printf("Cotação atual: BTC 1 -> R$ Implementar \nETH 1 -> R$ Implementar \nXRP 1 -> R$ Implementar\n");
+    printf("Cotação atual: BTC 1 -> R$ %f \nETH 1 -> R$ %f \nXRP 1 -> R$ %f \n", cotacao.bitcoin, cotacao.ethereum,cotacao.ripple);
 
     do{
         printf("Qual criptomoeda você quer comprar?\n");
@@ -383,14 +384,17 @@ void comprar_criptomoeda(User usuarios[], int pos){
             case 1:
                 strncpy(criptomoeda, "Bitcoin", sizeof(criptomoeda)-1);
                 taxa = 0.02;
+                cotacao_cripto = cotacao.bitcoin;
                 break;
             case 2:
                 strncpy(criptomoeda, "Ethereum", sizeof(criptomoeda)-1);
                 taxa = 0.01;
+                cotacao_cripto = cotacao.ethereum;
                 break;
             case 3:
                 strncpy(criptomoeda, "Ripple", sizeof(criptomoeda)-1);
                 taxa = 0.01;
+                cotacao_cripto = cotacao.ripple;
                 break;
             default:
                 printf("Opção não encontrada\n");
@@ -402,7 +406,7 @@ void comprar_criptomoeda(User usuarios[], int pos){
         // Obtêm um número maior que 0 e que não tem caracteres
         qnt_moeda = receber_saldo_valido(criptomoeda, "comprar");
 
-        preco_operacao = (qnt_moeda * (1 + taxa) /* * cotacao */) ;
+        preco_operacao = (qnt_moeda * (1 + taxa)  * cotacao_cripto);
 
         if (preco_operacao > usuarios[pos].saldo.reais){
             printf("Saldo em reais insuficiente!");
@@ -441,12 +445,13 @@ void comprar_criptomoeda(User usuarios[], int pos){
     getchar(); // Recebe o \n do Enter
 }
 
-void vender_criptomoeda(User usuarios[], int pos){
+void vender_criptomoeda(User usuarios[], int pos, Cotacoes cotacao){
     char criptomoeda[10];
     float qnt_moeda;
     float taxa;
     float preco_operacao;
     float saldo_cripto;
+    float cotacao_cripto;
     int opcao, confirmacao;
 
     printf("Vender criptomoeda\n");
@@ -455,7 +460,7 @@ void vender_criptomoeda(User usuarios[], int pos){
     validar_senha(usuarios, pos);
 
     // Implementar cotação
-    printf("Cotação atual: BTC 1 -> R$ Implementar \nETH 1 -> R$ Implementar \nXRP 1 -> R$ Implementar\n");
+    printf("Cotação atual: BTC 1 -> R$ %f \nETH 1 -> R$ %f \nXRP 1 -> R$ %f \n", cotacao.bitcoin, cotacao.ethereum,cotacao.ripple);
 
     do{
         printf("Qual criptomoeda você quer vender?\n");
@@ -467,16 +472,19 @@ void vender_criptomoeda(User usuarios[], int pos){
             case 1:
                 strncpy(criptomoeda, "Bitcoin", sizeof(criptomoeda)-1);
                 saldo_cripto = usuarios[pos].saldo.bitcoin;
+                cotacao_cripto = cotacao.bitcoin;
                 taxa = 0.03;
                 break;
             case 2:
                 strncpy(criptomoeda, "Ethereum", sizeof(criptomoeda)-1);
                 saldo_cripto = usuarios[pos].saldo.ethereum;
+                cotacao_cripto = cotacao.ethereum;
                 taxa = 0.02;
                 break;
             case 3:
                 strncpy(criptomoeda, "Ripple", sizeof(criptomoeda)-1);
                 saldo_cripto = usuarios[pos].saldo.ripple;
+                cotacao_cripto = cotacao.ripple;
                 taxa = 0.01;
                 break;
             default:
@@ -506,7 +514,7 @@ void vender_criptomoeda(User usuarios[], int pos){
 
 
     // Parte das operações
-    preco_operacao = (qnt_moeda /* * cotacao*/)/ (1 + taxa);
+    preco_operacao = (qnt_moeda * cotacao_cripto)/ (1 + taxa);
     usuarios[pos].saldo.reais += preco_operacao ;
 
     // Adiciona a qnt de cripto na moeda selecionada

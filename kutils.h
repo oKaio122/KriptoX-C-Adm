@@ -22,18 +22,25 @@ typedef struct {
     Extrato extrato[100];
 } User;
 
-void menu_opcoes(User usuarios[10], int pos);
+typedef struct {
+    float bitcoin;
+    float ethereum;
+    float ripple;
+} Cotacoes;
 
-int registrar_usuario(User usuarios[10], int *pos);
+void menu_opcoes(User usuarios[10], int pos, Cotacoes cotacao);
+
+int registrar_usuario(User usuarios[10], int *pos, Cotacoes *cotacao);
 int logar_usuario(User usuarios[10]);
 
 float receber_saldo_valido(char nome_saldo[], char operacao[]);
 void receber_cpf_valido(char *cpf);
 void receber_senha_valida(char *senha);
 int validar_senha(User usuarios[], int pos);
+void iniciar_cotacoes(Cotacoes *cotacao);
 
-int salvar_usuarios(User usuarios[], int *pos);
-int carregar_usuarios(User usuarios[], int *pos);
+int salvar_usuarios(User usuarios[], int *pos, Cotacoes *cotacao);
+int carregar_usuarios(User usuarios[], int *pos, Cotacoes *cotacao);
 
 void depositar_reais(User usuarios[], int pos);
 void sacar_reais(User usuarios[], int pos);
@@ -41,3 +48,4 @@ void comprar_criptomoeda(User usuarios[], int pos);
 void vender_criptomoeda(User usuarios[], int pos);
 void consultar_extrato(User usuarios[], int pos);
 void salvar_extrato(User usuarios[], int pos, char data[], char operacao[],char moeda[], float cotacao,float valor, float taxa);
+void atualizar_cotacao(User usuarios[10], int *pos, Cotacoes *cotacao);

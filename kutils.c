@@ -2,9 +2,11 @@
 #include <string.h>
 #include <ctype.h>
 #include <kutils.h>
+#include <time.h>
+#include <stdlib.h>
 
 
-int registrar_usuario(User usuarios[10], int *pos){
+int registrar_usuario(User usuarios[10], int *pos, Cotacoes *cotacao){
 
     char cpf[12];
     char senha[9];
@@ -57,7 +59,7 @@ int registrar_usuario(User usuarios[10], int *pos){
     *pos = i;
 
     // Salva o novo usuário
-    salvar_usuarios(usuarios, pos);
+    salvar_usuarios(usuarios, pos, cotacao);
 
     printf("Registro concluído com sucesso!\n");
 
@@ -155,7 +157,7 @@ int logar_usuario(User usuarios[10]){
 }
 
 // Salva os usuários no arquivo .bin
-int salvar_usuarios(User usuarios[], int *pos){
+int salvar_usuarios(User usuarios[], int *pos, Cotacoes *cotacao){
     FILE *f = fopen("usuarios.bin", "wb");
     if (f == NULL){
         return 0;
@@ -171,6 +173,11 @@ int salvar_usuarios(User usuarios[], int *pos){
         return 0;
     }
 
+    qtd = fwrite(cotacao, sizeof(float),1 , f);
+    if (qtd == 0){
+        return 0;
+    }
+
     if (fclose(f)){
         return 0;
     }
@@ -179,7 +186,7 @@ int salvar_usuarios(User usuarios[], int *pos){
 }
 
 // Carrega os usuários na variável usuários
-int carregar_usuarios(User usuarios[], int *pos){
+int carregar_usuarios(User usuarios[], int *pos, Cotacoes *cotacao){
     FILE *f = fopen("usuarios.bin", "rb");
     if (f == NULL){
         return 0;
@@ -193,6 +200,11 @@ int carregar_usuarios(User usuarios[], int *pos){
     qtd = fread(pos, sizeof(int), 1, f);
     if (qtd == 0){
         return 0;
+    }
+
+    qtd = fread(cotacao, sizeof(float),1 , f);
+    if (qtd == 0){
+    return 0;
     }
 
     if (fclose(f)){
@@ -516,4 +528,67 @@ void vender_criptomoeda(User usuarios[], int pos){
 
     printf("Digite Enter para voltar ao menu de opções.\n");
     getchar(); // Recebe o \n do Enter
+}
+
+float gerar_varicao_cotacao(){
+    int num_random;
+
+    // seed aleatória
+    srand(time(NULL));
+
+    // Número entre -500 e 500 ( simula o -5 e 5% )
+    num_random = (rand() % 1001) - 500;
+    return num_random / 10000.0f;
+}
+
+void atualizar_cotacao(User usuarios[10], int *pos, Cotacoes *cotacao){
+
+    float variacao;
+    int moeda;
+
+    printf("Atualizar cotação\n");
+
+    // Itera sobre as moedas dentro da cotação
+    for (moeda = 0; moeda < 3; moeda++){
+
+        // Num entre -5% e 5%
+        variacao = gerar_varicao_cotacao();
+
+        switch (moeda) {
+            case 0:
+                // Pega o valor inicial e soma com o resultado da multiplicação da soma do 1ºrand com o 2ºrand / 100 + 100 da porcentagem
+                cotacao->bitcoin += cotacao->bitcoin * variacao;
+                break;
+            case 1:
+                cotacao->ethereum += cotacao->ethereum * variacao;
+                break;
+            case 2:
+                cotacao->ripple += cotacao->ripple * variacao;
+                break;
+        }
+    }
+    printf("Cotações atualizadas:\n");
+    printf("BTC atualizada: %f\n", cotacao->bitcoin);
+    printf("ETH atualizado: %f\n", cotacao->ethereum);
+    printf("Ripple atualizado: %f\n", cotacao->ripple);
+
+    salvar_usuarios(usuarios, pos, cotacao);
+
+    printf("Digite Enter para voltar ao menu de opções.\n");
+    getchar(); // Recebe o \n do Enter
+}
+
+// Utilizada em caso das cotações estarem vazias
+void iniciar_cotacoes(Cotacoes *cotacao){
+
+    if (cotacao->bitcoin == 0.0){
+        cotacao->bitcoin = 351.21;
+    }
+    if (cotacao->ethereum == 0.0){
+        cotacao->ethereum = 26.27;
+    }
+    if (cotacao->ripple == 0.0){
+        cotacao->ripple = 3.24;
+    }
+
 }

@@ -1,10 +1,4 @@
-#include <stdio.h>
-#include <string.h>
-#include <ctype.h>
 #include <kutils.h>
-#include <time.h>
-#include <stdlib.h>
-
 
 int registrar_usuario(User usuarios[10], int *pos, Cotacoes *cotacao){
 
@@ -275,12 +269,12 @@ void consultar_extrato(User usuarios[], int pos){
         }
         printf("Extrato:\n");
 
-        printf("Data: %f", usuarios[pos].extrato[i].data);
-        printf("Operação: %f", usuarios[pos].extrato[i].operacao);
-        printf("Moeda: %f", usuarios[pos].extrato[i].moeda);
-        printf("Valor: %f", usuarios[pos].extrato[i].valor);
-        printf("Taxa paga: %f", usuarios[pos].extrato[i].taxa);
-        printf("Cotacao: %f", usuarios[pos].extrato[i].cotacao);
+        printf("Data: %s\t", usuarios[pos].extrato[i].data);
+        printf("Operação: %s\t", usuarios[pos].extrato[i].operacao);
+        printf("Moeda: %s\t", usuarios[pos].extrato[i].moeda);
+        printf("Valor: %.2f\t", usuarios[pos].extrato[i].valor);
+        printf("Taxa paga: %.2f\t", usuarios[pos].extrato[i].taxa);
+        printf("Cotacao: %.2f\n", usuarios[pos].extrato[i].cotacao);
     }
 
 
@@ -288,10 +282,19 @@ void consultar_extrato(User usuarios[], int pos){
     getchar(); // Recebe o \n do Enter
 }
 
-void salvar_extrato(User usuarios[], int pos, char data[], char operacao[],
+void salvar_extrato(User usuarios[], int pos, char operacao[],
                     char moeda[], float cotacao,float valor, float taxa){
-    char *extrato_data;
     int i;
+    char *extrato_data;
+    char datetime[20];
+    struct tm *info;
+
+    // Obtem a data atual e salva na variável datetime
+    time_t rawtime;
+    time( &rawtime );
+    info = localtime( &rawtime );
+    strftime(datetime,20,"%d/%m/%Y - %H:%M", info);
+
 
     for(i = 0; i < 100; i++){
 
@@ -302,7 +305,8 @@ void salvar_extrato(User usuarios[], int pos, char data[], char operacao[],
         }
     }
 
-    strncpy(usuarios[pos].extrato[i].data, data, sizeof(usuarios[pos].extrato[i].data)-1);
+
+    strncpy(usuarios[pos].extrato[i].data, datetime, sizeof(usuarios[pos].extrato[i].data)-1);
     strncpy(usuarios[pos].extrato[i].operacao, operacao, sizeof(usuarios[pos].extrato[i].operacao)-1);
     strncpy(usuarios[pos].extrato[i].moeda, moeda, sizeof(usuarios[pos].extrato[i].moeda)-1);
     usuarios[pos].extrato[i].valor = valor;
@@ -326,6 +330,8 @@ void depositar_reais(User usuarios[], int pos){
 
     printf("Depositado com sucesso!\n");
     printf("Saldo em reais atualizado: %.2f\n", usuarios[pos].saldo.reais);
+
+    salvar_extrato(usuarios, pos, "-", "Real", 1, qnt_deposito, 0);
 
     printf("Digite Enter para voltar ao menu de opções.\n");
     getchar(); // Recebe o \n do Enter

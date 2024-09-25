@@ -55,3 +55,4 @@ void vender_criptomoeda(User usuarios[], int pos, Cotacoes cotacao);
 void consultar_extrato(User usuarios[], int pos);
 void salvar_extrato(User usuarios[], int pos, char operacao[],char moeda[], float cotacao,float valor, float taxa);
 void atualizar_cotacao(User usuarios[10], int *pos, Cotacoes *cotacao);
+void transferir_saldo(User usuarios[], int pos, Cotacoes cotacao);

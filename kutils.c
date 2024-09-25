@@ -62,9 +62,11 @@ int registrar_usuario(User usuarios[10], int *pos, Cotacoes *cotacao){
 
 // Obter CPF válido
 void receber_cpf_valido(char *cpf){
-    while(1){
+    int i;
+    int cpf_valido;
 
-        int i;
+    do{
+        cpf_valido = 1;
 
         printf("Insira um CPF válido, com 11 dígitos:\n");
         scanf("%s", cpf);
@@ -77,11 +79,11 @@ void receber_cpf_valido(char *cpf){
         for(i=0; i < strlen(cpf); i++){
             if(!isdigit(cpf[i])){
                 printf("CPF inválido! O CPF deve conter números apenas!\n");
-                continue;
+                cpf_valido = 0;
+                break;
             }
         }
-        break;
-    }
+    } while (!cpf_valido);
 }
 
 // Obter Senha válida
@@ -119,7 +121,7 @@ int logar_usuario(User usuarios[10]){
     char senha[9];
     int user;
 
-    printf("Login usuário\n");
+    printf("Login usuário, digite \"CANCELAR\" para cancelar o login \n");
     do{
 
         // Obter CPF e senha para checar com a dos outros usuários

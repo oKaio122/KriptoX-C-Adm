@@ -17,7 +17,7 @@ int registrar_usuario(User usuarios[10], int *pos, Cotacoes *cotacao){
 
     // Obtêm um CPF válido (11 dígitos numéricos e único)
     do{
-        receber_cpf_valido(cpf);
+        receber_cpf_valido(cpf, 0);
         cpf_unico = 1;
 
         // Checa se tem um usuário com o CPF enviado
@@ -33,7 +33,7 @@ int registrar_usuario(User usuarios[10], int *pos, Cotacoes *cotacao){
 
 
     // Obtêm uma senha válida (8 dígitos numéricos)
-    receber_senha_valida(senha);
+    receber_senha_valida(senha, 0);
 
     // Loop para encontrar uma posição vazia de usuários
     for (i=0; i < 10; i++){
@@ -60,8 +60,8 @@ int registrar_usuario(User usuarios[10], int *pos, Cotacoes *cotacao){
     return 1;
 }
 
-// Obter CPF válido
-void receber_cpf_valido(char *cpf){
+// Obter CPF válido, também gerencia ação de CANCELAR do usuário
+void receber_cpf_valido(char *cpf, int cancelar_autorizado){
     int i;
     int cpf_valido;
 
@@ -71,7 +71,13 @@ void receber_cpf_valido(char *cpf){
         printf("Insira um CPF válido, com 11 dígitos:\n");
         scanf("%s", cpf);
 
+        // Checa se é para cancelar a operação
+        if ((strcmp(cpf, "CANCELAR") == 0) && (cancelar_autorizado)){
+            break;
+        }
+
         if (strlen(cpf) != 11){
+            cpf_valido = 0;
             printf("CPF inválido! O CPF deve conter 11 dígitos numéricos!\n");
             continue;
         }
@@ -87,30 +93,37 @@ void receber_cpf_valido(char *cpf){
 }
 
 // Obter Senha válida
-void receber_senha_valida(char *senha){
-    while(1){
+void receber_senha_valida(char *senha, int cancelar_autorizado){
+    int i;
+    int senha_valida;
 
-        int i;
+    do{
+        senha_valida = 1;
 
         printf("Insira uma Senha válida, com 8 dígitos:\n");
         scanf("%s", senha);
-        getchar();
 
+        printf("%d", strcmp(senha, "CANCELAR") == 0 && cancelar_autorizado);
 
+        // Checa se é para cancelar a operação
+        if ((strcmp(senha, "CANCELAR") == 0) && (cancelar_autorizado)){
+            break;
+        }
 
         if (strlen(senha) != 8){
             printf("Senha inválida! A senha deve conter 8 dígitos numéricos!\n");
+            senha_valida = 0;
             continue;
         }
 
         for(i=0; i < strlen(senha); i++){
             if(!isdigit(senha[i])){
                 printf("Senha inválida! A senha deve conter números apenas!\n");
-                continue;
+                senha_valida = 0;
+                break;
             }
         }
-        break;
-    }
+    } while (!senha_valida);
 }
 
 // Retorna a posição do usuário logado
@@ -125,8 +138,11 @@ int logar_usuario(User usuarios[10]){
     do{
 
         // Obter CPF e senha para checar com a dos outros usuários
-        receber_cpf_valido(cpf);
-        receber_senha_valida(senha);
+        receber_cpf_valido(cpf, 1);
+        if (strcmp(cpf, "CANCELAR") == 0){
+            return -1;
+        }
+        receber_senha_valida(senha, 0);
 
         // Itera sobre os usuários para achar o usuario do operador
         for(user = 0; user < 10; user++){
@@ -215,7 +231,11 @@ int validar_senha(User usuarios[], int pos){
     char senha[9];
 
     do{
-        receber_senha_valida(senha);
+        receber_senha_valida(senha, 1);
+
+        // Checa se o usuário cancelou a operação
+        if (strcmp(senha, "CANCELAR") == 0) return 0;
+
     } while(strcmp(usuarios[pos].senha, senha) != 0);
 
 
@@ -376,8 +396,11 @@ void comprar_criptomoeda(User usuarios[], int pos, Cotacoes cotacao){
 
     printf("Comprar criptomoeda\n");
 
-    // Valida a senha antes do usuário poder comprar cripto
-    validar_senha(usuarios, pos);
+    printf("Valide sua senha antes de comprar cripto, para cancelar digite \"CANCELAR\".");
+
+    // Valida a senha antes do usuário poder comprar cripto, se o usuário digitar "CANCELAR" a operação será cancelada
+    if (!validar_senha(usuarios, pos)) return;
+
 
     // Implementar cotação
     printf("Cotação atual:\n BTC 1 -> R$ %f \nETH 1 -> R$ %f \nXRP 1 -> R$ %f \n", cotacao.bitcoin, cotacao.ethereum,cotacao.ripple);
@@ -467,8 +490,10 @@ void vender_criptomoeda(User usuarios[], int pos, Cotacoes cotacao){
 
     printf("Vender criptomoeda\n");
 
-    // Valida a senha antes do usuário vender cripto
-    validar_senha(usuarios, pos);
+    printf("Valide sua senha antes de vender cripto, para cancelar digite \"CANCELAR\".");
+
+    // Valida a senha antes do usuário poder vender cripto, se o usuário digitar "CANCELAR" a operação será cancelada
+    if (!validar_senha(usuarios, pos)) return;
 
     // Implementar cotação
     printf("Cotação atual:\n BTC 1 -> R$ %f \nETH 1 -> R$ %f \nXRP 1 -> R$ %f \n", cotacao.bitcoin, cotacao.ethereum,cotacao.ripple);
@@ -631,9 +656,10 @@ void transferir_saldo(User usuarios[], int pos, Cotacoes cotacao){
     // Obtem o usuário que quer transferir o saldo
     do{
         pessoa_valida = 0;
-        printf("Para qual CPF você quer transferir o saldo?\n");
+        printf("Para qual CPF você quer transferir o saldo? Para cancelar digite \"CANCELAR\"\n");
         // Obtem o CPF
-        receber_cpf_valido(cpf);
+        receber_cpf_valido(cpf, 1);
+        if (strcmp(cpf, "CANCELAR") == 0) return;
         for(user = 0; user < 10; user++){
             if (strcmp(usuarios[user].cpf, cpf) == 0){
                 pessoa_valida = 1;

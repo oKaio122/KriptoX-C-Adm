@@ -1,4 +1,4 @@
-#include <kutils.h>
+#include "kutils.h"
 
 int registrar_usuario(User usuarios[10], int *pos, Cotacoes *cotacao){
 
@@ -359,6 +359,8 @@ void sacar_reais(User usuarios[], int pos){
     float qnt_sacar;
 
     printf("Sacar Reais\n");
+
+    validar_senha(usuarios, pos);
 
     do{
 

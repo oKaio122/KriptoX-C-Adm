@@ -88,15 +88,15 @@ void receber_cpf_valido(char *cpf){
 
 // Obter Senha válida
 void receber_senha_valida(char *senha){
-    while(1){
+    int i;
+    int senha_valida;
 
-        int i;
+    do{
+        senha_valida = 1;
 
         printf("Insira uma Senha válida, com 8 dígitos:\n");
         scanf("%s", senha);
         getchar();
-
-
 
         if (strlen(senha) != 8){
             printf("Senha inválida! A senha deve conter 8 dígitos numéricos!\n");
@@ -106,11 +106,11 @@ void receber_senha_valida(char *senha){
         for(i=0; i < strlen(senha); i++){
             if(!isdigit(senha[i])){
                 printf("Senha inválida! A senha deve conter números apenas!\n");
-                continue;
+                senha_valida = 0;
+                break;
             }
         }
-        break;
-    }
+    } while (!senha_valida);
 }
 
 // Retorna a posição do usuário logado

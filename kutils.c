@@ -313,8 +313,6 @@ void salvar_extrato(User usuarios[], int pos, char operacao[],
     usuarios[pos].extrato[i].taxa = taxa;
     usuarios[pos].extrato[i].cotacao = cotacao;
 
-    printf("Digite Enter para voltar ao menu de opções.\n");
-    getchar(); // Recebe o \n do Enter
 }
 
 void depositar_reais(User usuarios[], int pos){
@@ -331,7 +329,7 @@ void depositar_reais(User usuarios[], int pos){
     printf("Depositado com sucesso!\n");
     printf("Saldo em reais atualizado: %.2f\n", usuarios[pos].saldo.reais);
 
-    salvar_extrato(usuarios, pos, "-", "Real", 1, qnt_deposito, 0);
+    salvar_extrato(usuarios, pos, "+", "Real", 1, qnt_deposito, 0);
 
     printf("Digite Enter para voltar ao menu de opções.\n");
     getchar(); // Recebe o \n do Enter
@@ -359,6 +357,8 @@ void sacar_reais(User usuarios[], int pos){
 
     printf("Sacado com sucesso!\n");
     printf("Saldo em reais atualizado: %.2f\n", usuarios[pos].saldo.reais);
+
+    salvar_extrato(usuarios, pos, "-", "Real", 1, qnt_sacar, 0);
 
     printf("Digite Enter para voltar ao menu de opções.\n");
     getchar(); // Recebe o \n do Enter
@@ -446,6 +446,9 @@ void comprar_criptomoeda(User usuarios[], int pos, Cotacoes cotacao){
            strcmp(criptomoeda, "Bitcoin") == 0 ? usuarios[pos].saldo.bitcoin :
            strcmp(criptomoeda, "Ethereum") == 0 ? usuarios[pos].saldo.ethereum :
            usuarios[pos].saldo.ripple);
+
+    salvar_extrato(usuarios, pos, "-", "Real", 1, preco_operacao, taxa);
+    salvar_extrato(usuarios, pos, "+", criptomoeda, cotacao_cripto, qnt_moeda, 0);
 
     printf("Digite Enter para voltar ao menu de opções.\n");
     getchar(); // Recebe o \n do Enter
@@ -539,6 +542,9 @@ void vender_criptomoeda(User usuarios[], int pos, Cotacoes cotacao){
            strcmp(criptomoeda, "Bitcoin") == 0 ? usuarios[pos].saldo.bitcoin :
            strcmp(criptomoeda, "Ethereum") == 0 ? usuarios[pos].saldo.ethereum :
            usuarios[pos].saldo.ripple);
+
+    salvar_extrato(usuarios, pos, "-", criptomoeda, cotacao_cripto, qnt_moeda, 0);
+    salvar_extrato(usuarios, pos, "+", "Real", 1, preco_operacao, taxa);
 
     printf("Digite Enter para voltar ao menu de opções.\n");
     getchar(); // Recebe o \n do Enter

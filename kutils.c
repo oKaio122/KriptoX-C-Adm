@@ -341,7 +341,8 @@ void salvar_extrato(User usuarios[], int pos, char operacao[],
 void depositar_reais(User usuarios[], int pos){
     float qnt_deposito;
 
-    printf("Depositar Reais\n");
+    system("cls||clear");
+    mostrar_menu("Depositar Reais");
 
     // Obtêm um número maior que 0 e que não tem caracteres
     qnt_deposito = receber_saldo_valido("reais", "depositar");

@@ -57,7 +57,6 @@ int main(){
 
 
 void menu_opcoes(User usuarios[10], int pos, Cotacoes cotacao){
-
     int opcao;
 
 // Menu de opcoes

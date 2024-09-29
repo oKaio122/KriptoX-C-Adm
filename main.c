@@ -26,7 +26,8 @@ int main(){
         char *opcoes[] = {
                 "Sair",
                 "Logar",
-                "Registrar"
+                "Registrar",
+                NULL
         };
         mostrar_opcoes("Menu Principal", opcoes);
         scanf("%d", &opcao);
@@ -74,10 +75,11 @@ void menu_opcoes(User usuarios[10], int pos, Cotacoes cotacao){
                 "Consultar Extrato",
                 "Depositar Dinheiro",
                 "Sacar Dinheiro",
-                "Comprar Criptomoedas",
-                "Vender Criptomoedas",
+                "Comprar Cripto",
+                "Vender Cripto",
                 "Atualizar Cotação",
-                "Transferir Saldo"
+                "Transferir Saldo",
+                NULL
         };
         mostrar_opcoes("Menu de opções", opcoes);
         scanf("%d", &opcao);

@@ -3,6 +3,8 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <time.h>
+#include <io.h>
+#include <fcntl.h>
 
 typedef struct {
     float ethereum;
@@ -44,6 +46,7 @@ void receber_cpf_valido(char *cpf, int cancelar_autorizado);
 void receber_senha_valida(char *senha, int cancelar_autorizado);
 int validar_senha(User usuarios[], int pos);
 void iniciar_cotacoes(Cotacoes *cotacao);
+void mostrar_menu(char nome_menu[]);
 
 int salvar_usuarios(User usuarios[], int *pos, Cotacoes *cotacao);
 int carregar_usuarios(User usuarios[], int *pos, Cotacoes *cotacao);

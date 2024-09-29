@@ -745,3 +745,29 @@ void transferir_saldo(User usuarios[], int pos, Cotacoes cotacao){
     printf("Digite Enter para voltar ao menu de opções.\n");
     getchar(); // Recebe o \n do Enter
 }
+
+void mostrar_menu(char nome_menu[]){
+    int nome_menu_len = strlen(nome_menu) + 3;
+    int i;
+
+    // Altera o padrão de texto para UTF-16 para printar caracteres especiais
+    _setmode(_fileno(stdout), _O_U16TEXT);
+
+    wprintf(L"┏━━");
+    for (i=0; i < nome_menu_len; i++){
+        wprintf(L"━");
+    }
+    wprintf(L"━┓\n");
+
+    wprintf(L"┃   %s   ┃\n", nome_menu);
+
+    wprintf(L"┗━");
+    for (i=0; i < nome_menu_len; i++){
+        wprintf(L"━");
+    }
+    wprintf(L"━━┛\n");
+
+    // Volta o padrão de texto para o modo de texto padrão
+    _setmode(_fileno(stdout), _O_TEXT);
+
+}

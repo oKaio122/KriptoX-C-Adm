@@ -412,7 +412,6 @@ void comprar_criptomoeda(User usuarios[], int pos, Cotacoes cotacao){
     mostrar_cotacoes("Cotação Atual", cotacao);
 
     do{
-        printf("Qual criptomoeda você quer comprar?\n");
         char *opcoes[] = {
                 "Bitcoin",
                 "Ethereum",
@@ -420,7 +419,6 @@ void comprar_criptomoeda(User usuarios[], int pos, Cotacoes cotacao){
                 NULL
         };
         mostrar_opcoes("Criptomoedas disponíveis", opcoes);
-        printf("Criptomoedas disponíveis:\n1 - Bitcoin \n2 - Ethereum \n3 - Ripple\n");
         scanf("%d", &opcao);
         fflush(stdin);
 
@@ -445,7 +443,7 @@ void comprar_criptomoeda(User usuarios[], int pos, Cotacoes cotacao){
                 break;
         }
 
-    }while(!opcao);
+    }while(!opcao && opcao != 0);
     do{
         // Obtêm um número maior que 0 e que não tem caracteres
         qnt_moeda = receber_saldo_valido(criptomoeda, "comprar");

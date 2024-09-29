@@ -499,7 +499,8 @@ void vender_criptomoeda(User usuarios[], int pos, Cotacoes cotacao){
     float cotacao_cripto;
     int opcao, confirmacao;
 
-    printf("Vender criptomoeda\n");
+    system("cls||clear");
+    mostrar_menu("Vender Cripto");
 
     printf("Valide sua senha antes de vender cripto, para cancelar digite \"CANCELAR\".");
 
@@ -507,28 +508,33 @@ void vender_criptomoeda(User usuarios[], int pos, Cotacoes cotacao){
     if (!validar_senha(usuarios, pos)) return;
 
     // Implementar cotação
-    printf("Cotação atual:\n BTC 1 -> R$ %f \nETH 1 -> R$ %f \nXRP 1 -> R$ %f \n", cotacao.bitcoin, cotacao.ethereum,cotacao.ripple);
+    mostrar_cotacoes("Cotação Atual", cotacao);
 
     do{
-        printf("Qual criptomoeda você quer vender?\n");
-        printf("Criptomoedas disponíveis:\n1 - Bitcoin \n2 - Ethereum \n3 - Ripple\n");
+        char *opcoes[] = {
+                "Bitcoin",
+                "Ethereum",
+                "Ripple",
+                NULL
+        };
+        mostrar_opcoes("Criptomoedas disponíveis", opcoes);
         scanf("%d", &opcao);
         fflush(stdin);
 
         switch (opcao) {
-            case 1:
+            case 0:
                 strncpy(criptomoeda, "Bitcoin", sizeof(criptomoeda)-1);
                 saldo_cripto = usuarios[pos].saldo.bitcoin;
                 cotacao_cripto = cotacao.bitcoin;
                 taxa = 0.03;
                 break;
-            case 2:
+            case 1:
                 strncpy(criptomoeda, "Ethereum", sizeof(criptomoeda)-1);
                 saldo_cripto = usuarios[pos].saldo.ethereum;
                 cotacao_cripto = cotacao.ethereum;
                 taxa = 0.02;
                 break;
-            case 3:
+            case 2:
                 strncpy(criptomoeda, "Ripple", sizeof(criptomoeda)-1);
                 saldo_cripto = usuarios[pos].saldo.ripple;
                 cotacao_cripto = cotacao.ripple;
@@ -539,7 +545,7 @@ void vender_criptomoeda(User usuarios[], int pos, Cotacoes cotacao){
                 break;
         }
 
-    }while(!opcao);
+    }while(!opcao && opcao != 0);
 
     do{
         // Obtêm um número maior que 0 e que não tem caracteres

@@ -747,8 +747,10 @@ void transferir_saldo(User usuarios[], int pos, Cotacoes cotacao){
 }
 
 void mostrar_menu(char nome_menu[]){
-    int nome_menu_len = strlen(nome_menu) + 3;
+    int nome_menu_len;
     int i;
+
+    nome_menu_len = strlen(nome_menu) + 3;
 
     // Altera o padrão de texto para UTF-16 para printar caracteres especiais
     _setmode(_fileno(stdout), _O_U16TEXT);
@@ -766,6 +768,46 @@ void mostrar_menu(char nome_menu[]){
         wprintf(L"━");
     }
     wprintf(L"━━┛\n");
+
+    // Volta o padrão de texto para o modo de texto padrão
+    _setmode(_fileno(stdout), _O_TEXT);
+
+}
+
+void mostrar_opcoes(char titulo[], char *opcoes[]){
+    int nome_menu_len;
+    int i, j;
+
+    nome_menu_len = strlen(titulo) + 3;
+
+    // Altera o padrão de texto para UTF-16 para printar caracteres especiais
+    _setmode(_fileno(stdout), _O_U16TEXT);
+
+    // Printa ┏━━「 titulo 」━━┓
+    wprintf(L"┏━━");
+    wprintf(L"】 %s 【", titulo);
+    wprintf(L"━━┓\n");
+    // Fim do print
+
+    // Printa o meio do menu (┃ i - Opcao                |)
+    i = 0;
+    while (opcoes[i] != NULL) {
+        wprintf(L"┃   %d - %s", i, opcoes[i]);
+        for (j = 0; j < nome_menu_len - strlen(opcoes[i]); j++){
+            wprintf(L" ");
+        }
+        wprintf(L"┃\n");
+        i++;
+    }
+    // Fim do print
+
+    // Printa ┗━━━━━━━━━━━━━┛
+    wprintf(L"┗━━━");
+    for (i=0; i < nome_menu_len; i++){
+        wprintf(L"━");
+    }
+    wprintf(L"━━━━┛\n");
+    // Fim do print
 
     // Volta o padrão de texto para o modo de texto padrão
     _setmode(_fileno(stdout), _O_TEXT);

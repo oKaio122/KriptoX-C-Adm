@@ -47,6 +47,8 @@ int main(){
                 break;
             default:
                 printf("Opção não encontrada\n");
+                printf("Aperte Enter para escolher novamente.\n");
+                getchar(); // Recebe o \n do Enter
         }
     }while(opcao != 0);
 

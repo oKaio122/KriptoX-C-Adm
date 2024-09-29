@@ -272,7 +272,7 @@ void consultar_saldo(User usuarios[], int pos){
     printf("Saldo de Ethereum: %f\n", usuarios[pos].saldo.ethereum);
     printf("Saldo em Ripple: %f\n", usuarios[pos].saldo.ripple);
 
-    printf("Digite Enter para voltar ao menu de opções.\n");
+    printf("Aperte Enter para voltar ao menu de opções.\n");
     getchar(); // Recebe o \n do Enter
 }
 
@@ -280,8 +280,8 @@ void consultar_extrato(User usuarios[], int pos){
     char *extrato_data;
     int i;
 
-
-    printf("Consultar Extrato\n");
+    system("cls||clear");
+    mostrar_menu("Consultar Extrato");
 
     // Itera sobre os extratos
     for(i = 0; i < 100; i++){
@@ -291,7 +291,6 @@ void consultar_extrato(User usuarios[], int pos){
         if (strcmp(extrato_data, "") == 0){
             break;
         }
-        printf("Extrato:\n");
 
         printf("Data: %s\t", usuarios[pos].extrato[i].data);
         printf("Operação: %s\t", usuarios[pos].extrato[i].operacao);
@@ -302,7 +301,7 @@ void consultar_extrato(User usuarios[], int pos){
     }
 
 
-    printf("Digite Enter para voltar ao menu de opções.\n");
+    printf("Aperte Enter para voltar ao menu de opções.\n");
     getchar(); // Recebe o \n do Enter
 }
 
@@ -355,7 +354,7 @@ void depositar_reais(User usuarios[], int pos){
 
     salvar_extrato(usuarios, pos, "+", "Real", 1, qnt_deposito, 0);
 
-    printf("Digite Enter para voltar ao menu de opções.\n");
+    printf("Aperte Enter para voltar ao menu de opções.\n");
     getchar(); // Recebe o \n do Enter
 }
 
@@ -386,7 +385,7 @@ void sacar_reais(User usuarios[], int pos){
 
     salvar_extrato(usuarios, pos, "-", "Real", 1, qnt_sacar, 0);
 
-    printf("Digite Enter para voltar ao menu de opções.\n");
+    printf("Aperte Enter para voltar ao menu de opções.\n");
     getchar(); // Recebe o \n do Enter
 }
 
@@ -479,7 +478,7 @@ void comprar_criptomoeda(User usuarios[], int pos, Cotacoes cotacao){
     salvar_extrato(usuarios, pos, "-", "Real", 1, preco_operacao, taxa);
     salvar_extrato(usuarios, pos, "+", criptomoeda, cotacao_cripto, qnt_moeda, 0);
 
-    printf("Digite Enter para voltar ao menu de opções.\n");
+    printf("Aperte Enter para voltar ao menu de opções.\n");
     getchar(); // Recebe o \n do Enter
 }
 
@@ -577,7 +576,7 @@ void vender_criptomoeda(User usuarios[], int pos, Cotacoes cotacao){
     salvar_extrato(usuarios, pos, "-", criptomoeda, cotacao_cripto, qnt_moeda, 0);
     salvar_extrato(usuarios, pos, "+", "Real", 1, preco_operacao, taxa);
 
-    printf("Digite Enter para voltar ao menu de opções.\n");
+    printf("Aperte Enter para voltar ao menu de opções.\n");
     getchar(); // Recebe o \n do Enter
 }
 
@@ -625,7 +624,7 @@ void atualizar_cotacao(User usuarios[10], int *pos, Cotacoes *cotacao){
 
     salvar_usuarios(usuarios, pos, cotacao);
 
-    printf("Digite Enter para voltar ao menu de opções.\n");
+    printf("Aperte Enter para voltar ao menu de opções.\n");
     getchar(); // Recebe o \n do Enter
 }
 
@@ -746,7 +745,7 @@ void transferir_saldo(User usuarios[], int pos, Cotacoes cotacao){
     salvar_extrato(usuarios, pos, "-", nome_moeda, cotacao_moeda, qnt_transferir, 0);
     salvar_extrato(usuarios, user, "+", nome_moeda, cotacao_moeda, qnt_transferir, 0);
 
-    printf("Digite Enter para voltar ao menu de opções.\n");
+    printf("Aperte Enter para voltar ao menu de opções.\n");
     getchar(); // Recebe o \n do Enter
 }
 

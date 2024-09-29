@@ -67,17 +67,19 @@ void menu_opcoes(User usuarios[10], int pos, Cotacoes cotacao){
         // Salva os dados atualizados do usuário após ele fazer uma operação
         salvar_usuarios(usuarios, &pos, &cotacao);
 
-
-        printf("Qual opção você quer rodar?\n"
-               "0 - Sair\n"
-               "1 - Consultar Saldo\n"
-               "2 - Consultar Extrato\n"
-               "3 - Depositar Dinheiro\n"
-               "4 - Sacar Dinheiro\n"
-               "5 - Comprar Criptomoedas\n"
-               "6 - Vender Criptomoedas\n"
-               "7 - Atualizar Cotação\n"
-               "8 - Transferir Saldo\n");
+        mostrar_menu("Menu de Opções");
+        char *opcoes[] = {
+                "Sair",
+                "Consultar Saldo",
+                "Consultar Extrato",
+                "Depositar Dinheiro",
+                "Sacar Dinheiro",
+                "Comprar Criptomoedas",
+                "Vender Criptomoedas",
+                "Atualizar Cotação",
+                "Transferir Saldo"
+        };
+        mostrar_opcoes("Menu de opções", opcoes);
         scanf("%d", &opcao);
         getchar();
 

@@ -862,9 +862,9 @@ void mostrar_cotacoes(char titulo[], Cotacoes cotacoes){
     // Printa o meio do menu (┃ i - Opcao                |)
     for (i=0; i < 3; i++){
         sprintf(cotacao_preco_str, "%.2f", opcoes_cotacoes[i]);
-        wprintf(L"┃   %s - %s", cotacao_preco_str, cotacoes_nomes[i]);
+        wprintf(L"┃   1 %s -> R$%s", cotacoes_nomes[i], cotacao_preco_str);
 
-        for (j = 0; j < nome_menu_len + 1 - strlen(cotacao_preco_str) - strlen(cotacoes_nomes[i]); j++){
+        for (j = 0; j < nome_menu_len - 4 - strlen(cotacao_preco_str) - strlen(cotacoes_nomes[i]); j++){
             wprintf(L" ");
         }
         wprintf(L"┃\n");

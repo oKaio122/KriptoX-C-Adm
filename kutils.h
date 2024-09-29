@@ -5,6 +5,7 @@
 #include <time.h>
 #include <io.h>
 #include <fcntl.h>
+#include <locale.h>
 
 typedef struct {
     float ethereum;
@@ -47,6 +48,7 @@ void receber_senha_valida(char *senha, int cancelar_autorizado);
 int validar_senha(User usuarios[], int pos);
 void iniciar_cotacoes(Cotacoes *cotacao);
 void mostrar_menu(char nome_menu[]);
+void mostrar_opcoes(char titulo[], char *opcoes[]);
 
 int salvar_usuarios(User usuarios[], int *pos, Cotacoes *cotacao);
 int carregar_usuarios(User usuarios[], int *pos, Cotacoes *cotacao);

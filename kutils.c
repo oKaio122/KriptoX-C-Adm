@@ -8,6 +8,7 @@ int registrar_usuario(User usuarios[10], int *pos, Cotacoes *cotacao){
     int cpf_unico;
     int i;
 
+    system("cls||clear");
     mostrar_menu("Registrar usuário");
 
     printf("Qual o seu nome?\n");
@@ -131,7 +132,10 @@ int logar_usuario(User usuarios[10]){
     char senha[9];
     int user;
 
-    printf("Login usuário, digite \"CANCELAR\" para cancelar o login \n");
+    system("cls||clear");
+    mostrar_menu("Login usuário");
+    printf("Digite \"CANCELAR\" para cancelar o login \n");
+
     do{
 
         // Obter CPF e senha para checar com a dos outros usuários

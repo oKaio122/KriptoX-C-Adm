@@ -264,7 +264,8 @@ float receber_saldo_valido(char nome_saldo[], char operacao[]){
 
 void consultar_saldo(User usuarios[], int pos){
 
-    printf("Consultar saldo\n");
+    system("cls||clear");
+    mostrar_menu("Consultar saldo");
 
     printf("Saldo de Reais: %f\n", usuarios[pos].saldo.reais);
     printf("Saldo de Bitcoin: %f\n", usuarios[pos].saldo.bitcoin);

@@ -751,6 +751,7 @@ void transferir_saldo(User usuarios[], int pos, Cotacoes cotacao){
 }
 
 void mostrar_menu(char nome_menu[]){
+    setlocale(LC_ALL, "portuguese");
     int nome_menu_len;
     int i;
 
@@ -779,6 +780,7 @@ void mostrar_menu(char nome_menu[]){
 }
 
 void mostrar_opcoes(char titulo[], char *opcoes[]){
+    setlocale(LC_ALL, "portuguese");
     int nome_menu_len;
     int i, j;
 

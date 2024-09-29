@@ -781,6 +781,7 @@ void mostrar_menu(char nome_menu[]){
 
 void mostrar_opcoes(char titulo[], char *opcoes[]){
     setlocale(LC_ALL, "portuguese");
+
     int nome_menu_len;
     int i, j;
 

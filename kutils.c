@@ -399,35 +399,43 @@ void comprar_criptomoeda(User usuarios[], int pos, Cotacoes cotacao){
     float cotacao_cripto;
     int opcao, confirmacao;
 
-    printf("Comprar criptomoeda\n");
+    system("cls||clear");
+    mostrar_menu("Comprar Cripto");
 
-    printf("Valide sua senha antes de comprar cripto, para cancelar digite \"CANCELAR\".");
+    printf("Valide sua senha antes de comprar criptomoedas, para cancelar digite \"CANCELAR\".");
 
     // Valida a senha antes do usuário poder comprar cripto, se o usuário digitar "CANCELAR" a operação será cancelada
     if (!validar_senha(usuarios, pos)) return;
 
 
     // Implementar cotação
-    printf("Cotação atual:\n BTC 1 -> R$ %f \nETH 1 -> R$ %f \nXRP 1 -> R$ %f \n", cotacao.bitcoin, cotacao.ethereum,cotacao.ripple);
+    mostrar_cotacoes("Cotação Atual", cotacao);
 
     do{
         printf("Qual criptomoeda você quer comprar?\n");
+        char *opcoes[] = {
+                "Bitcoin",
+                "Ethereum",
+                "Ripple",
+                NULL
+        };
+        mostrar_opcoes("Criptomoedas disponíveis", opcoes);
         printf("Criptomoedas disponíveis:\n1 - Bitcoin \n2 - Ethereum \n3 - Ripple\n");
         scanf("%d", &opcao);
         fflush(stdin);
 
         switch (opcao) {
-            case 1:
+            case 0:
                 strncpy(criptomoeda, "Bitcoin", sizeof(criptomoeda)-1);
                 taxa = 0.02;
                 cotacao_cripto = cotacao.bitcoin;
                 break;
-            case 2:
+            case 1:
                 strncpy(criptomoeda, "Ethereum", sizeof(criptomoeda)-1);
                 taxa = 0.01;
                 cotacao_cripto = cotacao.ethereum;
                 break;
-            case 3:
+            case 2:
                 strncpy(criptomoeda, "Ripple", sizeof(criptomoeda)-1);
                 taxa = 0.01;
                 cotacao_cripto = cotacao.ripple;
@@ -806,6 +814,52 @@ void mostrar_opcoes(char titulo[], char *opcoes[]){
         }
         wprintf(L"┃\n");
         i++;
+    }
+    // Fim do print
+
+    // Printa ┗━━━━━━━━━━━━━┛
+    wprintf(L"┗━━━");
+    for (i=0; i < nome_menu_len; i++){
+        wprintf(L"━");
+    }
+    wprintf(L"━━━━┛\n");
+    // Fim do print
+
+    // Volta o padrão de texto para o modo de texto padrão
+    _setmode(_fileno(stdout), _O_TEXT);
+
+}
+
+void mostrar_cotacoes(char titulo[], Cotacoes cotacoes){
+    setlocale(LC_ALL, "portuguese");
+
+    int nome_menu_len;
+    int i, j;
+    float opcoes_cotacoes[] = {cotacoes.bitcoin, cotacoes.ethereum, cotacoes.ripple};
+    char *cotacoes_nomes[] = {"Bitcoin", "Ethereum", "Ripple"};
+    char cotacao_preco_str[10];
+
+    nome_menu_len = strlen(titulo) + 3;
+
+
+    // Altera o padrão de texto para UTF-16 para printar caracteres especiais
+    _setmode(_fileno(stdout), _O_U16TEXT);
+
+    // Printa ┏━━「 titulo 」━━┓
+    wprintf(L"┏━━");
+    wprintf(L"】 %s 【", titulo);
+    wprintf(L"━━┓\n");
+    // Fim do print
+
+    // Printa o meio do menu (┃ i - Opcao                |)
+    for (i=0; i < 3; i++){
+        sprintf(cotacao_preco_str, "%.2f", opcoes_cotacoes[i]);
+        wprintf(L"┃   %s - %s", cotacao_preco_str, cotacoes_nomes[i]);
+
+        for (j = 0; j < nome_menu_len + 1 - strlen(cotacao_preco_str) - strlen(cotacoes_nomes[i]); j++){
+            wprintf(L" ");
+        }
+        wprintf(L"┃\n");
     }
     // Fim do print
 

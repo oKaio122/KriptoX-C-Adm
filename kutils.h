@@ -49,6 +49,8 @@ int validar_senha(User usuarios[], int pos);
 void iniciar_cotacoes(Cotacoes *cotacao);
 void mostrar_menu(char nome_menu[]);
 void mostrar_opcoes(char titulo[], char *opcoes[]);
+void mostrar_opcoes(char titulo[], char *opcoes[]);
+void mostrar_cotacoes(char titulo[], Cotacoes cotacoes);
 
 int salvar_usuarios(User usuarios[], int *pos, Cotacoes *cotacao);
 int carregar_usuarios(User usuarios[], int *pos, Cotacoes *cotacao);

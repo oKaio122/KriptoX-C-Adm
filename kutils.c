@@ -362,7 +362,8 @@ void depositar_reais(User usuarios[], int pos){
 void sacar_reais(User usuarios[], int pos){
     float qnt_sacar;
 
-    printf("Sacar Reais\n");
+    system("cls||clear");
+    mostrar_menu("Sacar Reais");
 
     validar_senha(usuarios, pos);
 

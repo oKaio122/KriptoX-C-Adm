@@ -1,5 +1,7 @@
 #include "kutils.h"
 
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "UnusedParameter"
 int registrar_usuario(User usuarios[10], int *pos, Cotacoes *cotacao){
 
     char cpf[12];
@@ -262,7 +264,7 @@ float receber_saldo_valido(char nome_saldo[], char operacao[]){
     return quantidade;
 }
 
-void consultar_saldo(User usuarios[], int pos){
+void consultar_saldo(User usuarios[], int pos, Cotacoes cotacao){
 
     system("cls||clear");
     mostrar_menu("Consultar saldo");
@@ -276,7 +278,7 @@ void consultar_saldo(User usuarios[], int pos){
     getchar(); // Recebe o \n do Enter
 }
 
-void consultar_extrato(User usuarios[], int pos){
+void consultar_extrato(User usuarios[], int pos, Cotacoes cotacao){
     char *extrato_data;
     int i;
 
@@ -338,7 +340,7 @@ void salvar_extrato(User usuarios[], int pos, char operacao[],
 
 }
 
-void depositar_reais(User usuarios[], int pos){
+void depositar_reais(User usuarios[], int pos, Cotacoes cotacao){
     float qnt_deposito;
 
     system("cls||clear");
@@ -359,7 +361,7 @@ void depositar_reais(User usuarios[], int pos){
     getchar(); // Recebe o \n do Enter
 }
 
-void sacar_reais(User usuarios[], int pos){
+void sacar_reais(User usuarios[], int pos, Cotacoes cotacao){
     float qnt_sacar;
 
     system("cls||clear");
@@ -605,7 +607,7 @@ float gerar_varicao_cotacao(){
     return num_random / 10000.0f;
 }
 
-void atualizar_cotacao(User usuarios[10], int *pos, Cotacoes *cotacao){
+void atualizar_cotacao(User usuarios[10], int pos, Cotacoes *cotacao){
 
     float variacao;
     int moeda;
@@ -637,7 +639,7 @@ void atualizar_cotacao(User usuarios[10], int *pos, Cotacoes *cotacao){
     printf("ETH atualizado: %f\n", cotacao->ethereum);
     printf("Ripple atualizado: %f\n", cotacao->ripple);
 
-    salvar_usuarios(usuarios, pos, cotacao);
+    salvar_usuarios(usuarios, &pos, cotacao);
 
     printf("Aperte Enter para voltar ao menu de opções.\n");
     getchar(); // Recebe o \n do Enter
@@ -881,3 +883,5 @@ void mostrar_cotacoes(char titulo[], Cotacoes cotacoes){
     _setmode(_fileno(stdout), _O_TEXT);
 
 }
+
+#pragma clang diagnostic pop

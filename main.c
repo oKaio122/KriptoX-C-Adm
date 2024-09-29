@@ -92,6 +92,8 @@ void menu_opcoes(User usuarios[10], int pos, Cotacoes cotacao){
 
         if (opcao < 0 || opcao > 8 ){
             printf("Opção não encontrada\n");
+            printf("Aperte Enter para escolher novamente.\n");
+            getchar(); // Recebe o \n do Enter
         }
         else if (opcao != 0){
             opcoes_funcoes[opcao-1](usuarios, pos, cotacao);

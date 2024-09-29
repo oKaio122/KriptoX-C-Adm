@@ -8,8 +8,7 @@ int registrar_usuario(User usuarios[10], int *pos, Cotacoes *cotacao){
     int cpf_unico;
     int i;
 
-    printf("Registrar usuário\n");
-
+    mostrar_menu("Registrar usuário");
 
     printf("Qual o seu nome?\n");
     scanf("%s", nome);

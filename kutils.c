@@ -610,7 +610,8 @@ void atualizar_cotacao(User usuarios[10], int *pos, Cotacoes *cotacao){
     float variacao;
     int moeda;
 
-    printf("Atualizar cotação\n");
+    system("cls||clear");
+    mostrar_menu("Atualizar Cotação");
 
     // Itera sobre as moedas dentro da cotação
     for (moeda = 0; moeda < 3; moeda++){
@@ -668,7 +669,8 @@ void transferir_saldo(User usuarios[], int pos, Cotacoes cotacao){
     int pessoa_valida; // 0 inválido 1 válido
     char cpf[12];
     int user;
-    printf("Transferir saldo \n");
+    system("cls||clear");
+    mostrar_menu("Transferir Saldo");
 
     // Obtem o usuário que quer transferir o saldo
     do{

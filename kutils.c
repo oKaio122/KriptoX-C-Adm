@@ -280,8 +280,8 @@ void consultar_extrato(User usuarios[], int pos){
     char *extrato_data;
     int i;
 
-
-    printf("Consultar Extrato\n");
+    system("cls||clear");
+    mostrar_menu("Consultar Extrato");
 
     // Itera sobre os extratos
     for(i = 0; i < 100; i++){
@@ -291,7 +291,6 @@ void consultar_extrato(User usuarios[], int pos){
         if (strcmp(extrato_data, "") == 0){
             break;
         }
-        printf("Extrato:\n");
 
         printf("Data: %s\t", usuarios[pos].extrato[i].data);
         printf("Operação: %s\t", usuarios[pos].extrato[i].operacao);

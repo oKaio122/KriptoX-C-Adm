@@ -19,16 +19,16 @@ int main(){
 
     // Menu Principal
     do{
-
         // Limpar Console
         system("cls||clear");
 
-        printf("Bem-vindo ao KriptoX\n");
-        printf("Menu Principal\n"
-               "Selecione uma das opções abaixo:\n"
-               "0 - Sair\n"
-               "1 - Logar\n"
-               "2 - Registrar\n");
+        mostrar_menu("KriptoX");
+        char *opcoes[] = {
+                "Sair",
+                "Logar",
+                "Registrar"
+        };
+        mostrar_opcoes("Menu Principal", opcoes);
         scanf("%d", &opcao);
         getchar(); // Obtêm o \n
 

@@ -904,7 +904,6 @@ void mostrar_cotacoes(char titulo[], Cotacoes cotacoes){
     #ifdef _WIN32
     // Altera o padrão de texto para UTF-16 para printar caracteres especiais
     _setmode(_fileno(stdout), _O_U16TEXT);
-    #endif
 
     // Printa ┏━━「 titulo 」━━┓
     wprintf(L"┏━━");
@@ -932,9 +931,37 @@ void mostrar_cotacoes(char titulo[], Cotacoes cotacoes){
     wprintf(L"━━━━┛\n");
     // Fim do print
 
-    #ifdef _WIN32
     // Volta o padrão de texto para o modo de texto padrão
     _setmode(_fileno(stdout), _O_TEXT);
+
+    #else // Caso de rodar no linux
+
+    // Printa ┏━━「 titulo 」━━┓
+    printf("┏━━");
+    printf("】 %s 【", titulo);
+    printf("━━┓\n");
+    // Fim do print
+
+    // Printa o meio do menu (┃ i - Opcao                |)
+    for (i=0; i < 3; i++){
+        sprintf(cotacao_preco_str, "%.2f", opcoes_cotacoes[i]);
+        printf("┃   1 %s -> R$%s", cotacoes_nomes[i], cotacao_preco_str);
+
+        for (j = 0; j < nome_menu_len - 4 - strlen(cotacao_preco_str) - strlen(cotacoes_nomes[i]); j++){
+            printf(" ");
+        }
+        printf("┃\n");
+    }
+    // Fim do print
+
+    // Printa ┗━━━━━━━━━━━━━┛
+    printf("┗━━━");
+    for (i=0; i < nome_menu_len; i++){
+        printf("━");
+    }
+    printf("━━━━┛\n");
+    // Fim do print
+
     #endif
 }
 

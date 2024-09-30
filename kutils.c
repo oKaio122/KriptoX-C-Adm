@@ -850,6 +850,7 @@ void mostrar_opcoes(char titulo[], char *opcoes[]){
 
 void mostrar_cotacoes(char titulo[], Cotacoes cotacoes){
     setlocale(LC_ALL, "portuguese");
+    setlocale(LC_ALL, "");
 
     int nome_menu_len;
     int i, j;
@@ -859,9 +860,10 @@ void mostrar_cotacoes(char titulo[], Cotacoes cotacoes){
 
     nome_menu_len = strlen(titulo) + 3;
 
-
+    #ifdef _WIN32
     // Altera o padrão de texto para UTF-16 para printar caracteres especiais
     _setmode(_fileno(stdout), _O_U16TEXT);
+    #endif
 
     // Printa ┏━━「 titulo 」━━┓
     wprintf(L"┏━━");
@@ -889,9 +891,10 @@ void mostrar_cotacoes(char titulo[], Cotacoes cotacoes){
     wprintf(L"━━━━┛\n");
     // Fim do print
 
+    #ifdef _WIN32
     // Volta o padrão de texto para o modo de texto padrão
     _setmode(_fileno(stdout), _O_TEXT);
-
+    #endif
 }
 
 #pragma clang diagnostic pop

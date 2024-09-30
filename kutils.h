@@ -3,9 +3,12 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <time.h>
-#include <io.h>
-#include <fcntl.h>
 #include <locale.h>
+
+#ifdef _WIN32
+#include <io.h>     // Setar UTF 16
+#include <fcntl.h>  // Setar UTF 16
+#endif
 
 typedef struct {
     float ethereum;

@@ -768,8 +768,8 @@ void transferir_saldo(User usuarios[], int pos, Cotacoes cotacao){
 }
 
 void mostrar_menu(char nome_menu[]){
-    setlocale(LC_ALL, "portuguese");
     setlocale(LC_ALL, ""); // Para funcionar caracteres no linux
+    setlocale(LC_ALL, "portuguese");
     int nome_menu_len;
     int i;
 
@@ -778,8 +778,6 @@ void mostrar_menu(char nome_menu[]){
     #ifdef _WIN32
         // Altera o padrão de texto para UTF-16 para printar caracteres especiais
         _setmode(_fileno(stdout), _O_U16TEXT);
-    #endif
-
 
     wprintf(L"┏━━");
     for (i=0; i < nome_menu_len; i++){
@@ -795,16 +793,31 @@ void mostrar_menu(char nome_menu[]){
     }
     wprintf(L"━━┛\n");
 
-    #ifdef _WIN32
     // Volta o padrão de texto para o modo de texto padrão
     _setmode(_fileno(stdout), _O_TEXT);
+    #else
+
+    printf("┏━━");
+    for (i=0; i < nome_menu_len; i++){
+        printf("━");
+    }
+    printf("━┓\n");
+
+    printf("┃   %s   ┃\n", nome_menu);
+
+    printf("┗━");
+    for (i=0; i < nome_menu_len; i++){
+        printf("━");
+    }
+    printf("━━┛\n");
+
     #endif
 
 }
 
 void mostrar_opcoes(char titulo[], char *opcoes[]){
-    setlocale(LC_ALL, "portuguese");
     setlocale(LC_ALL, "");
+    setlocale(LC_ALL, "portuguese");
 
     int nome_menu_len;
     int i, j;
@@ -814,7 +827,6 @@ void mostrar_opcoes(char titulo[], char *opcoes[]){
     #ifdef _WIN32
     // Altera o padrão de texto para UTF-16 para printar caracteres especiais
     _setmode(_fileno(stdout), _O_U16TEXT);
-    #endif
 
     // Printa ┏━━「 titulo 」━━┓
     wprintf(L"┏━━");
@@ -842,9 +854,36 @@ void mostrar_opcoes(char titulo[], char *opcoes[]){
     wprintf(L"━━━━┛\n");
     // Fim do print
 
-    #ifdef _WIN32
     // Volta o padrão de texto para o modo de texto padrão
     _setmode(_fileno(stdout), _O_TEXT);
+    #else
+
+    // Printa ┏━━「 titulo 」━━┓
+    printf("┏━━");
+    printf("】 %s 【", titulo);
+    printf("━━┓\n");
+    // Fim do print
+
+    // Printa o meio do menu (┃ i - Opcao                |)
+    i = 0;
+    while (opcoes[i] != NULL) {
+        printf("┃   %d - %s", i, opcoes[i]);
+        for (j = 0; j < nome_menu_len - strlen(opcoes[i]); j++){
+            printf(" ");
+        }
+        printf("┃\n");
+        i++;
+    }
+    // Fim do print
+
+    // Printa ┗━━━━━━━━━━━━━┛
+    printf("┗━━━");
+    for (i=0; i < nome_menu_len; i++){
+        printf("━");
+    }
+    printf("━━━━┛\n");
+    // Fim do print
+
     #endif
 }
 

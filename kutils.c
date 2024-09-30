@@ -795,7 +795,8 @@ void mostrar_menu(char nome_menu[]){
 
     // Volta o padrão de texto para o modo de texto padrão
     _setmode(_fileno(stdout), _O_TEXT);
-    #else
+
+    #else // Caso de rodar no linux
 
     printf("┏━━");
     for (i=0; i < nome_menu_len; i++){
@@ -856,7 +857,8 @@ void mostrar_opcoes(char titulo[], char *opcoes[]){
 
     // Volta o padrão de texto para o modo de texto padrão
     _setmode(_fileno(stdout), _O_TEXT);
-    #else
+
+    #else // Caso de rodar no linux
 
     // Printa ┏━━「 titulo 」━━┓
     printf("┏━━");

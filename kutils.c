@@ -617,7 +617,7 @@ void atualizar_cotacao(User usuarios[10], int pos, Cotacoes *cotacao){
     for (moeda = 0; moeda < 3; moeda++){
         // Num entre -5% e 5%
         variacao = gerar_varicao_cotacao();
-        printf("%f",variacao);
+
         switch (moeda) {
             case 0:
                 // Pega o valor inicial e soma com o resultado da multiplicação da soma do 1ºrand com o 2ºrand / 100 + 100 da porcentagem

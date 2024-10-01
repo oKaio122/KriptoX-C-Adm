@@ -634,10 +634,7 @@ void atualizar_cotacao(User usuarios[10], int pos, Cotacoes *cotacao){
                 break;
         }
     }
-    printf("Cotacoes atualizadas:\n");
-    printf("BTC atualizada: %f\n", cotacao->bitcoin);
-    printf("ETH atualizado: %f\n", cotacao->ethereum);
-    printf("Ripple atualizado: %f\n", cotacao->ripple);
+    mostrar_cotacoes("Cotações atualizadas", *cotacao);
 
     salvar_usuarios(usuarios, &pos, cotacao);
 

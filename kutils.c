@@ -688,6 +688,10 @@ void transferir_saldo(User usuarios[], int pos, Cotacoes cotacao){
         if (!pessoa_valida){
             printf("CPF nao encontrado!\n");
         }
+        if (user == pos){
+            printf("Você não pode transferir para si mesmo!\n");
+            pessoa_valida = 0;
+        }
     } while (pessoa_valida == 0);
 
     // Obtem a moeda que vai ser utilizada

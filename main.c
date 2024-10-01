@@ -40,7 +40,7 @@ int main(){
                 // A funcao retorna a posicao do usuario logado, se for para cancelar login retorna -1
                 pos = logar_usuario(usuarios);
                 // Caso retorne -1 ira cancelar o login
-                if (pos >= 0) menu_opcoes(usuarios, pos, cotacao);
+                if (pos >= 0) menu_opcoes(usuarios, pos, &cotacao);
                 break;
             case 2:
                 registrar_usuario(usuarios, &pos, &cotacao);
@@ -58,7 +58,7 @@ int main(){
 }
 
 
-void menu_opcoes(User usuarios[10], int pos, Cotacoes cotacao){
+void menu_opcoes(User usuarios[10], int pos, Cotacoes *cotacao){
     int opcao;
 
 // Menu de opcoes
@@ -67,7 +67,7 @@ void menu_opcoes(User usuarios[10], int pos, Cotacoes cotacao){
         system("cls||clear");
 
         // Salva os dados atualizados do usuario apos ele fazer uma operacao
-        salvar_usuarios(usuarios, &pos, &cotacao);
+        salvar_usuarios(usuarios, &pos, cotacao);
 
         mostrar_menu("Menu de Opcoes");
         char *opcoes[] = {
@@ -84,21 +84,23 @@ void menu_opcoes(User usuarios[10], int pos, Cotacoes cotacao){
         };
         mostrar_opcoes("Menu de Opcoes", opcoes);
         scanf("%d", &opcao);
-        getchar();
+        while ((getchar()) != '\n' && getchar() != EOF);
 
         void (*opcoes_funcoes[])(User*, int, Cotacoes) =
                 {consultar_saldo, consultar_extrato, depositar_reais,
                  sacar_reais, comprar_criptomoeda, vender_criptomoeda,
                  (void (*)(User *, int, Cotacoes)) atualizar_cotacao, transferir_saldo};
 
-
-        if (opcao < 0 || opcao > 8 ){
+        if (opcao == 7){
+            atualizar_cotacao(usuarios, pos, cotacao);
+        }
+        else if (opcao < 0 || opcao > 8 ){
             printf("Opcao nao encontrada\n");
             printf("Aperte Enter para escolher novamente.\n");
             getchar(); // Recebe o \n do Enter
         }
         else if (opcao != 0){
-            opcoes_funcoes[opcao-1](usuarios, pos, cotacao);
+            opcoes_funcoes[opcao-1](usuarios, pos, *cotacao);
         }
     }while (opcao != 0);
 }

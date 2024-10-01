@@ -74,15 +74,15 @@ void menu_opcoes(User usuarios[10], int pos, Cotacoes cotacao){
                 "Sair",
                 "Consultar Saldo",
                 "Consultar Extrato",
-                "Depositar Dinheiro",
-                "Sacar Dinheiro",
+                "Depositar Reais",
+                "Sacar Reais",
                 "Comprar Cripto",
                 "Vender Cripto",
                 "Atualizar Cotacao",
                 "Transferir Saldo",
                 NULL
         };
-        mostrar_opcoes("Menu de opcoes", opcoes);
+        mostrar_opcoes("Menu de Opcoes", opcoes);
         scanf("%d", &opcao);
         getchar();
 

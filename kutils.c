@@ -757,7 +757,7 @@ void transferir_saldo(User usuarios[], int pos, Cotacoes cotacao){
         usuarios[user].saldo.ripple += qnt_transferir;
     }
 
-    printf("Moeda selecionada: %s\n Qnt Transferida: %.2f\n Usuário que recebeu: %s!\n",
+    printf("Moeda selecionada: %s\nQnt Transferida: %.2f\nUsuário que recebeu: %s!\n",
            nome_moeda, qnt_transferir, usuarios[user].nome);
     printf("Saldo em %s atualizado: %.2f\n", nome_moeda,
            strcmp(nome_moeda, "Real") == 0 ? usuarios[pos].saldo.reais :

@@ -692,27 +692,33 @@ void transferir_saldo(User usuarios[], int pos, Cotacoes cotacao){
 
     // Obtem a moeda que vai ser utilizada
     do{
-        printf("Qual moeda voce quer transferir?\n");
-        printf("Moedas:\n1 - Real\n2 - Bitcoin\n3 - Ethereum\n4 - Ripple\n");
+        char *opcoes[] = {
+                "Real",
+                "Bitcoin",
+                "Ethereum",
+                "Ripple",
+                NULL
+        };
+        mostrar_opcoes("Moedas disponiveis a transferir", opcoes);
         scanf("%d", &opcao_moeda);
 
         switch (opcao_moeda) {
-            case 1:
+            case 0:
                 saldo_moeda = usuarios[pos].saldo.reais;
                 strncpy(nome_moeda, "Real", sizeof(nome_moeda)-1);
                 cotacao_moeda = 1;
                 break;
-            case 2:
+            case 1:
                 saldo_moeda = usuarios[pos].saldo.bitcoin;
                 strncpy(nome_moeda, "Bitcoin", sizeof(nome_moeda)-1);
                 cotacao_moeda = cotacao.bitcoin;
                 break;
-            case 3:
+            case 2:
                 saldo_moeda = usuarios[pos].saldo.ethereum;
                 strncpy(nome_moeda, "Ethereum", sizeof(nome_moeda)-1);
                 cotacao_moeda = cotacao.ethereum;
                 break;
-            case 4:
+            case 3:
                 saldo_moeda = usuarios[pos].saldo.ripple;
                 strncpy(nome_moeda, "Ripple", sizeof(nome_moeda)-1);
                 cotacao_moeda = cotacao.ripple;
@@ -751,7 +757,10 @@ void transferir_saldo(User usuarios[], int pos, Cotacoes cotacao){
         usuarios[user].saldo.ripple += qnt_transferir;
     }
 
-    printf("Dinheiro transferido com sucesso!\n");
+    printf("Foram transferidos %.2f %s para %s!\n", qnt_transferir,
+           strcmp(nome_moeda, "Real") == 0 ? "Reais" :
+           strncat(nome_moeda, "s", sizeof(nome_moeda)-1),
+           usuarios[user].nome);
     printf("Saldo em %s atualizado: %.2f\n", nome_moeda,
            strcmp(nome_moeda, "Real") == 0 ? usuarios[pos].saldo.reais :
            strcmp(nome_moeda, "Bitcoin") == 0 ? usuarios[pos].saldo.bitcoin :

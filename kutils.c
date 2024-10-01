@@ -600,31 +600,27 @@ void vender_criptomoeda(User usuarios[], int pos, Cotacoes cotacao){
 float gerar_varicao_cotacao(){
     int num_random;
 
-    // seed aleatoria
-    srand(time(NULL));
-
-    // Numero entre -500 e 500 ( simula o -5 e 5% )
+    // Número entre -500 e 500 ( simula o -5 e 5% )
     num_random = (rand() % 1001) - 500;
     return num_random / 10000.0f;
 }
-
-void atualizar_cotacao(User usuarios[], int pos, Cotacoes *cotacao){
-
+void atualizar_cotacao(User usuarios[10], int pos, Cotacoes *cotacao){
     float variacao;
     int moeda;
 
     system("cls||clear");
+    // seed aleatória
+    srand(time(NULL));
+
     mostrar_menu("Atualizar Cotacao");
-
-    // Itera sobre as moedas dentro da cotacao
+    // Itera sobre as moedas dentro da cotação
     for (moeda = 0; moeda < 3; moeda++){
-
         // Num entre -5% e 5%
         variacao = gerar_varicao_cotacao();
-
+        printf("%f",variacao);
         switch (moeda) {
             case 0:
-                // Pega o valor inicial e soma com o resultado da multiplicacao da soma do 1ºrand com o 2ºrand / 100 + 100 da porcentagem
+                // Pega o valor inicial e soma com o resultado da multiplicação da soma do 1ºrand com o 2ºrand / 100 + 100 da porcentagem
                 cotacao->bitcoin += cotacao->bitcoin * variacao;
                 break;
             case 1:
@@ -635,6 +631,8 @@ void atualizar_cotacao(User usuarios[], int pos, Cotacoes *cotacao){
                 break;
         }
     }
+
+
     mostrar_cotacoes("Cotacoes atualizadas", *cotacao);
 
     salvar_usuarios(usuarios, &pos, cotacao);

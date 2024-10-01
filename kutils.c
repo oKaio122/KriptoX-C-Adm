@@ -724,10 +724,10 @@ void transferir_saldo(User usuarios[], int pos, Cotacoes cotacao){
                 cotacao_moeda = cotacao.ripple;
                 break;
             default:
-                opcao_moeda = 0;
+                opcao_moeda = -1;
                 printf("Opcao nao encontrada!\n");
         }
-    } while (opcao_moeda == 0);
+    } while (opcao_moeda == -1);
 
     // Obter valor valido a transferir
     do{

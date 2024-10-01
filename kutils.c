@@ -91,6 +91,7 @@ void receber_cpf_valido(char *cpf, int cancelar_autorizado){
                 break;
             }
         }
+        while ((getchar()) != '\n' && getchar() != EOF);
     } while (!cpf_valido);
 }
 
@@ -123,6 +124,7 @@ void receber_senha_valida(char *senha, int cancelar_autorizado){
                 break;
             }
         }
+        while ((getchar()) != '\n' && getchar() != EOF);
     } while (!senha_valida);
 }
 
@@ -238,7 +240,6 @@ int validar_senha(User usuarios[], int pos){
 
         // Checa se o usuario cancelou a operacao
         if (strcmp(senha, "CANCELAR") == 0) return 0;
-
     } while(strcmp(usuarios[pos].senha, senha) != 0);
 
 
@@ -253,7 +254,7 @@ float receber_saldo_valido(char nome_saldo[], char operacao[]){
 
         printf("Insira a quantidade de %s que deseja %s:", nome_saldo, operacao);
         scanf("%f", &quantidade);
-        fflush(stdin); // Limpa o buffer em caso do usuario enviar muitos caracteres
+        while ((getchar()) != '\n' && getchar() != EOF); // Limpa o buffer em caso do usuario enviar muitos caracteres
 
         if(quantidade <= 0.0){
             printf("A quantidade precisa ser maior que 0!\n");
@@ -422,7 +423,7 @@ void comprar_criptomoeda(User usuarios[], int pos, Cotacoes cotacao){
         };
         mostrar_opcoes("Criptomoedas disponiveis", opcoes);
         scanf("%d", &opcao);
-        fflush(stdin);
+        while ((getchar()) != '\n' && getchar() != EOF);
 
         switch (opcao) {
             case 0:
@@ -460,7 +461,7 @@ void comprar_criptomoeda(User usuarios[], int pos, Cotacoes cotacao){
 
     printf("Para confirmar a compra digite 1: ");
     scanf("%d", &confirmacao);
-    getchar();
+    while ((getchar()) != '\n' && getchar() != EOF);
 
     if (confirmacao != 1){
         return;
@@ -521,7 +522,7 @@ void vender_criptomoeda(User usuarios[], int pos, Cotacoes cotacao){
         };
         mostrar_opcoes("Criptomoedas disponiveis", opcoes);
         scanf("%d", &opcao);
-        fflush(stdin);
+        while ((getchar()) != '\n' && getchar() != EOF);
 
         switch (opcao) {
             case 0:
@@ -561,7 +562,7 @@ void vender_criptomoeda(User usuarios[], int pos, Cotacoes cotacao){
 
     printf("Para confirmar a venda digite 1: ");
     scanf("%d", &confirmacao);
-    getchar();
+    while ((getchar()) != '\n' && getchar() != EOF);
 
     if (confirmacao != 1){
         return;
@@ -607,7 +608,7 @@ float gerar_varicao_cotacao(){
     return num_random / 10000.0f;
 }
 
-void atualizar_cotacao(User usuarios[10], int pos, Cotacoes *cotacao){
+void atualizar_cotacao(User usuarios[], int pos, Cotacoes *cotacao){
 
     float variacao;
     int moeda;
@@ -645,13 +646,13 @@ void atualizar_cotacao(User usuarios[10], int pos, Cotacoes *cotacao){
 // Utilizada em caso das cotacoes estarem vazias
 void iniciar_cotacoes(Cotacoes *cotacao){
 
-    if (cotacao->bitcoin == 0.0){
+    if (cotacao->bitcoin <= 0.0){
         cotacao->bitcoin = 351.21;
     }
-    if (cotacao->ethereum == 0.0){
+    if (cotacao->ethereum <= 0.0){
         cotacao->ethereum = 26.27;
     }
-    if (cotacao->ripple == 0.0){
+    if (cotacao->ripple <= 0.0){
         cotacao->ripple = 3.24;
     }
 

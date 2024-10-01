@@ -66,7 +66,6 @@ void menu_opcoes(User usuarios[10], int pos, Cotacoes *cotacao){
     snprintf(boas_vindas, sizeof(boas_vindas), "Bem-vindo de volta, %s!", usuarios[pos].nome);
 
     system("cls||clear");
-
     mostrar_menu(boas_vindas);
 
 // Menu de opcoes

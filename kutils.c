@@ -635,7 +635,7 @@ void atualizar_cotacao(User usuarios[], int pos, Cotacoes *cotacao){
                 break;
         }
     }
-    mostrar_cotacoes("Cotações atualizadas", *cotacao);
+    mostrar_cotacoes("Cotacoes atualizadas", *cotacao);
 
     salvar_usuarios(usuarios, &pos, cotacao);
 

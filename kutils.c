@@ -823,6 +823,7 @@ void mostrar_opcoes(char titulo[], char *opcoes[]){
 
     nome_menu_len = strlen(titulo) + 3;
 
+
     #ifdef _WIN32
     // Altera o padrao de texto para UTF-16 para printar caracteres especiais
     _setmode(_fileno(stdout), _O_U16TEXT);

@@ -11,21 +11,21 @@ int registrar_usuario(User usuarios[10], int *pos, Cotacoes *cotacao){
     int i;
 
     system("cls||clear");
-    mostrar_menu("Registrar usuário");
+    mostrar_menu("Registrar usuario");
 
     printf("Qual o seu nome?\n");
     scanf("%s", nome);
     getchar();
 
-    // Obtêm um CPF válido (11 dígitos numéricos e único)
+    // Obtem um CPF valido (11 digitos numericos e unico)
     do{
         receber_cpf_valido(cpf, 0);
         cpf_unico = 1;
 
-        // Checa se tem um usuário com o CPF enviado
+        // Checa se tem um usuario com o CPF enviado
         for (i=0; i < 10; i++){
             if (strcmp(usuarios[i].cpf, cpf) == 0){
-                printf("Esse CPF já está sendo utilizado!\n");
+                printf("Esse CPF ja esta sendo utilizado!\n");
                 cpf_unico = 0;
                 break;
             }
@@ -34,17 +34,17 @@ int registrar_usuario(User usuarios[10], int *pos, Cotacoes *cotacao){
 
 
 
-    // Obtêm uma senha válida (8 dígitos numéricos)
+    // Obtem uma senha valida (8 digitos numericos)
     receber_senha_valida(senha, 0);
 
-    // Loop para encontrar uma posição vazia de usuários
+    // Loop para encontrar uma posicao vazia de usuarios
     for (i=0; i < 10; i++){
         if (strcmp(usuarios[i].cpf, "") == 0){
             break;
         }
     }
 
-    // Dados iniciais do usuário
+    // Dados iniciais do usuario
     strcpy(usuarios[i].nome, nome);
     strcpy(usuarios[i].cpf, cpf);
     strcpy(usuarios[i].senha, senha);
@@ -54,15 +54,15 @@ int registrar_usuario(User usuarios[10], int *pos, Cotacoes *cotacao){
     usuarios[i].saldo.ripple = 0;
     *pos = i;
 
-    // Salva o novo usuário
+    // Salva o novo usuario
     salvar_usuarios(usuarios, pos, cotacao);
 
-    printf("Registro concluído com sucesso!\n");
+    printf("Registro concluido com sucesso!\n");
 
     return 1;
 }
 
-// Obter CPF válido, também gerencia ação de CANCELAR do usuário
+// Obter CPF valido, tambem gerencia acao de CANCELAR do usuario
 void receber_cpf_valido(char *cpf, int cancelar_autorizado){
     int i;
     int cpf_valido;
@@ -70,23 +70,23 @@ void receber_cpf_valido(char *cpf, int cancelar_autorizado){
     do{
         cpf_valido = 1;
 
-        printf("Insira um CPF válido, com 11 dígitos:\n");
+        printf("Insira um CPF valido, com 11 digitos:\n");
         scanf("%s", cpf);
 
-        // Checa se é para cancelar a operação
+        // Checa se e para cancelar a operacao
         if ((strcmp(cpf, "CANCELAR") == 0) && (cancelar_autorizado)){
             break;
         }
 
         if (strlen(cpf) != 11){
             cpf_valido = 0;
-            printf("CPF inválido! O CPF deve conter 11 dígitos numéricos!\n");
+            printf("CPF invalido! O CPF deve conter 11 digitos numericos!\n");
             continue;
         }
 
         for(i=0; i < strlen(cpf); i++){
             if(!isdigit(cpf[i])){
-                printf("CPF inválido! O CPF deve conter números apenas!\n");
+                printf("CPF invalido! O CPF deve conter numeros apenas!\n");
                 cpf_valido = 0;
                 break;
             }
@@ -94,7 +94,7 @@ void receber_cpf_valido(char *cpf, int cancelar_autorizado){
     } while (!cpf_valido);
 }
 
-// Obter Senha válida
+// Obter Senha valida
 void receber_senha_valida(char *senha, int cancelar_autorizado){
     int i;
     int senha_valida;
@@ -102,23 +102,23 @@ void receber_senha_valida(char *senha, int cancelar_autorizado){
     do{
         senha_valida = 1;
 
-        printf("Insira uma Senha válida, com 8 dígitos:\n");
+        printf("Insira uma Senha valida, com 8 digitos:\n");
         scanf("%s", senha);
 
-        // Checa se é para cancelar a operação
+        // Checa se e para cancelar a operacao
         if ((strcmp(senha, "CANCELAR") == 0) && (cancelar_autorizado)){
             break;
         }
 
         if (strlen(senha) != 8){
-            printf("Senha inválida! A senha deve conter 8 dígitos numéricos!\n");
+            printf("Senha invalida! A senha deve conter 8 digitos numericos!\n");
             senha_valida = 0;
             continue;
         }
 
         for(i=0; i < strlen(senha); i++){
             if(!isdigit(senha[i])){
-                printf("Senha inválida! A senha deve conter números apenas!\n");
+                printf("Senha invalida! A senha deve conter numeros apenas!\n");
                 senha_valida = 0;
                 break;
             }
@@ -126,7 +126,7 @@ void receber_senha_valida(char *senha, int cancelar_autorizado){
     } while (!senha_valida);
 }
 
-// Retorna a posição do usuário logado
+// Retorna a posicao do usuario logado
 int logar_usuario(User usuarios[10]){
 
     int login_valido = 0;
@@ -135,19 +135,19 @@ int logar_usuario(User usuarios[10]){
     int user;
 
     system("cls||clear");
-    mostrar_menu("Login usuário");
+    mostrar_menu("Login usuario");
     printf("Digite \"CANCELAR\" para cancelar o login \n");
 
     do{
 
-        // Obter CPF e senha para checar com a dos outros usuários
+        // Obter CPF e senha para checar com a dos outros usuarios
         receber_cpf_valido(cpf, 1);
         if (strcmp(cpf, "CANCELAR") == 0){
             return -1;
         }
         receber_senha_valida(senha, 0);
 
-        // Itera sobre os usuários para achar o usuario do operador
+        // Itera sobre os usuarios para achar o usuario do operador
         for(user = 0; user < 10; user++){
 
             if (strcmp(usuarios[user].cpf, "") == 0){
@@ -162,7 +162,7 @@ int logar_usuario(User usuarios[10]){
         }
 
         if (!login_valido)
-            printf("Usuário não encontrado! Tente novamente.\n");
+            printf("Usuario nao encontrado! Tente novamente.\n");
 
     } while(!login_valido);
 
@@ -171,7 +171,7 @@ int logar_usuario(User usuarios[10]){
     return user;
 }
 
-// Salva os usuários no arquivo .bin
+// Salva os usuarios no arquivo .bin
 int salvar_usuarios(User usuarios[], int *pos, Cotacoes *cotacao){
     FILE *f = fopen("usuarios.bin", "wb");
     if (f == NULL){
@@ -200,7 +200,7 @@ int salvar_usuarios(User usuarios[], int *pos, Cotacoes *cotacao){
     return 1;
 }
 
-// Carrega os usuários na variável usuários
+// Carrega os usuarios na variavel usuarios
 int carregar_usuarios(User usuarios[], int *pos, Cotacoes *cotacao){
     FILE *f = fopen("usuarios.bin", "rb");
     if (f == NULL){
@@ -229,14 +229,14 @@ int carregar_usuarios(User usuarios[], int *pos, Cotacoes *cotacao){
     return 1;
 }
 
-// Valida a senha do usuário
+// Valida a senha do usuario
 int validar_senha(User usuarios[], int pos){
     char senha[9];
 
     do{
         receber_senha_valida(senha, 1);
 
-        // Checa se o usuário cancelou a operação
+        // Checa se o usuario cancelou a operacao
         if (strcmp(senha, "CANCELAR") == 0) return 0;
 
     } while(strcmp(usuarios[pos].senha, senha) != 0);
@@ -253,7 +253,7 @@ float receber_saldo_valido(char nome_saldo[], char operacao[]){
 
         printf("Insira a quantidade de %s que deseja %s:", nome_saldo, operacao);
         scanf("%f", &quantidade);
-        fflush(stdin); // Limpa o buffer em caso do usuário enviar muitos caracteres
+        fflush(stdin); // Limpa o buffer em caso do usuario enviar muitos caracteres
 
         if(quantidade <= 0.0){
             printf("A quantidade precisa ser maior que 0!\n");
@@ -274,7 +274,7 @@ void consultar_saldo(User usuarios[], int pos, Cotacoes cotacao){
     printf("Saldo de Ethereum: %f\n", usuarios[pos].saldo.ethereum);
     printf("Saldo em Ripple: %f\n", usuarios[pos].saldo.ripple);
 
-    printf("Aperte Enter para voltar ao menu de opções.\n");
+    printf("Aperte Enter para voltar ao menu de opcoes.\n");
     getchar(); // Recebe o \n do Enter
 }
 
@@ -288,14 +288,14 @@ void consultar_extrato(User usuarios[], int pos, Cotacoes cotacao){
     // Itera sobre os extratos
     for(i = 0; i < 100; i++){
 
-        // Verifica se o extrato atual é lixo, se for quebrar o loop
+        // Verifica se o extrato atual e lixo, se for quebrar o loop
         extrato_data = usuarios[pos].extrato[i].data;
         if (strcmp(extrato_data, "") == 0){
             break;
         }
 
         printf("Data: %s\t", usuarios[pos].extrato[i].data);
-        printf("Operação: %s\t", usuarios[pos].extrato[i].operacao);
+        printf("Operacao: %s\t", usuarios[pos].extrato[i].operacao);
         printf("Moeda: %s\t", usuarios[pos].extrato[i].moeda);
         printf("Valor: %.2f\t", usuarios[pos].extrato[i].valor);
         printf("Taxa paga: %.2f\t", usuarios[pos].extrato[i].taxa);
@@ -303,7 +303,7 @@ void consultar_extrato(User usuarios[], int pos, Cotacoes cotacao){
     }
 
 
-    printf("Aperte Enter para voltar ao menu de opções.\n");
+    printf("Aperte Enter para voltar ao menu de opcoes.\n");
     getchar(); // Recebe o \n do Enter
 }
 
@@ -314,7 +314,7 @@ void salvar_extrato(User usuarios[], int pos, char operacao[],
     char datetime[20];
     struct tm *info;
 
-    // Obtem a data atual e salva na variável datetime
+    // Obtem a data atual e salva na variavel datetime
     time_t rawtime;
     time( &rawtime );
     info = localtime( &rawtime );
@@ -323,7 +323,7 @@ void salvar_extrato(User usuarios[], int pos, char operacao[],
 
     for(i = 0; i < 100; i++){
 
-        // Verifica se o extrato atual é lixo, se for quebrar o loop
+        // Verifica se o extrato atual e lixo, se for quebrar o loop
         extrato_data = usuarios[pos].extrato[i].data;
         if (strcmp(extrato_data, "") == 0){
             break;
@@ -346,7 +346,7 @@ void depositar_reais(User usuarios[], int pos, Cotacoes cotacao){
     system("cls||clear");
     mostrar_menu("Depositar Reais");
 
-    // Obtêm um número maior que 0 e que não tem caracteres
+    // Obtem um numero maior que 0 e que nao tem caracteres
     qnt_deposito = receber_saldo_valido("reais", "depositar");
 
 
@@ -357,7 +357,7 @@ void depositar_reais(User usuarios[], int pos, Cotacoes cotacao){
 
     salvar_extrato(usuarios, pos, "+", "Real", 1, qnt_deposito, 0);
 
-    printf("Aperte Enter para voltar ao menu de opções.\n");
+    printf("Aperte Enter para voltar ao menu de opcoes.\n");
     getchar(); // Recebe o \n do Enter
 }
 
@@ -371,11 +371,11 @@ void sacar_reais(User usuarios[], int pos, Cotacoes cotacao){
 
     do{
 
-        // Obtêm um número maior que 0 e que não tem caracteres
+        // Obtem um numero maior que 0 e que nao tem caracteres
         qnt_sacar = receber_saldo_valido("reais", "sacar");
 
         if (qnt_sacar > usuarios[pos].saldo.reais){
-            printf("Você não tem saldo o suficiente para sacar R$ %.2f! Seu saldo em R$: %.2f\n", qnt_sacar, usuarios[pos].saldo.reais);
+            printf("Voce nao tem saldo o suficiente para sacar R$ %.2f! Seu saldo em R$: %.2f\n", qnt_sacar, usuarios[pos].saldo.reais);
         }
 
     } while (qnt_sacar > usuarios[pos].saldo.reais);
@@ -389,7 +389,7 @@ void sacar_reais(User usuarios[], int pos, Cotacoes cotacao){
 
     salvar_extrato(usuarios, pos, "-", "Real", 1, qnt_sacar, 0);
 
-    printf("Aperte Enter para voltar ao menu de opções.\n");
+    printf("Aperte Enter para voltar ao menu de opcoes.\n");
     getchar(); // Recebe o \n do Enter
 }
 
@@ -406,12 +406,12 @@ void comprar_criptomoeda(User usuarios[], int pos, Cotacoes cotacao){
 
     printf("Valide sua senha antes de comprar criptomoedas, para cancelar digite \"CANCELAR\".");
 
-    // Valida a senha antes do usuário poder comprar cripto, se o usuário digitar "CANCELAR" a operação será cancelada
+    // Valida a senha antes do usuario poder comprar cripto, se o usuario digitar "CANCELAR" a operacao sera cancelada
     if (!validar_senha(usuarios, pos)) return;
 
 
-    // Implementar cotação
-    mostrar_cotacoes("Cotação Atual", cotacao);
+    // Implementar cotacao
+    mostrar_cotacoes("Cotacao Atual", cotacao);
 
     do{
         char *opcoes[] = {
@@ -420,7 +420,7 @@ void comprar_criptomoeda(User usuarios[], int pos, Cotacoes cotacao){
                 "Ripple",
                 NULL
         };
-        mostrar_opcoes("Criptomoedas disponíveis", opcoes);
+        mostrar_opcoes("Criptomoedas disponiveis", opcoes);
         scanf("%d", &opcao);
         fflush(stdin);
 
@@ -441,13 +441,13 @@ void comprar_criptomoeda(User usuarios[], int pos, Cotacoes cotacao){
                 cotacao_cripto = cotacao.ripple;
                 break;
             default:
-                printf("Opção não encontrada\n");
+                printf("Opcao nao encontrada\n");
                 break;
         }
 
     }while(!opcao && opcao != 0);
     do{
-        // Obtêm um número maior que 0 e que não tem caracteres
+        // Obtem um numero maior que 0 e que nao tem caracteres
         qnt_moeda = receber_saldo_valido(criptomoeda, "comprar");
 
         preco_operacao = (qnt_moeda * (1 + taxa)  * cotacao_cripto);
@@ -466,7 +466,7 @@ void comprar_criptomoeda(User usuarios[], int pos, Cotacoes cotacao){
         return;
     }
 
-    // Parte das operações
+    // Parte das operacoes
     usuarios[pos].saldo.reais -= preco_operacao;
     // Adiciona a qnt de cripto na moeda selecionada
     if (strcmp(criptomoeda, "Bitcoin") == 0) {
@@ -488,7 +488,7 @@ void comprar_criptomoeda(User usuarios[], int pos, Cotacoes cotacao){
     salvar_extrato(usuarios, pos, "-", "Real", 1, preco_operacao, taxa);
     salvar_extrato(usuarios, pos, "+", criptomoeda, cotacao_cripto, qnt_moeda, 0);
 
-    printf("Aperte Enter para voltar ao menu de opções.\n");
+    printf("Aperte Enter para voltar ao menu de opcoes.\n");
     getchar(); // Recebe o \n do Enter
 }
 
@@ -506,11 +506,11 @@ void vender_criptomoeda(User usuarios[], int pos, Cotacoes cotacao){
 
     printf("Valide sua senha antes de vender cripto, para cancelar digite \"CANCELAR\".");
 
-    // Valida a senha antes do usuário poder vender cripto, se o usuário digitar "CANCELAR" a operação será cancelada
+    // Valida a senha antes do usuario poder vender cripto, se o usuario digitar "CANCELAR" a operacao sera cancelada
     if (!validar_senha(usuarios, pos)) return;
 
-    // Implementar cotação
-    mostrar_cotacoes("Cotação Atual", cotacao);
+    // Implementar cotacao
+    mostrar_cotacoes("Cotacao Atual", cotacao);
 
     do{
         char *opcoes[] = {
@@ -519,7 +519,7 @@ void vender_criptomoeda(User usuarios[], int pos, Cotacoes cotacao){
                 "Ripple",
                 NULL
         };
-        mostrar_opcoes("Criptomoedas disponíveis", opcoes);
+        mostrar_opcoes("Criptomoedas disponiveis", opcoes);
         scanf("%d", &opcao);
         fflush(stdin);
 
@@ -543,14 +543,14 @@ void vender_criptomoeda(User usuarios[], int pos, Cotacoes cotacao){
                 taxa = 0.01;
                 break;
             default:
-                printf("Opção não encontrada\n");
+                printf("Opcao nao encontrada\n");
                 break;
         }
 
     }while(!opcao && opcao != 0);
 
     do{
-        // Obtêm um número maior que 0 e que não tem caracteres
+        // Obtem um numero maior que 0 e que nao tem caracteres
         qnt_moeda = receber_saldo_valido(criptomoeda, "vender");
 
         if (qnt_moeda > saldo_cripto){
@@ -568,7 +568,7 @@ void vender_criptomoeda(User usuarios[], int pos, Cotacoes cotacao){
     }
 
 
-    // Parte das operações
+    // Parte das operacoes
     preco_operacao = (qnt_moeda * cotacao_cripto)/ (1 + taxa);
     usuarios[pos].saldo.reais += preco_operacao ;
 
@@ -592,17 +592,17 @@ void vender_criptomoeda(User usuarios[], int pos, Cotacoes cotacao){
     salvar_extrato(usuarios, pos, "-", criptomoeda, cotacao_cripto, qnt_moeda, 0);
     salvar_extrato(usuarios, pos, "+", "Real", 1, preco_operacao, taxa);
 
-    printf("Aperte Enter para voltar ao menu de opções.\n");
+    printf("Aperte Enter para voltar ao menu de opcoes.\n");
     getchar(); // Recebe o \n do Enter
 }
 
 float gerar_varicao_cotacao(){
     int num_random;
 
-    // seed aleatória
+    // seed aleatoria
     srand(time(NULL));
 
-    // Número entre -500 e 500 ( simula o -5 e 5% )
+    // Numero entre -500 e 500 ( simula o -5 e 5% )
     num_random = (rand() % 1001) - 500;
     return num_random / 10000.0f;
 }
@@ -613,9 +613,9 @@ void atualizar_cotacao(User usuarios[10], int pos, Cotacoes *cotacao){
     int moeda;
 
     system("cls||clear");
-    mostrar_menu("Atualizar Cotação");
+    mostrar_menu("Atualizar Cotacao");
 
-    // Itera sobre as moedas dentro da cotação
+    // Itera sobre as moedas dentro da cotacao
     for (moeda = 0; moeda < 3; moeda++){
 
         // Num entre -5% e 5%
@@ -623,7 +623,7 @@ void atualizar_cotacao(User usuarios[10], int pos, Cotacoes *cotacao){
 
         switch (moeda) {
             case 0:
-                // Pega o valor inicial e soma com o resultado da multiplicação da soma do 1ºrand com o 2ºrand / 100 + 100 da porcentagem
+                // Pega o valor inicial e soma com o resultado da multiplicacao da soma do 1ºrand com o 2ºrand / 100 + 100 da porcentagem
                 cotacao->bitcoin += cotacao->bitcoin * variacao;
                 break;
             case 1:
@@ -634,18 +634,18 @@ void atualizar_cotacao(User usuarios[10], int pos, Cotacoes *cotacao){
                 break;
         }
     }
-    printf("Cotações atualizadas:\n");
+    printf("Cotacoes atualizadas:\n");
     printf("BTC atualizada: %f\n", cotacao->bitcoin);
     printf("ETH atualizado: %f\n", cotacao->ethereum);
     printf("Ripple atualizado: %f\n", cotacao->ripple);
 
     salvar_usuarios(usuarios, &pos, cotacao);
 
-    printf("Aperte Enter para voltar ao menu de opções.\n");
+    printf("Aperte Enter para voltar ao menu de opcoes.\n");
     getchar(); // Recebe o \n do Enter
 }
 
-// Utilizada em caso das cotações estarem vazias
+// Utilizada em caso das cotacoes estarem vazias
 void iniciar_cotacoes(Cotacoes *cotacao){
 
     if (cotacao->bitcoin == 0.0){
@@ -668,16 +668,16 @@ void transferir_saldo(User usuarios[], int pos, Cotacoes cotacao){
     float cotacao_moeda;
     float qnt_transferir;
 
-    int pessoa_valida; // 0 inválido 1 válido
+    int pessoa_valida; // 0 invalido 1 valido
     char cpf[12];
     int user;
     system("cls||clear");
     mostrar_menu("Transferir Saldo");
 
-    // Obtem o usuário que quer transferir o saldo
+    // Obtem o usuario que quer transferir o saldo
     do{
         pessoa_valida = 0;
-        printf("Para qual CPF você quer transferir o saldo? Para cancelar digite \"CANCELAR\"\n");
+        printf("Para qual CPF voce quer transferir o saldo? Para cancelar digite \"CANCELAR\"\n");
         // Obtem o CPF
         receber_cpf_valido(cpf, 1);
         if (strcmp(cpf, "CANCELAR") == 0) return;
@@ -688,13 +688,13 @@ void transferir_saldo(User usuarios[], int pos, Cotacoes cotacao){
             }
         }
         if (!pessoa_valida){
-            printf("CPF não encontrado!\n");
+            printf("CPF nao encontrado!\n");
         }
     } while (pessoa_valida == 0);
 
     // Obtem a moeda que vai ser utilizada
     do{
-        printf("Qual moeda você quer transferir?\n");
+        printf("Qual moeda voce quer transferir?\n");
         printf("Moedas:\n1 - Real\n2 - Bitcoin\n3 - Ethereum\n4 - Ripple\n");
         scanf("%d", &opcao_moeda);
 
@@ -721,13 +721,13 @@ void transferir_saldo(User usuarios[], int pos, Cotacoes cotacao){
                 break;
             default:
                 opcao_moeda = 0;
-                printf("Opção não encontrada!\n");
+                printf("Opcao nao encontrada!\n");
         }
     } while (opcao_moeda == 0);
 
-    // Obter valor válido a transferir
+    // Obter valor valido a transferir
     do{
-        // Obtêm um número maior que 0 e que não tem caracteres
+        // Obtem um numero maior que 0 e que nao tem caracteres
         qnt_transferir = receber_saldo_valido(nome_moeda, "transferir");
 
         if (qnt_transferir > saldo_moeda){
@@ -763,20 +763,18 @@ void transferir_saldo(User usuarios[], int pos, Cotacoes cotacao){
     salvar_extrato(usuarios, pos, "-", nome_moeda, cotacao_moeda, qnt_transferir, 0);
     salvar_extrato(usuarios, user, "+", nome_moeda, cotacao_moeda, qnt_transferir, 0);
 
-    printf("Aperte Enter para voltar ao menu de opções.\n");
+    printf("Aperte Enter para voltar ao menu de opcoes.\n");
     getchar(); // Recebe o \n do Enter
 }
 
 void mostrar_menu(char nome_menu[]){
-    setlocale(LC_ALL, ""); // Para funcionar caracteres no linux
-    setlocale(LC_ALL, "portuguese");
     int nome_menu_len;
     int i;
 
     nome_menu_len = strlen(nome_menu) + 3;
 
     #ifdef _WIN32
-        // Altera o padrão de texto para UTF-16 para printar caracteres especiais
+        // Altera o padrao de texto para UTF-16 para printar caracteres especiais
         _setmode(_fileno(stdout), _O_U16TEXT);
 
     wprintf(L"┏━━");
@@ -793,7 +791,7 @@ void mostrar_menu(char nome_menu[]){
     }
     wprintf(L"━━┛\n");
 
-    // Volta o padrão de texto para o modo de texto padrão
+    // Volta o padrao de texto para o modo de texto padrao
     _setmode(_fileno(stdout), _O_TEXT);
 
     #else // Caso de rodar no linux
@@ -826,7 +824,7 @@ void mostrar_opcoes(char titulo[], char *opcoes[]){
     nome_menu_len = strlen(titulo) + 3;
 
     #ifdef _WIN32
-    // Altera o padrão de texto para UTF-16 para printar caracteres especiais
+    // Altera o padrao de texto para UTF-16 para printar caracteres especiais
     _setmode(_fileno(stdout), _O_U16TEXT);
 
     // Printa ┏━━「 titulo 」━━┓
@@ -855,7 +853,7 @@ void mostrar_opcoes(char titulo[], char *opcoes[]){
     wprintf(L"━━━━┛\n");
     // Fim do print
 
-    // Volta o padrão de texto para o modo de texto padrão
+    // Volta o padrao de texto para o modo de texto padrao
     _setmode(_fileno(stdout), _O_TEXT);
 
     #else // Caso de rodar no linux
@@ -902,7 +900,7 @@ void mostrar_cotacoes(char titulo[], Cotacoes cotacoes){
     nome_menu_len = strlen(titulo) + 3;
 
     #ifdef _WIN32
-    // Altera o padrão de texto para UTF-16 para printar caracteres especiais
+    // Altera o padrao de texto para UTF-16 para printar caracteres especiais
     _setmode(_fileno(stdout), _O_U16TEXT);
 
     // Printa ┏━━「 titulo 」━━┓
@@ -931,7 +929,7 @@ void mostrar_cotacoes(char titulo[], Cotacoes cotacoes){
     wprintf(L"━━━━┛\n");
     // Fim do print
 
-    // Volta o padrão de texto para o modo de texto padrão
+    // Volta o padrao de texto para o modo de texto padrao
     _setmode(_fileno(stdout), _O_TEXT);
 
     #else // Caso de rodar no linux

@@ -168,8 +168,6 @@ int logar_usuario(User usuarios[10]){
 
     } while(!login_valido);
 
-    printf("Logado com sucesso!\n");
-
     return user;
 }
 

@@ -11,10 +11,10 @@ int main(){
     int opcao;
 
 
-    // Carrega os usuários na variável usuarios
+    // Carrega os usuarios na variavel usuarios
     carregar_usuarios(usuarios, &pos, &cotacao);
 
-    // Coloca o preço padrão nas cotações se os valores estiverem como 0.0
+    // Coloca o preco padrao nas cotacoes se os valores estiverem como 0.0
     iniciar_cotacoes(&cotacao);
 
     // Menu Principal
@@ -31,22 +31,22 @@ int main(){
         };
         mostrar_opcoes("Menu Principal", opcoes);
         scanf("%d", &opcao);
-        getchar(); // Obtêm o \n
+        getchar(); // Obtem o \n
 
         switch (opcao) {
             case 0:
                 break;
             case 1:
-                // A função retorna a posição do usuário logado, se for para cancelar login retorna -1
+                // A funcao retorna a posicao do usuario logado, se for para cancelar login retorna -1
                 pos = logar_usuario(usuarios);
-                // Caso retorne -1 irá cancelar o login
+                // Caso retorne -1 ira cancelar o login
                 if (pos >= 0) menu_opcoes(usuarios, pos, cotacao);
                 break;
             case 2:
                 registrar_usuario(usuarios, &pos, &cotacao);
                 break;
             default:
-                printf("Opção não encontrada\n");
+                printf("Opcao nao encontrada\n");
                 printf("Aperte Enter para escolher novamente.\n");
                 getchar(); // Recebe o \n do Enter
         }
@@ -66,10 +66,10 @@ void menu_opcoes(User usuarios[10], int pos, Cotacoes cotacao){
         // Limpar Console
         system("cls||clear");
 
-        // Salva os dados atualizados do usuário após ele fazer uma operação
+        // Salva os dados atualizados do usuario apos ele fazer uma operacao
         salvar_usuarios(usuarios, &pos, &cotacao);
 
-        mostrar_menu("Menu de Opções");
+        mostrar_menu("Menu de Opcoes");
         char *opcoes[] = {
                 "Sair",
                 "Consultar Saldo",
@@ -78,11 +78,11 @@ void menu_opcoes(User usuarios[10], int pos, Cotacoes cotacao){
                 "Sacar Dinheiro",
                 "Comprar Cripto",
                 "Vender Cripto",
-                "Atualizar Cotação",
+                "Atualizar Cotacao",
                 "Transferir Saldo",
                 NULL
         };
-        mostrar_opcoes("Menu de opções", opcoes);
+        mostrar_opcoes("Menu de opcoes", opcoes);
         scanf("%d", &opcao);
         getchar();
 
@@ -93,7 +93,7 @@ void menu_opcoes(User usuarios[10], int pos, Cotacoes cotacao){
 
 
         if (opcao < 0 || opcao > 8 ){
-            printf("Opção não encontrada\n");
+            printf("Opcao nao encontrada\n");
             printf("Aperte Enter para escolher novamente.\n");
             getchar(); // Recebe o \n do Enter
         }

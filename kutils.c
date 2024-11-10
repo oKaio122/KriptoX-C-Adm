@@ -923,7 +923,11 @@ void mostrar_cotacoes(char titulo[], Cotacoes cotacoes) {
 
     // Printa ┏━━「 titulo 」━━┓
     wprintf(L"┏━━");
-    wprintf(L"】 %s 【", titulo);
+    wprintf(L"】 ", titulo);
+    _setmode(_fileno(stdout), _O_TEXT);
+    printf("%s", titulo);
+    _setmode(_fileno(stdout), _O_U16TEXT);
+    wprintf(L" 【", titulo);
     wprintf(L"━━┓\n");
     // Fim do print
 

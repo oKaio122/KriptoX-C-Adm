@@ -778,9 +778,9 @@ void mostrar_menu(char nome_menu[]){
 
     nome_menu_len = strlen(nome_menu) + 3;
 
-    #ifdef _WIN32
-        // Altera o padrao de texto para UTF-16 para printar caracteres especiais
-        _setmode(_fileno(stdout), _O_U16TEXT);
+#ifdef _WIN32
+    // Altera o padrao de texto para UTF-16 para printar caracteres especiais
+    _setmode(_fileno(stdout), _O_U16TEXT);
 
     wprintf(L"┏━━");
     for (i=0; i < nome_menu_len; i++){
@@ -788,7 +788,11 @@ void mostrar_menu(char nome_menu[]){
     }
     wprintf(L"━┓\n");
 
-    wprintf(L"┃   %s   ┃\n", nome_menu);
+    wprintf(L"┃   ");
+    _setmode(_fileno(stdout), _O_TEXT);
+    printf("%s", nome_menu);
+    _setmode(_fileno(stdout), _O_U16TEXT);
+    wprintf(L"   ┃\n", nome_menu);
 
     wprintf(L"┗━");
     for (i=0; i < nome_menu_len; i++){
@@ -799,7 +803,7 @@ void mostrar_menu(char nome_menu[]){
     // Volta o padrao de texto para o modo de texto padrao
     _setmode(_fileno(stdout), _O_TEXT);
 
-    #else // Caso de rodar no linux
+#else // Caso de rodar no linux
 
     printf("┏━━");
     for (i=0; i < nome_menu_len; i++){
@@ -815,7 +819,7 @@ void mostrar_menu(char nome_menu[]){
     }
     printf("━━┛\n");
 
-    #endif
+#endif
 
 }
 

@@ -40,6 +40,12 @@ typedef struct {
     float ripple;
 } Cotacoes;
 
+typedef struct {
+    char nome[255];
+    char cpf[12];
+    char senha[9];
+} Administrador;
+
 void menu_opcoes(User usuarios[10], int pos, Cotacoes *cotacao);
 
 int registrar_usuario(User usuarios[10], int *pos, Cotacoes *cotacao);

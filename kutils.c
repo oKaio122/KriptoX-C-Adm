@@ -833,20 +833,27 @@ void mostrar_opcoes(char titulo[], char *opcoes[]){
     nome_menu_len = strlen(titulo) + 3;
 
 
-    #ifdef _WIN32
+#ifdef _WIN32
     // Altera o padrao de texto para UTF-16 para printar caracteres especiais
     _setmode(_fileno(stdout), _O_U16TEXT);
 
     // Printa ┏━━「 titulo 」━━┓
     wprintf(L"┏━━");
-    wprintf(L"】 %s 【", titulo);
+    wprintf(L"】 ", titulo);
+    _setmode(_fileno(stdout), _O_TEXT);
+    printf("%s", titulo);
+    _setmode(_fileno(stdout), _O_U16TEXT);
+    wprintf(L" 【", titulo);
     wprintf(L"━━┓\n");
     // Fim do print
 
     // Printa o meio do menu (┃ i - Opcao                |)
     i = 0;
     while (opcoes[i] != NULL) {
-        wprintf(L"┃ %d - %s", i, opcoes[i]);
+        wprintf(L"┃ ");
+        _setmode(_fileno(stdout), _O_TEXT);
+        printf("%d - %s", i, opcoes[i]);
+        _setmode(_fileno(stdout), _O_U16TEXT);
         for (j = 0; j < nome_menu_len + 2 - strlen(opcoes[i]); j++){
             wprintf(L" ");
         }
@@ -866,7 +873,7 @@ void mostrar_opcoes(char titulo[], char *opcoes[]){
     // Volta o padrao de texto para o modo de texto padrao
     _setmode(_fileno(stdout), _O_TEXT);
 
-    #else // Caso de rodar no linux
+#else // Caso de rodar no linux
 
     // Printa ┏━━「 titulo 」━━┓
     printf("┏━━");
@@ -894,7 +901,7 @@ void mostrar_opcoes(char titulo[], char *opcoes[]){
     printf("━━━━┛\n");
     // Fim do print
 
-    #endif
+#endif
 }
 
 void mostrar_cotacoes(char titulo[], Cotacoes cotacoes) {

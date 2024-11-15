@@ -172,7 +172,7 @@ int logar_usuario(User usuarios[10]){
 }
 
 // Salva os usuarios no arquivo .bin
-int salvar_usuarios(User usuarios[], int *pos, Cotacoes *cotacao){
+int salvar_usuarios(User usuarios[], int *pos){
     FILE *f = fopen("usuarios.bin", "wb");
     if (f == NULL){
         return 0;
@@ -184,11 +184,6 @@ int salvar_usuarios(User usuarios[], int *pos, Cotacoes *cotacao){
     }
 
     qtd = fwrite(pos, sizeof(int),1 , f);
-    if (qtd == 0){
-        return 0;
-    }
-
-    qtd = fwrite(cotacao, sizeof(float),1 , f);
     if (qtd == 0){
         return 0;
     }

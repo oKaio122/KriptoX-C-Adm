@@ -83,7 +83,7 @@ void depositar_reais(User usuarios[], int pos);
 void sacar_reais(User usuarios[], int pos);
 void consultar_saldo(User usuarios[], int pos, int qnt_moedas);
 void consultar_extrato(User usuarios[], int pos);
-void comprar_criptomoeda(User usuarios[], int pos, Moeda *moedas, int qnt_moedas);
+void comprar_criptomoeda(User usuarios[], int pos, Cotacoes cotacao);
 void vender_criptomoeda(User usuarios[], int pos, Cotacoes cotacao);
 void transferir_saldo(User usuarios[], int pos, Cotacoes cotacao);
 

@@ -1190,19 +1190,23 @@ int salvar_moedas(Moeda moedas[], int qnt_moedas){
 int carregar_moedas(Moeda **moedas, int *qnt_moedas){
     FILE *f = fopen("moedas.bin", "rb");
     if (f == NULL) {
-        // Arquivo não existe, criar moeda padrão
-        *qnt_moedas = 1;
-        *moedas = (Moeda *)malloc(sizeof(Moeda));
+        // Arquivo não existe, criar moedas padrão
+        *qnt_moedas = 4;
+        *moedas = (Moeda *)malloc(sizeof(Moeda) * (*qnt_moedas));
         if (*moedas == NULL){
-            printf("Erro ao alocar memória para moeda padrão.\n");
+            printf("Erro ao alocar memória para moedas padrão.\n");
             return 0;
         }
-        strcpy((*moedas)[0].nome, "KCoin");
-        (*moedas)[0].cotacao = 34.5;
 
-        // Salvar moeda base
+        // cria as moedas base
+        criar_moeda(*moedas, 0, "KCoin", 34.3, 0.0074, 0.0086);
+        criar_moeda(*moedas, 1, "Bitcoin", 425.7, 0.02, 0.03);
+        criar_moeda(*moedas, 2, "Ethereum", 124.2, 0.01, 0.02);
+        criar_moeda(*moedas, 3, "Ripple", 14.9, 0.01, 0.01);
+
+        // Salvar moedas padrão no arquivo
         if (!salvar_moedas(*moedas, *qnt_moedas)){
-            printf("Erro ao salvar moeda padrão.\n");
+            printf("Erro ao salvar moedas padrão.\n");
             free(*moedas);
             return 0;
         }

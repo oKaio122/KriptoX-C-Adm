@@ -602,7 +602,8 @@ float gerar_varicao_cotacao(){
     num_random = (rand() % 1001) - 500;
     return num_random / 10000.0f;
 }
-void atualizar_cotacao(User usuarios[10], int pos, Cotacoes *cotacao){
+
+void atualizar_cotacao(Moeda **moedas, int qnt_moedas){
     float variacao;
     int moeda;
 
@@ -612,31 +613,22 @@ void atualizar_cotacao(User usuarios[10], int pos, Cotacoes *cotacao){
 
     mostrar_menu("Atualizar Cotacao");
     // Itera sobre as moedas dentro da cotação
-    for (moeda = 0; moeda < 3; moeda++){
+    for (moeda = 0; moeda < qnt_moedas; moeda++) {
+        printf("%s - %lf\n", (*moedas)[moeda].nome, (*moedas)[moeda].cotacao);
+    }
+    for (moeda = 0; moeda < qnt_moedas; moeda++){
         // Num entre -5% e 5%
         variacao = gerar_varicao_cotacao();
 
-        switch (moeda) {
-            case 0:
-                // Pega o valor inicial e soma com o resultado da multiplicação da soma do 1ºrand com o 2ºrand / 100 + 100 da porcentagem
-                cotacao->bitcoin += cotacao->bitcoin * variacao;
-                break;
-            case 1:
-                cotacao->ethereum += cotacao->ethereum * variacao;
-                break;
-            case 2:
-                cotacao->ripple += cotacao->ripple * variacao;
-                break;
-        }
+        (*moedas)[moeda].cotacao += (*moedas)[moeda].cotacao * variacao;
+
+        printf("%s - %lf\n", (*moedas)[moeda].nome, (*moedas)[moeda].cotacao);
     }
 
+//    mostrar_cotacoes("Cotacoes atualizadas", *cotacao);
 
-    mostrar_cotacoes("Cotacoes atualizadas", *cotacao);
+    salvar_moedas(*moedas, qnt_moedas);
 
-    salvar_usuarios(usuarios, &pos, cotacao);
-
-    printf("Aperte Enter para voltar ao menu de opcoes.\n");
-    getchar(); // Recebe o \n do Enter
 }
 
 // Utilizada em caso das cotacoes estarem vazias

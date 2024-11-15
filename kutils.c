@@ -267,6 +267,7 @@ void consultar_saldo(User usuarios[], int pos){
     getchar(); // Recebe o \n do Enter
 }
 
+
 void consultar_extrato(User usuarios[], int pos){
     char *extrato_data;
     int i;

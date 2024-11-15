@@ -340,10 +340,10 @@ void depositar_reais(User usuarios[], int pos){
     qnt_deposito = receber_saldo_valido("reais", "depositar");
 
 
-    usuarios[pos].saldo.reais += qnt_deposito;
+    usuarios[pos].reais += qnt_deposito;
 
     printf("Depositado com sucesso!\n");
-    printf("Saldo em reais atualizado: %.2f\n", usuarios[pos].saldo.reais);
+    printf("Saldo em reais atualizado: %.2f\n", usuarios[pos].reais);
 
     salvar_extrato(usuarios, pos, "+", "Real", 1, qnt_deposito, 0);
 

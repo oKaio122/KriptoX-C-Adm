@@ -621,21 +621,6 @@ void atualizar_cotacao(Moeda **moedas, int qnt_moedas){
 
 }
 
-// Utilizada em caso das cotacoes estarem vazias
-void iniciar_cotacoes(Cotacoes *cotacao){
-
-    if (cotacao->bitcoin <= 0.0){
-        cotacao->bitcoin = 351.21;
-    }
-    if (cotacao->ethereum <= 0.0){
-        cotacao->ethereum = 26.27;
-    }
-    if (cotacao->ripple <= 0.0){
-        cotacao->ripple = 3.24;
-    }
-
-}
-
 void transferir_saldo(User usuarios[], int pos, Cotacoes cotacao){
 
     int opcao_moeda;

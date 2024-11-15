@@ -60,7 +60,6 @@ float receber_saldo_valido(char nome_saldo[], char operacao[]);
 void receber_cpf_valido(char *cpf, int cancelar_autorizado);
 void receber_senha_valida(char *senha, int cancelar_autorizado);
 int validar_senha(User usuarios[], int pos);
-void iniciar_cotacoes(Cotacoes *cotacao);
 void mostrar_menu(char nome_menu[]);
 void mostrar_opcoes(char titulo[], char *opcoes[]);
 void mostrar_opcoes(char titulo[], char *opcoes[]);

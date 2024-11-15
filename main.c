@@ -110,7 +110,7 @@ void menu_opcoes(User usuarios[10], int pos, Moeda *moedas, int *qnt_moedas){
                 sacar_reais(usuarios, pos);
                 break;
             case 5:
-                comprar_criptomoeda(usuarios, pos, moedas, *qnt_moedas);
+//                comprar_criptomoeda(usuarios, pos);
                 break;
             case 6:
 //                vender_criptomoeda(usuarios, pos);

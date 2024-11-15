@@ -12,7 +12,7 @@ int main(){
     int pos;
 
     // Carrega as moedas na var moedas
-    carregar_moedas(&moedas, &qnt_moedas);
+    carregar_moedas(&moedas, &qnt_moedas, usuarios);
 
     // Carrega os usuarios na variavel usuarios
     carregar_usuarios(usuarios, &pos);
@@ -41,7 +41,7 @@ int main(){
                 // A funcao retorna a posicao do usuario logado, se for para cancelar login retorna -1
                 pos = logar_usuario(usuarios);
                 // Caso retorne -1 ira cancelar o login
-                if (pos >= 0) menu_opcoes(usuarios, pos, moedas, &qnt_moedas);
+                if (pos >= 0) menu_opcoes(usuarios, pos, moedas, qnt_moedas);
                 break;
             case 2:
                 registrar_usuario(usuarios, &pos);

@@ -1270,7 +1270,7 @@ void cadastrar_criptomoeda(Moeda **moedas, int *qnt_moedas, User usuarios[]){
     printf("Moeda criada com sucesso!\n");
 }
 
-void excluir_criptomoeda(Moeda **moedas, int *qnt_moedas){
+void excluir_criptomoeda(Moeda **moedas, int *qnt_moedas, User usuarios[]){
     char nome[50];
     int moeda_valida = 0;
     int moeda_pos;
@@ -1331,6 +1331,8 @@ void excluir_criptomoeda(Moeda **moedas, int *qnt_moedas){
 
     Moeda *temp = realloc(*moedas, (sizeof(Moeda) * (*qnt_moedas)));
     *moedas = temp;
+
+    remover_moeda_users(usuarios, nome);
 
     salvar_moedas(*moedas, *qnt_moedas);
 

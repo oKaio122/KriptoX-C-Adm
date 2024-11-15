@@ -94,7 +94,7 @@ void menu_opcoes_admin(Moeda *moedas, int *qnt_moedas, User usuarios[]);
 int salvar_moedas(Moeda moedas[], int qnt_moedas);
 int carregar_moedas(Moeda **moedas, int *qnt_moedas, User usuarios[]);
 void cadastrar_criptomoeda(Moeda **moedas, int *qnt_moedas, User usuarios[]);
-void excluir_criptomoeda(Moeda **moedas, int *qnt_moedas);
+void excluir_criptomoeda(Moeda **moedas, int *qnt_moedas, User usuarios[]);
 double obter_num_valido(char num_text[]);
 int cadastrar_usuario(User usuarios[]);
 void excluir_usuario(User usuarios[]);

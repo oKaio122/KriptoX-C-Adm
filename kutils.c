@@ -989,4 +989,40 @@ void mostrar_cotacoes(char titulo[], Cotacoes cotacoes) {
 #endif
 }
 
+int encontrar_usuario(char *ptr_cpf_procurado[], int user, User usuarios[]){
+    char cpf[12];
+    int user_valido;
+
+    do{
+
+        printf("Insira o CPF do usuario que deseja excluir: ");
+        // Obter CPF e senha para checar com a dos outros usuarios
+        receber_cpf_valido(cpf, 1);
+
+        if (strcmp(cpf, "CANCELAR") == 0) return -1;
+
+        // Itera sobre os usuarios para achar o usuario com o CPF
+        for(user = 0; user < 10; user++){
+
+            if (strcmp(usuarios[user].cpf, "") == 0){
+                break;
+            }
+
+            if (strcmp(usuarios[user].cpf, cpf) == 0){
+                user_valido = 1;
+                break;
+            }
+        }
+
+        if (!user_valido)
+            printf("Usuario nao encontrado! Tente novamente.\n");
+
+    } while(!user_valido);
+
+    // Aloca o CPF do usuario obtido para o CPF da função pai
+    strcpy(*ptr_cpf_procurado, cpf);
+
+    return 1;
+}
+
 #pragma clang diagnostic pop

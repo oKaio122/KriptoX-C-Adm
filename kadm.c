@@ -66,7 +66,7 @@ void menu_opcoes_admin(Moeda *moedas, int *qnt_moedas, User usuarios[]){
             case 0:
                 return;
             case 1:
-                //cadastrar_usuario_admin();
+                cadastrar_usuario(usuarios);
                 break;
             case 2:
 //                excluir_usuario_admin();

@@ -41,6 +41,7 @@ void menu_opcoes_admin(Moeda *moedas, int *qnt_moedas, User usuarios[]){
 
         // Salvar dados atualizados de usuarios e administradores
         // salvar_usuarios(usuarios, &pos, cotacao);
+        salvar_moedas(moedas, *qnt_moedas);
 
         char *opcoes[] = {
                 "Sair",

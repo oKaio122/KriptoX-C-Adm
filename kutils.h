@@ -87,3 +87,4 @@ void menu_opcoes_admin(Moeda *moedas, int *qnt_moedas, User usuarios[]);
 int salvar_moedas(Moeda moedas[], int qnt_moedas);
 int carregar_moedas(Moeda **moedas, int *qnt_moedas);
 void cadastrar_criptomoeda(Moeda **moedas, int *qnt_moedas);
+double obter_num_valido(char num_text[]);

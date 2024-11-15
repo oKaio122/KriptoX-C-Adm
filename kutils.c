@@ -1221,6 +1221,11 @@ void excluir_criptomoeda(Moeda **moedas, int *qnt_moedas, User usuarios[]){
 
     mostrar_menu("Remover Criptomoeda");
 
+    if(*qnt_moedas == 1){
+        printf("No momento so existe uma criptomoeda no sistema, "
+               "adicione mais moedas para remover uma moeda.\n");
+        return;
+    }
     // Obtem uma moeda válida para remover
     while(!moeda_valida){
 
@@ -1434,7 +1439,7 @@ void adicionar_moeda_users(User usuarios[], char *nome_moeda){
 
         Moedas_User *temp = realloc(usuarios[i].saldos, sizeof(Moedas_User) * usuarios[i].saldos_size);
         if (temp == NULL) {
-            perror("Erro ao realocar memória para saldos");
+            perror("Erro ao realocar memória para adicionar saldos dos usuarios");
             exit(EXIT_FAILURE);
         }
         usuarios[i].saldos = temp;
@@ -1450,11 +1455,12 @@ void remover_moeda_users(User usuarios[], char *nome_moeda){
     int moeda;
     for(i = 0; i < 10; i++) {
 
+        // checar se está vazio
         if (strcmp(usuarios[i].nome, "") == 0){
             break;
         }
 
-
+        // achar moeda pra remover
         for(j = 0 ; j < usuarios[i].saldos_size; j++){
             if(strcmp(usuarios[i].saldos[j].nome, nome_moeda) == 0){
                 moeda = j;
@@ -1469,7 +1475,7 @@ void remover_moeda_users(User usuarios[], char *nome_moeda){
 
         Moedas_User *temp = realloc(usuarios[i].saldos, sizeof(Moedas_User) * usuarios[i].saldos_size);
         if (temp == NULL) {
-            perror("Erro ao realocar memória para saldos");
+            perror("Erro ao realocar memória para remover saldos dos usuarios");
             exit(EXIT_FAILURE);
         }
         usuarios[i].saldos = temp;

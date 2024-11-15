@@ -90,7 +90,7 @@ void transferir_saldo(User usuarios[], int pos, Cotacoes cotacao);
 // Parte de Admin
 int encontrar_usuario(int *user_procurado, User usuarios[]);
 int logar_administrador(Administrador administradores[]);
-void menu_opcoes_admin(Moeda *moedas, int *qnt_moedas, User usuarios[]);
+void menu_opcoes_admin(Moeda *moedas, int *pos, int *qnt_moedas, User usuarios[]);
 int salvar_moedas(Moeda moedas[], int qnt_moedas);
 int carregar_moedas(Moeda **moedas, int *qnt_moedas, User usuarios[]);
 void cadastrar_criptomoeda(Moeda **moedas, int *qnt_moedas, User usuarios[]);

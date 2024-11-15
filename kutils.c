@@ -1199,4 +1199,5 @@ void cadastrar_criptomoeda(Moeda **moedas, int *qnt_moedas){
     printf("Moeda criada com sucesso!\n");
 }
 
+
 #pragma clang diagnostic pop

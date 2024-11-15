@@ -65,7 +65,7 @@ void mostrar_menu(char nome_menu[]);
 void mostrar_opcoes(char titulo[], char *opcoes[]);
 void mostrar_opcoes(char titulo[], char *opcoes[]);
 void mostrar_cotacoes(char titulo[], Cotacoes cotacoes);
-int salvar_usuarios(User usuarios[], int *pos, Cotacoes *cotacao);
+int salvar_usuarios(User usuarios[], int *pos);
 int carregar_usuarios(User usuarios[], int *pos, Cotacoes *cotacao);
 void menu_opcoes(User usuarios[10], int pos, Cotacoes *cotacao);
 void atualizar_cotacao(Moeda **moedas, int qnt_moedas); // Geral pq tá em usuário e admin também

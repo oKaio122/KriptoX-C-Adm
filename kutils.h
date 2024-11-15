@@ -18,6 +18,11 @@ typedef struct {
 } Moeda;
 
 typedef struct {
+    char nome[50];
+    double saldo;
+} Moedas_User;
+
+typedef struct {
     float ethereum;
     float bitcoin;
     float ripple;
@@ -37,6 +42,9 @@ typedef struct {
     char nome[255];
     char cpf[12];
     char senha[9];
+    double reais;
+    Moedas_User *saldos;
+    int saldos_size;
     Saldo saldo;
     Extrato extrato[100];
 } User;
@@ -93,3 +101,4 @@ void excluir_usuario(User usuarios[]);
 void consultar_extrato_admin(User usuarios[]);
 void mostrar_info_user(char titulo[], User usuario);
 void criar_moeda(Moeda *moedas, int pos_moeda, char *nome, double cotacao, double taxa_compra, double taxa_venda);
+void adicionar_moeda_users(User usuarios[], char *nome_moeda);

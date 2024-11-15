@@ -11,6 +11,11 @@
 #endif
 
 typedef struct {
+    char nome[50];
+    double cotacao;
+} Moeda;
+
+typedef struct {
     float ethereum;
     float bitcoin;
     float ripple;
@@ -76,3 +81,4 @@ void transferir_saldo(User usuarios[], int pos, Cotacoes cotacao);
 
 int encontrar_usuario(char *ptr_cpf_procurado[], int user, User usuarios[]);
 int logar_administrador(Administrador administradores[]);
+void menu_opcoes_admin(Moeda *moedas, int *qnt_moedas, User usuarios[]);

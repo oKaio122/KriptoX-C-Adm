@@ -253,15 +253,15 @@ float receber_saldo_valido(char nome_saldo[], char operacao[]){
     return quantidade;
 }
 
-void consultar_saldo(User usuarios[], int pos, int qnt_moedas){
+void consultar_saldo(User usuarios[], int pos){
 
     system("cls||clear");
     mostrar_menu("Consultar saldo");
 
-    printf("Saldo de Reais: %f\n", usuarios[pos].reais);
-    for (int i = 0; i < qnt_moedas; ++i) {
-        printf("Saldo de %s: %lf\n", usuarios[pos].saldos[i].nome, usuarios[pos].saldos[i].saldo);
-    }
+    printf("Saldo de Reais: %f\n", usuarios[pos].saldo.reais);
+    printf("Saldo de Bitcoin: %f\n", usuarios[pos].saldo.bitcoin);
+    printf("Saldo de Ethereum: %f\n", usuarios[pos].saldo.ethereum);
+    printf("Saldo em Ripple: %f\n", usuarios[pos].saldo.ripple);
 
     printf("Aperte Enter para voltar ao menu de opcoes.\n");
     getchar(); // Recebe o \n do Enter

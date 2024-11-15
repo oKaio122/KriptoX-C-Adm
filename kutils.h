@@ -93,3 +93,4 @@ int cadastrar_usuario(User usuarios[]);
 void excluir_usuario(User usuarios[]);
 void consultar_extrato_admin(User usuarios[]);
 void mostrar_info_user(char titulo[], User usuario);
+void criar_moeda(Moeda *moedas, int pos_moeda, char nome[50], double cotacao, double taxa_compra, double taxa_venda);

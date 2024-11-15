@@ -1328,4 +1328,56 @@ void excluir_usuario(User usuarios[]){
     printf("Usuario excluido com sucesso!\n");
 }
 
+void consultar_extrato_admin(User usuarios[]){
+    char *extrato_data;
+    int user_valido;
+    char cpf[12];
+    int user;
+    int i;
+
+    do{
+
+        printf("Insira o CPF do usuario para ver seu extrato:\n");
+        // Obter CPF e senha para checar com a dos outros usuarios
+        receber_cpf_valido(cpf, 1);
+        if (strcmp(cpf, "CANCELAR") == 0){
+            return;
+        }
+
+        // Itera sobre os usuarios para achar o usuario com o CPF
+        for(user = 0; user < 10; user++){
+
+            if (strcmp(usuarios[user].cpf, "") == 0){
+                break;
+            }
+
+            if (strcmp(usuarios[user].cpf, cpf) == 0){
+                user_valido = 1;
+                break;
+            }
+        }
+
+        if (!user_valido)
+            printf("Usuario nao encontrado! Tente novamente.\n");
+
+    } while(!user_valido);
+
+    // Itera sobre os extratos do usuario
+    for(i = 0; i < 100; i++){
+
+        // Verifica se o extrato atual e lixo, se for quebrar o loop
+        extrato_data = usuarios[user].extrato[i].data;
+        if (strcmp(extrato_data, "") == 0){
+            break;
+        }
+
+        printf("Data: %s\t", usuarios[user].extrato[i].data);
+        printf("Operacao: %s\t", usuarios[user].extrato[i].operacao);
+        printf("Moeda: %s\t", usuarios[user].extrato[i].moeda);
+        printf("Valor: %.2f\t", usuarios[user].extrato[i].valor);
+        printf("Taxa paga: %.2f\t", usuarios[user].extrato[i].taxa);
+        printf("Cotacao: %.2f\n", usuarios[user].extrato[i].cotacao);
+    }
+}
+
 #pragma clang diagnostic pop

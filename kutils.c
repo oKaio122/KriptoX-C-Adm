@@ -1494,4 +1494,36 @@ void adicionar_moeda_users(User usuarios[], char *nome_moeda){
     }
 }
 
+void remover_moeda_users(User usuarios[], char *nome_moeda){
+    int i,j;
+    int moeda;
+    for(i = 0; i < 10; i++) {
+
+        if (strcmp(usuarios[i].nome, "") == 0){
+            break;
+        }
+
+
+        for(j = 0 ; j < usuarios[i].saldos_size; j++){
+            if(strcmp(usuarios[i].saldos[j].nome, nome_moeda) == 0){
+                moeda = j;
+            }
+        }
+
+        for (j = moeda; j < usuarios[i].saldos_size - 1; j++) {
+            usuarios[i].saldos[j] = usuarios[i].saldos[j+1];
+        }
+
+        usuarios[i].saldos_size -= 1;
+
+        Moedas_User *temp = realloc(usuarios[i].saldos, sizeof(Moedas_User) * usuarios[i].saldos_size);
+        if (temp == NULL) {
+            perror("Erro ao realocar memória para saldos");
+            exit(EXIT_FAILURE);
+        }
+        usuarios[i].saldos = temp;
+    }
+}
+
+
 #pragma clang diagnostic pop

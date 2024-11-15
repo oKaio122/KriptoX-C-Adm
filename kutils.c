@@ -1302,4 +1302,30 @@ int cadastrar_usuario(User usuarios[]){
     return 1;
 }
 
+void excluir_usuario(User usuarios[]){
+    int user;
+    int confirmacao;
+    int i;
+
+    mostrar_menu("Excluir Usuario");
+    printf("Digite \"CANCELAR\" para cancelar a exclusao\n");
+
+    printf("Insira o CPF do usuario que deseja excluir:\n");
+    encontrar_usuario(&user, usuarios);
+
+    mostrar_info_user("Infos do usuario", usuarios[user]);
+
+    printf("Para prosseguir digite 1, para cancelar digite 0:\n");
+    scanf("%d", &confirmacao);
+    if (!confirmacao) return; // Checa se cancelou
+
+    for (i = user; i < 9; i++) {
+        usuarios[i] = usuarios[i + 1];
+    }
+
+    // Seta todos os bytes da struct para 0 resetando os dados do usuario
+    memset(&usuarios[8], 0, sizeof(usuarios[user]));
+    printf("Usuario excluido com sucesso!\n");
+}
+
 #pragma clang diagnostic pop

@@ -1247,4 +1247,59 @@ void excluir_criptomoeda(Moeda **moedas, int *qnt_moedas){
     printf("Moeda removida com sucesso!\n");
 }
 
+int cadastrar_usuario(User usuarios[]){
+
+    char cpf[12];
+    char senha[9];
+    char nome[100];
+    int cpf_unico;
+    int i;
+
+    system("cls||clear");
+    mostrar_menu("Cadastrar usuario");
+
+    printf("Qual o nome para o usuario?\n");
+    scanf("%99s", nome);
+    getchar();
+
+    // Obtem um CPF valido (11 digitos numericos e unico)
+    do{
+        receber_cpf_valido(cpf, 0);
+        cpf_unico = 1;
+
+        // Checa se tem um usuario com o CPF enviado
+        for (i=0; i < 10; i++){
+            if (strcmp(usuarios[i].cpf, "") == 0){
+                break;
+            }
+            else if (strcmp(usuarios[i].cpf, cpf) == 0){
+                printf("Esse CPF ja esta sendo utilizado!\n");
+                cpf_unico = 0;
+                break;
+            }
+        }
+    }while(!cpf_unico);
+
+
+
+    // Obtem uma senha valida (8 digitos numericos)
+    receber_senha_valida(senha, 0);
+
+    // Loop para encontrar uma posição vazia para o novo usuário
+    for (i = 0; i < 10; i++) {
+        if (strcmp(usuarios[i].cpf, "") == 0) {
+            break;
+        }
+    }
+
+    // Dados iniciais do usuario
+    strcpy(usuarios[i].nome, nome);
+    strcpy(usuarios[i].cpf, cpf);
+    strcpy(usuarios[i].senha, senha);
+
+    printf("Cadastro concluido com sucesso!\n");
+
+    return 1;
+}
+
 #pragma clang diagnostic pop

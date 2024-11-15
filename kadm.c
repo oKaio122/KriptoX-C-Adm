@@ -72,7 +72,7 @@ void menu_opcoes_admin(Moeda *moedas, int *qnt_moedas, User usuarios[]){
                 excluir_usuario(usuarios);
                 break;
             case 3:
-                cadastrar_criptomoeda(&moedas, qnt_moedas);
+                cadastrar_criptomoeda(&moedas, qnt_moedas, usuarios);
                 break;
             case 4:
                 excluir_criptomoeda(&moedas, qnt_moedas);

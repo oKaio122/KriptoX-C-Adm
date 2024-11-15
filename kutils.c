@@ -1154,7 +1154,7 @@ int salvar_moedas(Moeda moedas[], int qnt_moedas){
     return 1;
 }
 
-int carregar_moedas(Moeda **moedas, int *qnt_moedas){
+int carregar_moedas(Moeda **moedas, int *qnt_moedas, User usuarios[]){
     FILE *f = fopen("moedas.bin", "rb");
     if (f == NULL) {
         // Arquivo não existe, criar moedas padrão
@@ -1170,6 +1170,12 @@ int carregar_moedas(Moeda **moedas, int *qnt_moedas){
         criar_moeda(*moedas, 1, "Bitcoin", 425.7, 0.02, 0.03);
         criar_moeda(*moedas, 2, "Ethereum", 124.2, 0.01, 0.02);
         criar_moeda(*moedas, 3, "Ripple", 14.9, 0.01, 0.01);
+
+        // Coloca as moedas para os usuarios
+        adicionar_moeda_users(usuarios, "KCoin");
+        adicionar_moeda_users(usuarios, "Bitcoin");
+        adicionar_moeda_users(usuarios, "Ethereum");
+        adicionar_moeda_users(usuarios, "Ripple");
 
         // Salvar moedas padrão no arquivo
         if (!salvar_moedas(*moedas, *qnt_moedas)){
@@ -1218,7 +1224,7 @@ double obter_num_valido(char num_text[]){
     return num;
 }
 
-void cadastrar_criptomoeda(Moeda **moedas, int *qnt_moedas){
+void cadastrar_criptomoeda(Moeda **moedas, int *qnt_moedas, User usuarios[]){
     int nome_valido = 0;
     char nome[50];
     double cotacao;
@@ -1256,6 +1262,8 @@ void cadastrar_criptomoeda(Moeda **moedas, int *qnt_moedas){
 
 
     criar_moeda(*moedas, (*qnt_moedas-1), nome, cotacao, taxa_compra, taxa_venda);
+
+    adicionar_moeda_users(usuarios, nome);
 
     salvar_moedas(*moedas, *qnt_moedas);
 

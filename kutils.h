@@ -54,7 +54,7 @@ typedef struct {
 } Administrador;
 
 // Funções gerais
-int registrar_usuario(User usuarios[10], int *pos, Cotacoes *cotacao);
+int registrar_usuario(User usuarios[10], int *pos);
 int logar_usuario(User usuarios[10]);
 float receber_saldo_valido(char nome_saldo[], char operacao[]);
 void receber_cpf_valido(char *cpf, int cancelar_autorizado);
@@ -69,15 +69,15 @@ int salvar_usuarios(User usuarios[], int *pos, Cotacoes *cotacao);
 int carregar_usuarios(User usuarios[], int *pos, Cotacoes *cotacao);
 void menu_opcoes(User usuarios[10], int pos, Cotacoes *cotacao);
 void atualizar_cotacao(Moeda **moedas, int qnt_moedas); // Geral pq tá em usuário e admin também
+void salvar_extrato(User usuarios[], int pos, char operacao[],char moeda[], float cotacao,float valor, float taxa);
 
 // Funções usuário
-void depositar_reais(User usuarios[], int pos, Cotacoes cotacao);
-void sacar_reais(User usuarios[], int pos, Cotacoes cotacao);
-void consultar_saldo(User usuarios[], int pos, Cotacoes cotacao);
-void consultar_extrato(User usuarios[], int pos, Cotacoes cotacao);
+void depositar_reais(User usuarios[], int pos);
+void sacar_reais(User usuarios[], int pos);
+void consultar_saldo(User usuarios[], int pos);
+void consultar_extrato(User usuarios[], int pos);
 void comprar_criptomoeda(User usuarios[], int pos, Cotacoes cotacao);
 void vender_criptomoeda(User usuarios[], int pos, Cotacoes cotacao);
-void salvar_extrato(User usuarios[], int pos, char operacao[],char moeda[], float cotacao,float valor, float taxa);
 void transferir_saldo(User usuarios[], int pos, Cotacoes cotacao);
 
 // Parte de Admin

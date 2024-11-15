@@ -2,7 +2,7 @@
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "UnusedParameter"
-int registrar_usuario(User usuarios[10], int *pos, Cotacoes *cotacao){
+int registrar_usuario(User usuarios[10], int *pos){
 
     char cpf[12];
     char senha[9];
@@ -55,7 +55,7 @@ int registrar_usuario(User usuarios[10], int *pos, Cotacoes *cotacao){
     *pos = i;
 
     // Salva o novo usuario
-    salvar_usuarios(usuarios, pos, cotacao);
+//    salvar_usuarios(usuarios, pos, cotacao);
 
     printf("Registro concluido com sucesso!\n");
 
@@ -263,7 +263,7 @@ float receber_saldo_valido(char nome_saldo[], char operacao[]){
     return quantidade;
 }
 
-void consultar_saldo(User usuarios[], int pos, Cotacoes cotacao){
+void consultar_saldo(User usuarios[], int pos){
 
     system("cls||clear");
     mostrar_menu("Consultar saldo");
@@ -277,7 +277,7 @@ void consultar_saldo(User usuarios[], int pos, Cotacoes cotacao){
     getchar(); // Recebe o \n do Enter
 }
 
-void consultar_extrato(User usuarios[], int pos, Cotacoes cotacao){
+void consultar_extrato(User usuarios[], int pos){
     char *extrato_data;
     int i;
 
@@ -339,7 +339,7 @@ void salvar_extrato(User usuarios[], int pos, char operacao[],
 
 }
 
-void depositar_reais(User usuarios[], int pos, Cotacoes cotacao){
+void depositar_reais(User usuarios[], int pos){
     float qnt_deposito;
 
     system("cls||clear");
@@ -360,7 +360,7 @@ void depositar_reais(User usuarios[], int pos, Cotacoes cotacao){
     getchar(); // Recebe o \n do Enter
 }
 
-void sacar_reais(User usuarios[], int pos, Cotacoes cotacao){
+void sacar_reais(User usuarios[], int pos){
     float qnt_sacar;
 
     system("cls||clear");

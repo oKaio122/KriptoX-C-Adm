@@ -81,7 +81,6 @@ void atualizar_cotacao(User usuarios[], int pos, Cotacoes *cotacao);
 void transferir_saldo(User usuarios[], int pos, Cotacoes cotacao);
 
 // Parte de Admin
-
 int encontrar_usuario(int *user_procurado, User usuarios[]);
 int logar_administrador(Administrador administradores[]);
 void menu_opcoes_admin(Moeda *moedas, int *qnt_moedas, User usuarios[]);
@@ -93,3 +92,4 @@ double obter_num_valido(char num_text[]);
 int cadastrar_usuario(User usuarios[]);
 void excluir_usuario(User usuarios[]);
 void consultar_extrato_admin(User usuarios[]);
+void mostrar_info_user(char titulo[], User usuario);

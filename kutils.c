@@ -1093,4 +1093,49 @@ int salvar_moedas(Moeda moedas[], int qnt_moedas){
     return 1;
 }
 
+int carregar_moedas(Moeda **moedas, int *qnt_moedas){
+    FILE *f = fopen("moedas.bin", "rb");
+    if (f == NULL) {
+        // Arquivo não existe, criar moeda padrão
+        *qnt_moedas = 1;
+        *moedas = (Moeda *)malloc(sizeof(Moeda));
+        if (*moedas == NULL){
+            printf("Erro ao alocar memória para moeda padrão.\n");
+            return 0;
+        }
+        strcpy((*moedas)[0].nome, "KCoin");
+        (*moedas)[0].cotacao = 34.5;
+
+        // Salvar moeda base
+        if (!salvar_moedas(*moedas, *qnt_moedas)){
+            printf("Erro ao salvar moeda padrão.\n");
+            free(*moedas);
+            return 0;
+        }
+
+        return 1;
+    }
+
+    // Obter qnt moedas
+    if (fread(qnt_moedas, sizeof(int), 1, f) != 1){
+        printf("Erro ao ler a quantidade de moedas.\n");
+        fclose(f);
+        return 0;
+    }
+
+    // Alocar memória para as moedas
+    *moedas = (Moeda *)malloc(sizeof(Moeda) * (*qnt_moedas));
+
+    // Carregar moedas de fato
+    fread(*moedas, sizeof(Moeda), *qnt_moedas, f);
+
+
+    if (fclose(f) != 0){
+        free(*moedas);
+        return 0;
+    }
+
+    return 1;
+}
+
 #pragma clang diagnostic pop

@@ -9,7 +9,8 @@ int main(){
     int opcao;
     int user;
 
-    // carregar dados do programa
+    carregar_moedas(&moedas, &qnt_moedas);
+    // Carregar usuarios tmb
 
     // Cria um usuário adm padrão
     strcpy(administradores[0].nome, "default");

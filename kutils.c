@@ -172,26 +172,44 @@ int logar_usuario(User usuarios[10]){
 }
 
 // Salva os usuarios no arquivo .bin
-int salvar_usuarios(User usuarios[], int *pos){
+int salvar_usuarios(User usuarios[], int *pos, int qnt_moedas) {
     FILE *f = fopen("usuarios.bin", "wb");
-    if (f == NULL){
+    if (f == NULL) {
         return 0;
     }
 
-    int qtd = fwrite(usuarios, sizeof(User), 10, f);
-    if (qtd == 0){
+    int qtd = fwrite(pos, sizeof(int), 1, f);
+    if (qtd != 1) {
+        fclose(f);
         return 0;
     }
 
-    qtd = fwrite(pos, sizeof(int),1 , f);
-    if (qtd == 0){
-        return 0;
+
+    for (int i = 0; i < 10; i++) {
+        if (strcmp(usuarios[i].nome, "") != 0) {
+
+            qtd = fwrite(&usuarios[i], sizeof(User) - sizeof(Moedas_User *), 1, f); // Salva a estrutura sem a parte do ponteiro de saldos
+            if (qtd != 1) {
+                fclose(f);
+                return 0;
+            }
+
+            qtd = fwrite(&usuarios[i].saldos_size, sizeof(int), 1, f);
+            if (qtd != 1) {
+                fclose(f);
+                return 0;
+            }
+
+            qtd = fwrite(usuarios[i].saldos, sizeof(Moedas_User), usuarios[i].saldos_size, f);
+            if (qtd != usuarios[i].saldos_size) {
+                fclose(f);
+                return 0;
+            }
+        }
     }
 
-    if (fclose(f)){
-        return 0;
-    }
 
+    fclose(f);
     return 1;
 }
 

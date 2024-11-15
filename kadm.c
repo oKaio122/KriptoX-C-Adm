@@ -11,7 +11,9 @@ int main(){
     int pos;
 
     carregar_moedas(&moedas, &qnt_moedas, usuarios);
+
     // Carregar usuarios tmb
+    carregar_usuarios(usuarios, &pos);
 
     // Cria um usuário adm padrão
     strcpy(administradores[0].nome, "default");
@@ -42,7 +44,7 @@ void menu_opcoes_admin(Moeda *moedas, int *pos, int *qnt_moedas, User usuarios[]
     do{
 
         // Salvar dados atualizados de usuarios e administradores
-        salvar_usuarios(usuarios, pos);
+        salvar_usuarios(usuarios, pos, *qnt_moedas);
         salvar_moedas(moedas, *qnt_moedas);
 
         char *opcoes[] = {

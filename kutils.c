@@ -989,6 +989,102 @@ void mostrar_cotacoes(char titulo[], Cotacoes cotacoes) {
 #endif
 }
 
+void mostrar_info_user(char titulo[], User usuario) {
+    setlocale(LC_ALL, "portuguese");
+    setlocale(LC_ALL, "");
+
+    int nome_menu_len;
+    int num_extratos = 0;
+    int *ptr_num_extratos = &num_extratos;
+    int i, j;
+    char *opcoes[] = {
+            usuario.nome,
+            usuario.cpf,
+            (char *) ptr_num_extratos,
+            NULL
+    };
+
+    // Acha a quantidade de extratos do usuario
+    for(i = 0; i < 100; i++){
+        if(usuario.extrato[i].valor == -1){
+            num_extratos = i;
+            break;
+        }
+    }
+
+    nome_menu_len = strlen(titulo) + 3;
+
+#ifdef _WIN32
+    // Altera o padrao de texto para UTF-16 para printar caracteres especiais
+    _setmode(_fileno(stdout), _O_U16TEXT);
+
+    // Printa ┏━━「 titulo 」━━┓
+    wprintf(L"┏━━");
+    wprintf(L"】 ", titulo);
+    _setmode(_fileno(stdout), _O_TEXT);
+    printf("%s", titulo);
+    _setmode(_fileno(stdout), _O_U16TEXT);
+    wprintf(L" 【", titulo);
+    wprintf(L"━━┓\n");
+    // Fim do print
+
+    // Printa o meio do menu (┃ i - Opcao                |)
+    i = 0;
+    while (opcoes[i] != NULL) {
+        wprintf(L"┃ ");
+        _setmode(_fileno(stdout), _O_TEXT);
+        printf("%d - %s", i, opcoes[i]);
+        for (j = 0; j < nome_menu_len + 2 - strlen(opcoes[i]) ; j++){
+            printf(" ");
+        }
+        _setmode(_fileno(stdout), _O_U16TEXT);
+        wprintf(L"┃\n");
+        i++;
+    }
+    // Fim do print
+
+    // Printa ┗━━━━━━━━━━━━━┛
+    wprintf(L"┗━━━");
+    for (i=0; i < nome_menu_len; i++){
+        wprintf(L"━");
+    }
+    wprintf(L"━━━━┛\n");
+    // Fim do print
+
+    // Volta o padrao de texto para o modo de texto padrao
+    _setmode(_fileno(stdout), _O_TEXT);
+
+#else // Caso de rodar no linux
+
+    // Printa ┏━━「 titulo 」━━┓
+    printf("┏━━");
+    printf("】 %s 【", titulo);
+    printf("━━┓\n");
+    // Fim do print
+
+    // Printa o meio do menu (┃ i - Opcao                |)
+    i = 0;
+    while (opcoes[i] != NULL) {
+        printf("┃ %d - %s", i, opcoes[i]);
+        for (j = 0; j < nome_menu_len + 2 - strlen(opcoes[i]); j++){
+            printf(" ");
+        }
+        printf("┃\n");
+        i++;
+    }
+    // Fim do print
+
+    // Printa ┗━━━━━━━━━━━━━┛
+    printf("┗━━━");
+    for (i=0; i < nome_menu_len; i++){
+        printf("━");
+    }
+    printf("━━━━┛\n");
+    // Fim do print
+
+#endif
+}
+
 int encontrar_usuario(int *user_procurado, User usuarios[]){
     char cpf[12];
     int user_valido = 0;

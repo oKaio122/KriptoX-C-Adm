@@ -1287,10 +1287,8 @@ void cadastrar_criptomoeda(Moeda **moedas, int *qnt_moedas){
     taxa_venda = obter_num_valido("Insira a taxa de compra da moeda:");
     taxa_compra = obter_num_valido("Insira a taxa de venda da moeda:");
 
-    strcpy((*moedas)[*qnt_moedas-1].nome , nome);
-    (*moedas)[*qnt_moedas-1].cotacao = cotacao;
-    (*moedas)[*qnt_moedas-1].taxa_venda = taxa_venda;
-    (*moedas)[*qnt_moedas-1].taxa_compra = taxa_compra;
+
+    criar_moeda(*moedas, (*qnt_moedas-1), nome, cotacao, taxa_compra, taxa_venda);
 
     salvar_moedas(*moedas, *qnt_moedas);
 

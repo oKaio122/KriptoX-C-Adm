@@ -8,8 +8,9 @@ int main(){
     int qnt_moedas;
     int opcao;
     int user;
+    int pos;
 
-    carregar_moedas(&moedas, &qnt_moedas);
+    carregar_moedas(&moedas, &qnt_moedas, usuarios);
     // Carregar usuarios tmb
 
     // Cria um usuário adm padrão
@@ -27,13 +28,13 @@ int main(){
         user = logar_administrador(administradores);
         if (user == -1) break;
 
-        menu_opcoes_admin(moedas, &qnt_moedas, usuarios);
+        menu_opcoes_admin(moedas, &pos, &qnt_moedas, usuarios);
     }
 
     printf("Desligando KriptoX-Admin, bye bye :(\n");
 }
 
-void menu_opcoes_admin(Moeda *moedas, int *qnt_moedas, User usuarios[]){
+void menu_opcoes_admin(Moeda *moedas, int *pos, int *qnt_moedas, User usuarios[]){
     int opcao;
 
     system("cls||clear");
@@ -41,7 +42,7 @@ void menu_opcoes_admin(Moeda *moedas, int *qnt_moedas, User usuarios[]){
     do{
 
         // Salvar dados atualizados de usuarios e administradores
-        // salvar_usuarios(usuarios, &pos, cotacao);
+        salvar_usuarios(usuarios, pos);
         salvar_moedas(moedas, *qnt_moedas);
 
         char *opcoes[] = {

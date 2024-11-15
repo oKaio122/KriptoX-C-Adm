@@ -95,9 +95,12 @@ void menu_opcoes_admin(Moeda *moedas, int *qnt_moedas, User usuarios[]){
         }
 
         if (!(opcao < 0 || opcao > 7)){
+            fflush(stdin);
             printf("Aperte Enter para voltar ao menu de opcoes admin.\n");
             getchar(); // Recebe o \n do Enter
         }
+
+
 
         // Limpar Console
         system("cls||clear");

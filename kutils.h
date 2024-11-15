@@ -91,3 +91,4 @@ void cadastrar_criptomoeda(Moeda **moedas, int *qnt_moedas);
 void excluir_criptomoeda(Moeda **moedas, int *qnt_moedas);
 double obter_num_valido(char num_text[]);
 int cadastrar_usuario(User usuarios[]);
+void excluir_usuario(User usuarios[]);

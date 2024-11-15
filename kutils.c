@@ -1472,5 +1472,26 @@ void criar_moeda(Moeda *moedas, int pos_moeda, char *nome,
 
 }
 
+void adicionar_moeda_users(User usuarios[], char *nome_moeda){
+    for(int i = 0; i < 10; i++) {
+
+        if (strcmp(usuarios[i].nome, "") == 0){
+            break;
+        }
+
+        usuarios[i].saldos_size += 1;
+
+        Moedas_User *temp = realloc(usuarios[i].saldos, sizeof(Moedas_User) * usuarios[i].saldos_size);
+        if (temp == NULL) {
+            perror("Erro ao realocar memória para saldos");
+            exit(EXIT_FAILURE);
+        }
+        usuarios[i].saldos = temp;
+
+        strcpy(usuarios[i].saldos[usuarios[i].saldos_size - 1].nome, nome_moeda);
+        usuarios[i].saldos[usuarios[i].saldos_size - 1].saldo = 0.0;
+
+    }
+}
 
 #pragma clang diagnostic pop

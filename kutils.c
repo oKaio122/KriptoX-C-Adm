@@ -1025,4 +1025,46 @@ int encontrar_usuario(char *ptr_cpf_procurado[], int user, User usuarios[]){
     return 1;
 }
 
+int logar_administrador(Administrador administradores[]){
+
+    int login_valido = 0;
+    char cpf[12];
+    char senha[9];
+    int user;
+
+    system("cls||clear");
+    mostrar_menu("Login Administrador");
+    printf("Digite \"CANCELAR\" para cancelar o login \n");
+
+    do{
+
+        // Obter CPF e senha para checar com a dos outros usuarios
+        receber_cpf_valido(cpf, 1);
+
+        if (strcmp(cpf, "CANCELAR") == 0) return -1;
+
+        receber_senha_valida(senha, 0);
+
+        // Itera sobre os usuarios para achar o usuario do operador
+        for(user = 0; user < 10; user++){
+
+            if (strcmp(administradores[user].cpf, "") == 0){
+                break;
+            }
+
+            if (strcmp(administradores[user].cpf, cpf) == 0 && strcmp(administradores[user].senha, senha) == 0){
+                login_valido = 1;
+                break;
+            }
+        }
+
+        if (!login_valido)
+            printf("Administrador nao encontrado! Tente novamente.\n");
+
+    } while(!login_valido);
+
+    return user;
+}
+
+
 #pragma clang diagnostic pop

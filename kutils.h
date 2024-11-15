@@ -75,3 +75,4 @@ void atualizar_cotacao(User usuarios[], int pos, Cotacoes *cotacao);
 void transferir_saldo(User usuarios[], int pos, Cotacoes cotacao);
 
 int encontrar_usuario(char *ptr_cpf_procurado[], int user, User usuarios[]);
+int logar_administrador(Administrador administradores[]);

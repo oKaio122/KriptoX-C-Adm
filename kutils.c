@@ -1297,12 +1297,20 @@ void excluir_criptomoeda(Moeda **moedas, int *qnt_moedas){
     char nome[50];
     int moeda_valida = 0;
     int moeda_pos;
+    int confirmar;
     int i;
+    Moeda moeda_sel;
 
     mostrar_menu("Remover Criptomoeda");
 
     // Obtem uma moeda válida para remover
     while(!moeda_valida){
+
+        printf("Moedas disponiveis: %d\n", *qnt_moedas);
+        for(i = 0; i < *qnt_moedas; i++){
+            printf("%s\n",(*moedas)[i].nome);
+        }
+
         printf("Para cancelar a operacao digite \"CANCELAR\".\n");
         printf("Insira o nome da moeda que deseja remover: \n");
         scanf("%49s", nome);
@@ -1316,15 +1324,25 @@ void excluir_criptomoeda(Moeda **moedas, int *qnt_moedas){
         }
 
         if(!moeda_valida){
-            printf("Moeda nao encontrada!\nMoedas disponiveis:\n");
-            printf("COLOCAR MOEDAS DISPONIVEIS AQUI NO FUTURO!\n");
-            for(i = 0; i < *qnt_moedas; i++){
-                printf("%s",(*moedas)[i].nome);
-            }
+            printf("Moeda nao encontrada!\n");
         }
 
         // Se cancelar sai da funcao e volta pro menu
         if(strcmp(nome, "CANCELAR") == 0) return;
+    }
+
+    moeda_sel = (*moedas)[moeda_pos];
+    printf("Informações da moeda a ser excluida:\n");
+    printf("Nome: %s\nCotacao: %lf\nTaxa Compra: %lf\nTaxa Venda: %lf\n",
+           moeda_sel.nome, moeda_sel.cotacao,
+           moeda_sel.taxa_compra, moeda_sel.taxa_venda);
+
+    printf("Digite 1 para confirmar.\n");
+    scanf("%d", &confirmar);
+
+    if(confirmar != 1) {
+        printf("Operação cancelada.\n");
+        return;
     }
 
     for(i = moeda_pos; i < *qnt_moedas - 1; i++){

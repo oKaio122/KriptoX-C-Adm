@@ -12,7 +12,7 @@ int main(){
     int pos;
 
     // Carrega as moedas na var moedas
-    carregar_moedas(&moedas, &qnt_moedas);
+    carregar_moedas(&moedas, &qnt_moedas, usuarios);
 
     // Carrega os usuarios na variavel usuarios
     carregar_usuarios(usuarios, &pos);
@@ -41,7 +41,7 @@ int main(){
                 // A funcao retorna a posicao do usuario logado, se for para cancelar login retorna -1
                 pos = logar_usuario(usuarios);
                 // Caso retorne -1 ira cancelar o login
-                if (pos >= 0) menu_opcoes(usuarios, pos, moedas, &qnt_moedas);
+                if (pos >= 0) menu_opcoes(usuarios, pos, moedas, qnt_moedas);
                 break;
             case 2:
                 registrar_usuario(usuarios, &pos);
@@ -59,7 +59,7 @@ int main(){
 }
 
 
-void menu_opcoes(User usuarios[10], int pos, Moeda *moedas, int qnt_moedas){
+void menu_opcoes(User usuarios[10], int pos, Moeda *moedas, int *qnt_moedas){
     int opcao;
     char boas_vindas[100];
 
@@ -98,7 +98,7 @@ void menu_opcoes(User usuarios[10], int pos, Moeda *moedas, int qnt_moedas){
             case 0:
                 return;
             case 1:
-                consultar_saldo(usuarios, pos, qnt_moedas);
+                consultar_saldo(usuarios, pos);
                 break;
             case 2:
                 consultar_extrato(usuarios, pos);
@@ -110,13 +110,13 @@ void menu_opcoes(User usuarios[10], int pos, Moeda *moedas, int qnt_moedas){
                 sacar_reais(usuarios, pos);
                 break;
             case 5:
-                comprar_criptomoeda(usuarios, pos, moedas, qnt_moedas);
+//                comprar_criptomoeda(usuarios, pos);
                 break;
             case 6:
 //                vender_criptomoeda(usuarios, pos);
                 break;
             case 7:
-                atualizar_cotacao(&moedas, qnt_moedas);
+                atualizar_cotacao(&moedas, *qnt_moedas);
                 break;
             case 8:
 //                transferir_saldo(usuarios, pos);

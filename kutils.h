@@ -74,16 +74,16 @@ void mostrar_opcoes(char titulo[], char *opcoes[]);
 void mostrar_cotacoes(char titulo[], Cotacoes cotacoes);
 int salvar_usuarios(User usuarios[], int *pos);
 int carregar_usuarios(User usuarios[], int *pos);
-void menu_opcoes(User usuarios[10], int pos, Moeda *moedas, int *qnt_moedas);
+void menu_opcoes(User usuarios[10], int pos, Moeda *moedas, int qnt_moedas);
 void atualizar_cotacao(Moeda **moedas, int qnt_moedas); // Geral pq tá em usuário e admin também
 void salvar_extrato(User usuarios[], int pos, char operacao[],char moeda[], float cotacao,float valor, float taxa);
 
 // Funções usuário
 void depositar_reais(User usuarios[], int pos);
 void sacar_reais(User usuarios[], int pos);
-void consultar_saldo(User usuarios[], int pos, int qnt_moedas);
+void consultar_saldo(User usuarios[], int pos);
 void consultar_extrato(User usuarios[], int pos);
-void comprar_criptomoeda(User usuarios[], int pos, Cotacoes cotacao);
+void comprar_criptomoeda(User usuarios[], int pos, Moeda *moedas, int qnt_moedas);
 void vender_criptomoeda(User usuarios[], int pos, Cotacoes cotacao);
 void transferir_saldo(User usuarios[], int pos, Cotacoes cotacao);
 

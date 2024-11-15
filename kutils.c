@@ -247,7 +247,6 @@ int carregar_usuarios(User usuarios[], int *pos) {
             return 0;
         }
 
-
         qtd = fread(usuarios[i].saldos, sizeof(Moedas_User), usuarios[i].saldos_size, f);
         if (qtd != usuarios[i].saldos_size) {
             fclose(f);

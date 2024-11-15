@@ -364,18 +364,18 @@ void sacar_reais(User usuarios[], int pos){
         // Obtem um numero maior que 0 e que nao tem caracteres
         qnt_sacar = receber_saldo_valido("reais", "sacar");
 
-        if (qnt_sacar > usuarios[pos].saldo.reais){
-            printf("Voce nao tem saldo o suficiente para sacar R$ %.2f! Seu saldo em R$: %.2f\n", qnt_sacar, usuarios[pos].saldo.reais);
+        if (qnt_sacar > usuarios[pos].reais){
+            printf("Voce nao tem saldo o suficiente para sacar R$ %.2f! Seu saldo em R$: %.2f\n", qnt_sacar, usuarios[pos].reais);
         }
 
-    } while (qnt_sacar > usuarios[pos].saldo.reais);
+    } while (qnt_sacar > usuarios[pos].reais);
 
 
 
-    usuarios[pos].saldo.reais -= qnt_sacar;
+    usuarios[pos].reais -= qnt_sacar;
 
     printf("Sacado com sucesso!\n");
-    printf("Saldo em reais atualizado: %.2f\n", usuarios[pos].saldo.reais);
+    printf("Saldo em reais atualizado: %.2f\n", usuarios[pos].reais);
 
     salvar_extrato(usuarios, pos, "-", "Real", 1, qnt_sacar, 0);
 

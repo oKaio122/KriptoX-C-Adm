@@ -6,16 +6,17 @@ int main(){
     setlocale(LC_ALL, "portuguese");
 
     User usuarios[10];
-    Cotacoes cotacao;
-    int pos;
+    Moeda *moedas = NULL;
+    int qnt_moedas;
     int opcao;
+    int pos;
 
+    // Carrega as moedas na var moedas
+    carregar_moedas(&moedas, &qnt_moedas);
 
     // Carrega os usuarios na variavel usuarios
-    carregar_usuarios(usuarios, &pos, &cotacao);
+    carregar_usuarios(usuarios, &pos);
 
-    // Coloca o preco padrao nas cotacoes se os valores estiverem como 0.0
-    iniciar_cotacoes(&cotacao);
 
     // Menu Principal
     do{
@@ -40,10 +41,10 @@ int main(){
                 // A funcao retorna a posicao do usuario logado, se for para cancelar login retorna -1
                 pos = logar_usuario(usuarios);
                 // Caso retorne -1 ira cancelar o login
-                if (pos >= 0) menu_opcoes(usuarios, pos, &cotacao);
+                if (pos >= 0) menu_opcoes(usuarios, pos, moedas, &qnt_moedas);
                 break;
             case 2:
-                registrar_usuario(usuarios, &pos, &cotacao);
+                registrar_usuario(usuarios, &pos);
                 break;
             default:
                 printf("Opcao nao encontrada\n");
@@ -58,7 +59,7 @@ int main(){
 }
 
 
-void menu_opcoes(User usuarios[10], int pos, Cotacoes *cotacao){
+void menu_opcoes(User usuarios[10], int pos, Moeda *moedas, int *qnt_moedas){
     int opcao;
     char boas_vindas[100];
 
@@ -73,7 +74,7 @@ void menu_opcoes(User usuarios[10], int pos, Cotacoes *cotacao){
     do{
 
         // Salva os dados atualizados do usuario apos ele fazer uma operacao
-        salvar_usuarios(usuarios, &pos, cotacao);
+        salvar_usuarios(usuarios, &pos);
 
         mostrar_menu("Menu de Opcoes");
         char *opcoes[] = {
@@ -92,23 +93,43 @@ void menu_opcoes(User usuarios[10], int pos, Cotacoes *cotacao){
         scanf("%d", &opcao);
         while ((getchar()) != '\n' && getchar() != EOF);
 
-        void (*opcoes_funcoes[])(User*, int, Cotacoes) =
-                {consultar_saldo, consultar_extrato, depositar_reais,
-                 sacar_reais, comprar_criptomoeda, vender_criptomoeda,
-                 (void (*)(User *, int, Cotacoes)) atualizar_cotacao, transferir_saldo};
+        switch (opcao)
+        {
+            case 0:
+                return;
+            case 1:
+                consultar_saldo(usuarios, pos);
+                break;
+            case 2:
+                consultar_extrato(usuarios, pos);
+                break;
+            case 3:
+                depositar_reais(usuarios, pos);
+                break;
+            case 4:
+                sacar_reais(usuarios, pos);
+                break;
+            case 5:
+//                comprar_criptomoeda(usuarios, pos);
+                break;
+            case 6:
+//                vender_criptomoeda(usuarios, pos);
+                break;
+            case 7:
+                atualizar_cotacao(&moedas, *qnt_moedas);
+                break;
+            case 8:
+//                transferir_saldo(usuarios, pos);
+                break;
 
-        if (opcao == 7){
-            atualizar_cotacao(usuarios, pos, cotacao);
-        }
-        else if (opcao < 0 || opcao > 8 ){
-            printf("Opcao nao encontrada\n");
-            printf("Aperte Enter para escolher novamente.\n");
-            getchar(); // Recebe o \n do Enter
-        }
-        else if (opcao != 0){
-            opcoes_funcoes[opcao-1](usuarios, pos, *cotacao);
+            default:
+                printf("Opcao nao encontrada\n");
+                printf("Aperte Enter para escolher novamente.\n");
+                getchar(); // Recebe o \n do Enter
+                break;
         }
 
+        fflush(stdin);
         // Limpar Console
         system("cls||clear");
 

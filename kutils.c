@@ -2,7 +2,7 @@
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "UnusedParameter"
-int registrar_usuario(User usuarios[10], int *pos, Cotacoes *cotacao){
+int registrar_usuario(User usuarios[10], int *pos){
 
     char cpf[12];
     char senha[9];
@@ -55,7 +55,7 @@ int registrar_usuario(User usuarios[10], int *pos, Cotacoes *cotacao){
     *pos = i;
 
     // Salva o novo usuario
-    salvar_usuarios(usuarios, pos, cotacao);
+//    salvar_usuarios(usuarios, pos, cotacao);
 
     printf("Registro concluido com sucesso!\n");
 
@@ -172,7 +172,7 @@ int logar_usuario(User usuarios[10]){
 }
 
 // Salva os usuarios no arquivo .bin
-int salvar_usuarios(User usuarios[], int *pos, Cotacoes *cotacao){
+int salvar_usuarios(User usuarios[], int *pos){
     FILE *f = fopen("usuarios.bin", "wb");
     if (f == NULL){
         return 0;
@@ -188,11 +188,6 @@ int salvar_usuarios(User usuarios[], int *pos, Cotacoes *cotacao){
         return 0;
     }
 
-    qtd = fwrite(cotacao, sizeof(float),1 , f);
-    if (qtd == 0){
-        return 0;
-    }
-
     if (fclose(f)){
         return 0;
     }
@@ -201,7 +196,7 @@ int salvar_usuarios(User usuarios[], int *pos, Cotacoes *cotacao){
 }
 
 // Carrega os usuarios na variavel usuarios
-int carregar_usuarios(User usuarios[], int *pos, Cotacoes *cotacao){
+int carregar_usuarios(User usuarios[], int *pos){
     FILE *f = fopen("usuarios.bin", "rb");
     if (f == NULL){
         return 0;
@@ -215,11 +210,6 @@ int carregar_usuarios(User usuarios[], int *pos, Cotacoes *cotacao){
     qtd = fread(pos, sizeof(int), 1, f);
     if (qtd == 0){
         return 0;
-    }
-
-    qtd = fread(cotacao, sizeof(float),1 , f);
-    if (qtd == 0){
-    return 0;
     }
 
     if (fclose(f)){
@@ -263,7 +253,7 @@ float receber_saldo_valido(char nome_saldo[], char operacao[]){
     return quantidade;
 }
 
-void consultar_saldo(User usuarios[], int pos, Cotacoes cotacao){
+void consultar_saldo(User usuarios[], int pos){
 
     system("cls||clear");
     mostrar_menu("Consultar saldo");
@@ -277,7 +267,7 @@ void consultar_saldo(User usuarios[], int pos, Cotacoes cotacao){
     getchar(); // Recebe o \n do Enter
 }
 
-void consultar_extrato(User usuarios[], int pos, Cotacoes cotacao){
+void consultar_extrato(User usuarios[], int pos){
     char *extrato_data;
     int i;
 
@@ -339,7 +329,7 @@ void salvar_extrato(User usuarios[], int pos, char operacao[],
 
 }
 
-void depositar_reais(User usuarios[], int pos, Cotacoes cotacao){
+void depositar_reais(User usuarios[], int pos){
     float qnt_deposito;
 
     system("cls||clear");
@@ -360,7 +350,7 @@ void depositar_reais(User usuarios[], int pos, Cotacoes cotacao){
     getchar(); // Recebe o \n do Enter
 }
 
-void sacar_reais(User usuarios[], int pos, Cotacoes cotacao){
+void sacar_reais(User usuarios[], int pos){
     float qnt_sacar;
 
     system("cls||clear");
@@ -602,7 +592,8 @@ float gerar_varicao_cotacao(){
     num_random = (rand() % 1001) - 500;
     return num_random / 10000.0f;
 }
-void atualizar_cotacao(User usuarios[10], int pos, Cotacoes *cotacao){
+
+void atualizar_cotacao(Moeda **moedas, int qnt_moedas){
     float variacao;
     int moeda;
 
@@ -612,45 +603,21 @@ void atualizar_cotacao(User usuarios[10], int pos, Cotacoes *cotacao){
 
     mostrar_menu("Atualizar Cotacao");
     // Itera sobre as moedas dentro da cotação
-    for (moeda = 0; moeda < 3; moeda++){
+    for (moeda = 0; moeda < qnt_moedas; moeda++) {
+        printf("%s - %lf\n", (*moedas)[moeda].nome, (*moedas)[moeda].cotacao);
+    }
+    for (moeda = 0; moeda < qnt_moedas; moeda++){
         // Num entre -5% e 5%
         variacao = gerar_varicao_cotacao();
 
-        switch (moeda) {
-            case 0:
-                // Pega o valor inicial e soma com o resultado da multiplicação da soma do 1ºrand com o 2ºrand / 100 + 100 da porcentagem
-                cotacao->bitcoin += cotacao->bitcoin * variacao;
-                break;
-            case 1:
-                cotacao->ethereum += cotacao->ethereum * variacao;
-                break;
-            case 2:
-                cotacao->ripple += cotacao->ripple * variacao;
-                break;
-        }
+        (*moedas)[moeda].cotacao += (*moedas)[moeda].cotacao * variacao;
+
+        printf("%s - %lf\n", (*moedas)[moeda].nome, (*moedas)[moeda].cotacao);
     }
 
+//    mostrar_cotacoes("Cotacoes atualizadas", *cotacao);
 
-    mostrar_cotacoes("Cotacoes atualizadas", *cotacao);
-
-    salvar_usuarios(usuarios, &pos, cotacao);
-
-    printf("Aperte Enter para voltar ao menu de opcoes.\n");
-    getchar(); // Recebe o \n do Enter
-}
-
-// Utilizada em caso das cotacoes estarem vazias
-void iniciar_cotacoes(Cotacoes *cotacao){
-
-    if (cotacao->bitcoin <= 0.0){
-        cotacao->bitcoin = 351.21;
-    }
-    if (cotacao->ethereum <= 0.0){
-        cotacao->ethereum = 26.27;
-    }
-    if (cotacao->ripple <= 0.0){
-        cotacao->ripple = 3.24;
-    }
+    salvar_moedas(*moedas, qnt_moedas);
 
 }
 
@@ -833,20 +800,27 @@ void mostrar_opcoes(char titulo[], char *opcoes[]){
     nome_menu_len = strlen(titulo) + 3;
 
 
-    #ifdef _WIN32
+#ifdef _WIN32
     // Altera o padrao de texto para UTF-16 para printar caracteres especiais
     _setmode(_fileno(stdout), _O_U16TEXT);
 
     // Printa ┏━━「 titulo 」━━┓
     wprintf(L"┏━━");
-    wprintf(L"】 %s 【", titulo);
+    wprintf(L"】 ", titulo);
+    _setmode(_fileno(stdout), _O_TEXT);
+    printf("%s", titulo);
+    _setmode(_fileno(stdout), _O_U16TEXT);
+    wprintf(L" 【", titulo);
     wprintf(L"━━┓\n");
     // Fim do print
 
     // Printa o meio do menu (┃ i - Opcao                |)
     i = 0;
     while (opcoes[i] != NULL) {
-        wprintf(L"┃ %d - %s", i, opcoes[i]);
+        wprintf(L"┃ ");
+        _setmode(_fileno(stdout), _O_TEXT);
+        printf("%d - %s", i, opcoes[i]);
+        _setmode(_fileno(stdout), _O_U16TEXT);
         for (j = 0; j < nome_menu_len + 2 - strlen(opcoes[i]); j++){
             wprintf(L" ");
         }
@@ -866,7 +840,7 @@ void mostrar_opcoes(char titulo[], char *opcoes[]){
     // Volta o padrao de texto para o modo de texto padrao
     _setmode(_fileno(stdout), _O_TEXT);
 
-    #else // Caso de rodar no linux
+#else // Caso de rodar no linux
 
     // Printa ┏━━「 titulo 」━━┓
     printf("┏━━");
@@ -894,7 +868,7 @@ void mostrar_opcoes(char titulo[], char *opcoes[]){
     printf("━━━━┛\n");
     // Fim do print
 
-    #endif
+#endif
 }
 
 void mostrar_cotacoes(char titulo[], Cotacoes cotacoes) {
@@ -916,7 +890,11 @@ void mostrar_cotacoes(char titulo[], Cotacoes cotacoes) {
 
     // Printa ┏━━「 titulo 」━━┓
     wprintf(L"┏━━");
-    wprintf(L"】 %s 【", titulo);
+    wprintf(L"】 ", titulo);
+    _setmode(_fileno(stdout), _O_TEXT);
+    printf("%s", titulo);
+    _setmode(_fileno(stdout), _O_U16TEXT);
+    wprintf(L" 【", titulo);
     wprintf(L"━━┓\n");
     // Fim do print
 
@@ -977,5 +955,522 @@ void mostrar_cotacoes(char titulo[], Cotacoes cotacoes) {
 
 #endif
 }
+
+void mostrar_info_user(char titulo[], User usuario) {
+    setlocale(LC_ALL, "portuguese");
+    setlocale(LC_ALL, "");
+
+    int nome_menu_len;
+    int num_extratos = 0;
+    int *ptr_num_extratos = &num_extratos;
+    int i, j;
+    char *opcoes[] = {
+            usuario.nome,
+            usuario.cpf,
+            (char *) ptr_num_extratos,
+            NULL
+    };
+
+    // Acha a quantidade de extratos do usuario
+    for(i = 0; i < 100; i++){
+        if(usuario.extrato[i].valor == -1){
+            num_extratos = i;
+            break;
+        }
+    }
+
+    nome_menu_len = strlen(titulo) + 3;
+
+#ifdef _WIN32
+    // Altera o padrao de texto para UTF-16 para printar caracteres especiais
+    _setmode(_fileno(stdout), _O_U16TEXT);
+
+    // Printa ┏━━「 titulo 」━━┓
+    wprintf(L"┏━━");
+    wprintf(L"】 ", titulo);
+    _setmode(_fileno(stdout), _O_TEXT);
+    printf("%s", titulo);
+    _setmode(_fileno(stdout), _O_U16TEXT);
+    wprintf(L" 【", titulo);
+    wprintf(L"━━┓\n");
+    // Fim do print
+
+    // Printa o meio do menu (┃ i - Opcao                |)
+    i = 0;
+    while (opcoes[i] != NULL) {
+        wprintf(L"┃ ");
+        _setmode(_fileno(stdout), _O_TEXT);
+        printf("%d - %s", i, opcoes[i]);
+        for (j = 0; j < nome_menu_len + 2 - strlen(opcoes[i]) ; j++){
+            printf(" ");
+        }
+        _setmode(_fileno(stdout), _O_U16TEXT);
+        wprintf(L"┃\n");
+        i++;
+    }
+    // Fim do print
+
+    // Printa ┗━━━━━━━━━━━━━┛
+    wprintf(L"┗━━━");
+    for (i=0; i < nome_menu_len; i++){
+        wprintf(L"━");
+    }
+    wprintf(L"━━━━┛\n");
+    // Fim do print
+
+    // Volta o padrao de texto para o modo de texto padrao
+    _setmode(_fileno(stdout), _O_TEXT);
+
+#else // Caso de rodar no linux
+
+    // Printa ┏━━「 titulo 」━━┓
+    printf("┏━━");
+    printf("】 %s 【", titulo);
+    printf("━━┓\n");
+    // Fim do print
+
+    // Printa o meio do menu (┃ i - Opcao                |)
+    i = 0;
+    while (opcoes[i] != NULL) {
+        printf("┃ %d - %s", i, opcoes[i]);
+        for (j = 0; j < nome_menu_len + 2 - strlen(opcoes[i]); j++){
+            printf(" ");
+        }
+        printf("┃\n");
+        i++;
+    }
+    // Fim do print
+
+    // Printa ┗━━━━━━━━━━━━━┛
+    printf("┗━━━");
+    for (i=0; i < nome_menu_len; i++){
+        printf("━");
+    }
+    printf("━━━━┛\n");
+    // Fim do print
+
+#endif
+}
+
+int encontrar_usuario(int *user_procurado, User usuarios[]){
+    char cpf[12];
+    int user_valido = 0;
+    int user;
+
+    do{
+        // Obter CPF e senha para checar com a dos outros usuarios
+        receber_cpf_valido(cpf, 1);
+
+        if (strcmp(cpf, "CANCELAR") == 0) return -1;
+
+        // Itera sobre os usuarios para achar o usuario com o CPF
+        for(user = 0; user < 10; user++){
+
+            if (strcmp(usuarios[user].cpf, "") == 0){
+                break;
+            }
+
+            if (strcmp(usuarios[user].cpf, cpf) == 0){
+                user_valido = 1;
+                break;
+            }
+        }
+
+        if (!user_valido)
+            printf("Usuario nao encontrado! Tente novamente.\n");
+
+    } while(!user_valido);
+
+    *user_procurado = user;
+
+    return 1;
+}
+
+int logar_administrador(Administrador administradores[]){
+
+    int login_valido = 0;
+    char cpf[12];
+    char senha[9];
+    int user;
+
+    system("cls||clear");
+    mostrar_menu("Login Administrador");
+    printf("Digite \"CANCELAR\" para cancelar o login \n");
+
+    do{
+
+        // Obter CPF e senha para checar com a dos outros usuarios
+        receber_cpf_valido(cpf, 1);
+
+        if (strcmp(cpf, "CANCELAR") == 0) return -1;
+
+        receber_senha_valida(senha, 0);
+
+        // Itera sobre os usuarios para achar o usuario do operador
+        for(user = 0; user < 10; user++){
+
+            if (strcmp(administradores[user].cpf, "") == 0){
+                break;
+            }
+
+            if (strcmp(administradores[user].cpf, cpf) == 0 && strcmp(administradores[user].senha, senha) == 0){
+                login_valido = 1;
+                break;
+            }
+        }
+
+        if (!login_valido)
+            printf("Administrador nao encontrado! Tente novamente.\n");
+
+    } while(!login_valido);
+
+    return user;
+}
+
+int salvar_moedas(Moeda moedas[], int qnt_moedas){
+    FILE *f = fopen("moedas.bin", "wb");
+    if (f == NULL){
+        printf("Erro ao salvar moedas! f == NULL\n");
+        return 0;
+    }
+
+    int qtd = fwrite(&qnt_moedas, sizeof(int), 1, f);
+    if (qtd == 0){
+        printf("ERRO AO SALVAR QNT MOEDAS!! fwrite retornou 0.\n");
+        return 0;
+    }
+
+    qtd = fwrite(moedas, sizeof(Moeda), qnt_moedas, f);
+    if (qtd == 0){
+        printf("ERRO AO SALVAR MOEDAS!! fwrite retornou 0.\n");
+        return 0;
+    }
+
+    if (fclose(f)){
+        printf("ERRO AO SALVAR MOEDAS!! fclose retornou 0.\n");
+        return 0;
+    }
+
+    return 1;
+}
+
+int carregar_moedas(Moeda **moedas, int *qnt_moedas){
+    FILE *f = fopen("moedas.bin", "rb");
+    if (f == NULL) {
+        // Arquivo não existe, criar moedas padrão
+        *qnt_moedas = 4;
+        *moedas = (Moeda *)malloc(sizeof(Moeda) * (*qnt_moedas));
+        if (*moedas == NULL){
+            printf("Erro ao alocar memória para moedas padrão.\n");
+            return 0;
+        }
+
+        // cria as moedas base
+        criar_moeda(*moedas, 0, "KCoin", 34.3, 0.0074, 0.0086);
+        criar_moeda(*moedas, 1, "Bitcoin", 425.7, 0.02, 0.03);
+        criar_moeda(*moedas, 2, "Ethereum", 124.2, 0.01, 0.02);
+        criar_moeda(*moedas, 3, "Ripple", 14.9, 0.01, 0.01);
+
+        // Salvar moedas padrão no arquivo
+        if (!salvar_moedas(*moedas, *qnt_moedas)){
+            printf("Erro ao salvar moedas padrão.\n");
+            free(*moedas);
+            return 0;
+        }
+
+        return 1;
+    }
+
+    // Obter qnt moedas
+    if (fread(qnt_moedas, sizeof(int), 1, f) != 1){
+        printf("Erro ao ler a quantidade de moedas.\n");
+        fclose(f);
+        return 0;
+    }
+
+    // Alocar memória para as moedas
+    *moedas = (Moeda *)malloc(sizeof(Moeda) * (*qnt_moedas));
+
+    // Carregar moedas de fato
+    fread(*moedas, sizeof(Moeda), *qnt_moedas, f);
+
+
+    if (fclose(f) != 0){
+        free(*moedas);
+        return 0;
+    }
+
+    return 1;
+}
+
+double obter_num_valido(char num_text[]){
+    double num;
+    do{
+        printf("%s\n", num_text);
+        scanf("%lf", &num);
+
+        if(num < 0.0){
+            printf("Insira um valor maior que 0!\n");
+        }
+        fflush(stdin);
+    } while (num < 0.0);
+
+    return num;
+}
+
+void cadastrar_criptomoeda(Moeda **moedas, int *qnt_moedas){
+    int nome_valido = 0;
+    char nome[50];
+    double cotacao;
+    double taxa_compra;
+    double taxa_venda;
+    int i;
+
+    *qnt_moedas += 1;
+
+    mostrar_menu("Adicionar Criptomoeda");
+
+    // Salva uma variável com a memoria temporariamente para colocar nas moedas
+    Moeda *temp = realloc(*moedas, (sizeof(Moeda) * (*qnt_moedas)));
+    *moedas = temp;
+
+    // Colocar um nome válido na moeda
+    while(!nome_valido){
+        nome_valido = 1;
+        // Colocar valores na moeda
+        printf("Insira o nome da moeda: \n");
+        scanf("%49s", nome);
+        for(i = 0; i < *qnt_moedas; i++){
+            if(strcmp((*moedas)[i].nome, nome) == 0){
+                printf("Ja existe uma moeda com esse nome!\n");
+                nome_valido = 0;
+            }
+        }
+
+    }
+
+    // Obter valores válidos para a moeda
+    cotacao = obter_num_valido("Insira a cotacao da moeda:");
+    taxa_venda = obter_num_valido("Insira a taxa de compra da moeda:");
+    taxa_compra = obter_num_valido("Insira a taxa de venda da moeda:");
+
+
+    criar_moeda(*moedas, (*qnt_moedas-1), nome, cotacao, taxa_compra, taxa_venda);
+
+    salvar_moedas(*moedas, *qnt_moedas);
+
+    printf("Moeda criada com sucesso!\n");
+}
+
+void excluir_criptomoeda(Moeda **moedas, int *qnt_moedas){
+    char nome[50];
+    int moeda_valida = 0;
+    int moeda_pos;
+    int confirmar;
+    int i;
+    Moeda moeda_sel;
+
+    mostrar_menu("Remover Criptomoeda");
+
+    // Obtem uma moeda válida para remover
+    while(!moeda_valida){
+
+        printf("Moedas disponiveis: %d\n", *qnt_moedas);
+        for(i = 0; i < *qnt_moedas; i++){
+            printf("%s\n",(*moedas)[i].nome);
+        }
+
+        printf("Para cancelar a operacao digite \"CANCELAR\".\n");
+        printf("Insira o nome da moeda que deseja remover: \n");
+        scanf("%49s", nome);
+
+        for(i = 0; i < *qnt_moedas; i++){
+            if(strcmp((*moedas)[i].nome, nome) == 0){
+                moeda_valida = 1;
+                moeda_pos = i;
+                break;
+            }
+        }
+
+        // Se cancelar sai da funcao e volta pro menu
+        if(strcmp(nome, "CANCELAR") == 0) return;
+
+        if(!moeda_valida){
+            printf("Moeda nao encontrada!\n");
+        }
+
+    }
+
+    moeda_sel = (*moedas)[moeda_pos];
+    printf("Informacoes da moeda a ser excluida:\n");
+    printf("Nome: %s\nCotacao: %lf\nTaxa Compra: %lf\nTaxa Venda: %lf\n",
+           moeda_sel.nome, moeda_sel.cotacao,
+           moeda_sel.taxa_compra, moeda_sel.taxa_venda);
+
+    printf("Digite 1 para confirmar.\n");
+    scanf("%d", &confirmar);
+
+    if(confirmar != 1) {
+        printf("Operação cancelada.\n");
+        return;
+    }
+
+    for(i = moeda_pos; i < *qnt_moedas - 1; i++){
+        (*moedas)[i] = (*moedas)[i+1];
+    }
+
+    *qnt_moedas -= 1;
+
+    Moeda *temp = realloc(*moedas, (sizeof(Moeda) * (*qnt_moedas)));
+    *moedas = temp;
+
+    salvar_moedas(*moedas, *qnt_moedas);
+
+    printf("Moeda removida com sucesso!\n");
+}
+
+int cadastrar_usuario(User usuarios[]){
+
+    char cpf[12];
+    char senha[9];
+    char nome[100];
+    int cpf_unico;
+    int i;
+
+    system("cls||clear");
+    mostrar_menu("Cadastrar usuario");
+
+    printf("Qual o nome para o usuario?\n");
+    scanf("%99s", nome);
+    getchar();
+
+    // Obtem um CPF valido (11 digitos numericos e unico)
+    do{
+        receber_cpf_valido(cpf, 0);
+        cpf_unico = 1;
+
+        // Checa se tem um usuario com o CPF enviado
+        for (i=0; i < 10; i++){
+            if (strcmp(usuarios[i].cpf, "") == 0){
+                break;
+            }
+            else if (strcmp(usuarios[i].cpf, cpf) == 0){
+                printf("Esse CPF ja esta sendo utilizado!\n");
+                cpf_unico = 0;
+                break;
+            }
+        }
+    }while(!cpf_unico);
+
+
+
+    // Obtem uma senha valida (8 digitos numericos)
+    receber_senha_valida(senha, 0);
+
+    // Loop para encontrar uma posição vazia para o novo usuário
+    for (i = 0; i < 10; i++) {
+        if (strcmp(usuarios[i].cpf, "") == 0) {
+            break;
+        }
+    }
+
+    // Dados iniciais do usuario
+    strcpy(usuarios[i].nome, nome);
+    strcpy(usuarios[i].cpf, cpf);
+    strcpy(usuarios[i].senha, senha);
+
+    printf("Cadastro concluido com sucesso!\n");
+
+    return 1;
+}
+
+void excluir_usuario(User usuarios[]){
+    int user;
+    int confirmacao;
+    int i;
+
+    mostrar_menu("Excluir Usuario");
+    printf("Digite \"CANCELAR\" para cancelar a exclusao\n");
+
+    printf("Insira o CPF do usuario que deseja excluir:\n");
+    encontrar_usuario(&user, usuarios);
+
+    mostrar_info_user("Infos do usuario", usuarios[user]);
+
+    printf("Para prosseguir digite 1, para cancelar digite 0:\n");
+    scanf("%d", &confirmacao);
+    if (!confirmacao) return; // Checa se cancelou
+
+    for (i = user; i < 9; i++) {
+        usuarios[i] = usuarios[i + 1];
+    }
+
+    // Seta todos os bytes da struct para 0 resetando os dados do usuario
+    memset(&usuarios[8], 0, sizeof(usuarios[user]));
+    printf("Usuario excluido com sucesso!\n");
+}
+
+void consultar_extrato_admin(User usuarios[]){
+    char *extrato_data;
+    int user_valido;
+    char cpf[12];
+    int user;
+    int i;
+
+    do{
+
+        printf("Insira o CPF do usuario para ver seu extrato:\n");
+        // Obter CPF e senha para checar com a dos outros usuarios
+        receber_cpf_valido(cpf, 1);
+        if (strcmp(cpf, "CANCELAR") == 0){
+            return;
+        }
+
+        // Itera sobre os usuarios para achar o usuario com o CPF
+        for(user = 0; user < 10; user++){
+
+            if (strcmp(usuarios[user].cpf, "") == 0){
+                break;
+            }
+
+            if (strcmp(usuarios[user].cpf, cpf) == 0){
+                user_valido = 1;
+                break;
+            }
+        }
+
+        if (!user_valido)
+            printf("Usuario nao encontrado! Tente novamente.\n");
+
+    } while(!user_valido);
+
+    // Itera sobre os extratos do usuario
+    for(i = 0; i < 100; i++){
+
+        // Verifica se o extrato atual e lixo, se for quebrar o loop
+        extrato_data = usuarios[user].extrato[i].data;
+        if (strcmp(extrato_data, "") == 0){
+            break;
+        }
+
+        printf("Data: %s\t", usuarios[user].extrato[i].data);
+        printf("Operacao: %s\t", usuarios[user].extrato[i].operacao);
+        printf("Moeda: %s\t", usuarios[user].extrato[i].moeda);
+        printf("Valor: %.2f\t", usuarios[user].extrato[i].valor);
+        printf("Taxa paga: %.2f\t", usuarios[user].extrato[i].taxa);
+        printf("Cotacao: %.2f\n", usuarios[user].extrato[i].cotacao);
+    }
+}
+
+void criar_moeda(Moeda *moedas, int pos_moeda, char *nome,
+                 double cotacao, double taxa_compra, double taxa_venda){
+
+    strcpy(moedas[pos_moeda].nome, nome);
+    moedas[pos_moeda].cotacao = cotacao;
+    moedas[pos_moeda].taxa_compra = taxa_compra;
+    moedas[pos_moeda].taxa_venda = taxa_venda;
+
+}
+
 
 #pragma clang diagnostic pop

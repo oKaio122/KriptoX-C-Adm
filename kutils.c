@@ -1333,7 +1333,7 @@ void excluir_criptomoeda(Moeda **moedas, int *qnt_moedas){
     }
 
     moeda_sel = (*moedas)[moeda_pos];
-    printf("Informações da moeda a ser excluida:\n");
+    printf("Informacoes da moeda a ser excluida:\n");
     printf("Nome: %s\nCotacao: %lf\nTaxa Compra: %lf\nTaxa Venda: %lf\n",
            moeda_sel.nome, moeda_sel.cotacao,
            moeda_sel.taxa_compra, moeda_sel.taxa_venda);
@@ -1492,5 +1492,16 @@ void consultar_extrato_admin(User usuarios[]){
         printf("Cotacao: %.2f\n", usuarios[user].extrato[i].cotacao);
     }
 }
+
+void criar_moeda(Moeda *moedas, int pos_moeda, char nome[50],
+                 double cotacao, double taxa_compra, double taxa_venda){
+
+    strcpy(moedas[pos_moeda].nome, nome);
+    moedas[pos_moeda].cotacao = cotacao;
+    moedas[pos_moeda].taxa_compra = taxa_compra;
+    moedas[pos_moeda].taxa_venda = taxa_venda;
+
+}
+
 
 #pragma clang diagnostic pop

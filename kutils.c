@@ -213,6 +213,7 @@ int salvar_usuarios(User usuarios[], int *pos, int qnt_moedas) {
     return 1;
 }
 
+
 // Carrega os usuarios na variavel usuarios
 int carregar_usuarios(User usuarios[], int *pos){
     FILE *f = fopen("usuarios.bin", "rb");

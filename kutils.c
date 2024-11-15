@@ -215,26 +215,49 @@ int salvar_usuarios(User usuarios[], int *pos, int qnt_moedas) {
 
 
 // Carrega os usuarios na variavel usuarios
-int carregar_usuarios(User usuarios[], int *pos){
+int carregar_usuarios(User usuarios[], int *pos) {
     FILE *f = fopen("usuarios.bin", "rb");
-    if (f == NULL){
+    if (f == NULL) {
         return 0;
     }
 
-    int qtd = fread(usuarios, sizeof(User), 10, f);
-    if (qtd == 0){
+    // Carrega a posição
+    int qtd = fread(pos, sizeof(int), 1, f);
+    if (qtd != 1) {
+        fclose(f);
         return 0;
     }
 
-    qtd = fread(pos, sizeof(int), 1, f);
-    if (qtd == 0){
-        return 0;
+    for (int i = 0; i < 10; i++) {
+        qtd = fread(&usuarios[i], sizeof(User) - sizeof(Moedas_User *), 1, f); // Lê a estrutura sem o ponteiro de saldos
+        if (qtd != 1) {
+            fclose(f);
+            return 0;
+        }
+
+        qtd = fread(&usuarios[i].saldos_size, sizeof(int), 1, f);
+        if (qtd != 1) {
+            fclose(f);
+            return 0;
+        }
+
+        usuarios[i].saldos = (Moedas_User *)malloc(sizeof(Moedas_User) * usuarios[i].saldos_size);
+        if (usuarios[i].saldos == NULL) {
+            fclose(f);
+            return 0;
+        }
+
+
+        qtd = fread(usuarios[i].saldos, sizeof(Moedas_User), usuarios[i].saldos_size, f);
+        if (qtd != usuarios[i].saldos_size) {
+            fclose(f);
+            return 0;
+        }
     }
 
-    if (fclose(f)){
-        return 0;
-    }
 
+
+    fclose(f);
     return 1;
 }
 

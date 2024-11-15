@@ -6,6 +6,7 @@ set(CMAKE_C_STANDARD 11)
 include_directories(.)
 
 add_executable(KriptoX_C
+        main.c
         kutils.c
         kutils.h
         kadm.c)

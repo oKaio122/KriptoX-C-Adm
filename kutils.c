@@ -382,7 +382,7 @@ void sacar_reais(User usuarios[], int pos){
     getchar(); // Recebe o \n do Enter
 }
 
-void comprar_criptomoeda(User usuarios[], int pos, Moeda *moedas, int qnt_moedas){
+void comprar_criptomoeda(User usuarios[], int pos, Cotacoes cotacao){
     char criptomoeda[10];
     float qnt_moeda;
     float taxa;
@@ -398,33 +398,54 @@ void comprar_criptomoeda(User usuarios[], int pos, Moeda *moedas, int qnt_moedas
     // Valida a senha antes do usuario poder comprar cripto, se o usuario digitar "CANCELAR" a operacao sera cancelada
     if (!validar_senha(usuarios, pos)) return;
 
-    do{
-        // Mostrar moedas e cotacoes
-        for (int i = 0; i < qnt_moedas; ++i) {
-            printf("%d - %s: %lf\n", i, moedas[i].nome, moedas[i].cotacao);
-        }
 
+    // Implementar cotacao
+    mostrar_cotacoes("Cotacao Atual", cotacao);
+
+    do{
+        char *opcoes[] = {
+                "Bitcoin",
+                "Ethereum",
+                "Ripple",
+                NULL
+        };
+        mostrar_opcoes("Criptomoedas disponiveis", opcoes);
         scanf("%d", &opcao);
         while ((getchar()) != '\n' && getchar() != EOF);
 
-        if(opcao < 0 || opcao > qnt_moedas -1) continue;
-
-        cotacao_cripto = moedas[opcao].cotacao;
-        taxa = moedas[opcao].taxa_compra;
+        switch (opcao) {
+            case 0:
+                strncpy(criptomoeda, "Bitcoin", sizeof(criptomoeda)-1);
+                taxa = 0.02;
+                cotacao_cripto = cotacao.bitcoin;
+                break;
+            case 1:
+                strncpy(criptomoeda, "Ethereum", sizeof(criptomoeda)-1);
+                taxa = 0.01;
+                cotacao_cripto = cotacao.ethereum;
+                break;
+            case 2:
+                strncpy(criptomoeda, "Ripple", sizeof(criptomoeda)-1);
+                taxa = 0.01;
+                cotacao_cripto = cotacao.ripple;
+                break;
+            default:
+                printf("Opcao nao encontrada\n");
+                break;
+        }
 
     }while(!opcao && opcao != 0);
-
     do{
         // Obtem um numero maior que 0 e que nao tem caracteres
         qnt_moeda = receber_saldo_valido(criptomoeda, "comprar");
 
         preco_operacao = (qnt_moeda * (1 + taxa)  * cotacao_cripto);
 
-        if (preco_operacao > usuarios[pos].reais){
+        if (preco_operacao > usuarios[pos].saldo.reais){
             printf("Saldo em reais insuficiente!");
         }
 
-    } while (preco_operacao > usuarios[pos].reais);
+    } while (preco_operacao > usuarios[pos].saldo.reais);
 
     printf("Para confirmar a compra digite 1: ");
     scanf("%d", &confirmacao);
@@ -435,14 +456,23 @@ void comprar_criptomoeda(User usuarios[], int pos, Moeda *moedas, int qnt_moedas
     }
 
     // Parte das operacoes
-    usuarios[pos].reais -= preco_operacao;
-    usuarios[pos].saldos[opcao].saldo += qnt_moeda;
-
+    usuarios[pos].saldo.reais -= preco_operacao;
+    // Adiciona a qnt de cripto na moeda selecionada
+    if (strcmp(criptomoeda, "Bitcoin") == 0) {
+        usuarios[pos].saldo.bitcoin += qnt_moeda;
+    } else if (strcmp(criptomoeda, "Ethereum") == 0) {
+        usuarios[pos].saldo.ethereum += qnt_moeda;
+    } else if (strcmp(criptomoeda, "Ripple") == 0) {
+        usuarios[pos].saldo.ripple += qnt_moeda;
+    }
 
     printf("Compra realizada com sucesso! Total com taxa: R$ %.2f, Taxa: R$ %.2f\n", preco_operacao, preco_operacao * (taxa));
-    printf("Saldo em reais atualizado: R$ %.2f\n", usuarios[pos].reais);
+    printf("Saldo em reais atualizado: R$ %.2f\n", usuarios[pos].saldo.reais);
     // Printa o saldo da criptomoeda selecionada atualizado
-    printf("Saldo em %s atualizado: %.2f\n", criptomoeda, usuarios[pos].saldos[opcao].saldo);
+    printf("Saldo em %s atualizado: %.2f\n", criptomoeda,
+           strcmp(criptomoeda, "Bitcoin") == 0 ? usuarios[pos].saldo.bitcoin :
+           strcmp(criptomoeda, "Ethereum") == 0 ? usuarios[pos].saldo.ethereum :
+           usuarios[pos].saldo.ripple);
 
     salvar_extrato(usuarios, pos, "-", "Real", 1, preco_operacao, taxa);
     salvar_extrato(usuarios, pos, "+", criptomoeda, cotacao_cripto, qnt_moeda, 0);

@@ -32,7 +32,7 @@ typedef struct {
 typedef struct {
     char data[255];
     char operacao[255];
-    char moeda[10];
+    char moeda[50];
     float cotacao;
     float valor;
     float taxa;
@@ -84,7 +84,7 @@ void sacar_reais(User usuarios[], int pos);
 void consultar_saldo(User usuarios[], int pos, int qnt_moedas);
 void consultar_extrato(User usuarios[], int pos);
 void comprar_criptomoeda(User usuarios[], int pos, Moeda *moedas, int qnt_moedas);
-void vender_criptomoeda(User usuarios[], int pos, Cotacoes cotacao);
+void vender_criptomoeda(User usuarios[], int pos, Moeda *moedas, int qnt_moedas);
 void transferir_saldo(User usuarios[], int pos, Cotacoes cotacao);
 
 // Parte de Admin

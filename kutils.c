@@ -989,13 +989,12 @@ void mostrar_cotacoes(char titulo[], Cotacoes cotacoes) {
 #endif
 }
 
-int encontrar_usuario(char *ptr_cpf_procurado[], int user, User usuarios[]){
+int encontrar_usuario(int *user_procurado, User usuarios[]){
     char cpf[12];
-    int user_valido;
+    int user_valido = 0;
+    int user;
 
     do{
-
-        printf("Insira o CPF do usuario que deseja excluir: ");
         // Obter CPF e senha para checar com a dos outros usuarios
         receber_cpf_valido(cpf, 1);
 
@@ -1019,8 +1018,7 @@ int encontrar_usuario(char *ptr_cpf_procurado[], int user, User usuarios[]){
 
     } while(!user_valido);
 
-    // Aloca o CPF do usuario obtido para o CPF da função pai
-    strcpy(*ptr_cpf_procurado, cpf);
+    *user_procurado = user;
 
     return 1;
 }

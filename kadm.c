@@ -81,7 +81,7 @@ void menu_opcoes_admin(Moeda *moedas, int *qnt_moedas, User usuarios[]){
 //                consultar_saldo_admin();
                 break;
             case 6:
-//                consultar_extrato_admin();
+                consultar_extrato_admin(usuarios);
                 break;
             case 7:
                 // atualizar_cotacao();

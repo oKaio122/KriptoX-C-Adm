@@ -1066,5 +1066,31 @@ int logar_administrador(Administrador administradores[]){
     return user;
 }
 
+int salvar_moedas(Moeda moedas[], int qnt_moedas){
+    FILE *f = fopen("moedas.bin", "wb");
+    if (f == NULL){
+        printf("Erro ao salvar moedas! f == NULL\n");
+        return 0;
+    }
+
+    int qtd = fwrite(&qnt_moedas, sizeof(int), 1, f);
+    if (qtd == 0){
+        printf("ERRO AO SALVAR QNT MOEDAS!! fwrite retornou 0.\n");
+        return 0;
+    }
+
+    qtd = fwrite(moedas, sizeof(Moeda), qnt_moedas, f);
+    if (qtd == 0){
+        printf("ERRO AO SALVAR MOEDAS!! fwrite retornou 0.\n");
+        return 0;
+    }
+
+    if (fclose(f)){
+        printf("ERRO AO SALVAR MOEDAS!! fclose retornou 0.\n");
+        return 0;
+    }
+
+    return 1;
+}
 
 #pragma clang diagnostic pop

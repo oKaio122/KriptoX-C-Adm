@@ -113,7 +113,7 @@ void menu_opcoes(User usuarios[10], int pos, Moeda *moedas, int qnt_moedas){
                 comprar_criptomoeda(usuarios, pos, moedas, qnt_moedas);
                 break;
             case 6:
-//                vender_criptomoeda(usuarios, pos);
+                vender_criptomoeda(usuarios, pos, moedas, qnt_moedas);
                 break;
             case 7:
                 atualizar_cotacao(&moedas, qnt_moedas);

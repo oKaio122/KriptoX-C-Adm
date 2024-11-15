@@ -259,14 +259,13 @@ void consultar_saldo(User usuarios[], int pos, int qnt_moedas){
     mostrar_menu("Consultar saldo");
 
     printf("Saldo de Reais: %f\n", usuarios[pos].reais);
-    for (int i = 0; i < qnt_moedas; ++i) {
+    for (int i = 0; i < qnt_moedas; i++) {
         printf("Saldo de %s: %lf\n", usuarios[pos].saldos[i].nome, usuarios[pos].saldos[i].saldo);
     }
 
     printf("Aperte Enter para voltar ao menu de opcoes.\n");
     getchar(); // Recebe o \n do Enter
 }
-
 
 void consultar_extrato(User usuarios[], int pos){
     char *extrato_data;
@@ -404,14 +403,16 @@ void comprar_criptomoeda(User usuarios[], int pos, Moeda *moedas, int qnt_moedas
         for (int i = 0; i < qnt_moedas; ++i) {
             printf("%d - %s: %lf\n", i, moedas[i].nome, moedas[i].cotacao);
         }
-
+        printf("Escolha uma moeda para comprar.\n");
         scanf("%d", &opcao);
         while ((getchar()) != '\n' && getchar() != EOF);
 
         if(opcao < 0 || opcao > qnt_moedas -1) continue;
 
+        strcpy(criptomoeda, moedas[opcao].nome);
         cotacao_cripto = moedas[opcao].cotacao;
         taxa = moedas[opcao].taxa_compra;
+
 
     }while(!opcao && opcao != 0);
 
@@ -452,7 +453,7 @@ void comprar_criptomoeda(User usuarios[], int pos, Moeda *moedas, int qnt_moedas
     getchar(); // Recebe o \n do Enter
 }
 
-void vender_criptomoeda(User usuarios[], int pos, Cotacoes cotacao){
+void vender_criptomoeda(User usuarios[], int pos, Moeda *moedas, int qnt_moedas){
     char criptomoeda[10];
     float qnt_moeda;
     float taxa;
@@ -469,43 +470,21 @@ void vender_criptomoeda(User usuarios[], int pos, Cotacoes cotacao){
     // Valida a senha antes do usuario poder vender cripto, se o usuario digitar "CANCELAR" a operacao sera cancelada
     if (!validar_senha(usuarios, pos)) return;
 
-    // Implementar cotacao
-    mostrar_cotacoes("Cotacao Atual", cotacao);
-
     do{
-        char *opcoes[] = {
-                "Bitcoin",
-                "Ethereum",
-                "Ripple",
-                NULL
-        };
-        mostrar_opcoes("Criptomoedas disponiveis", opcoes);
+        // Mostrar moedas e cotacoes
+        for (int i = 0; i < qnt_moedas; ++i) {
+            printf("%d - %s: %lf\n", i, moedas[i].nome, moedas[i].cotacao);
+        }
+        printf("Escolha uma moeda para comprar.\n");
         scanf("%d", &opcao);
         while ((getchar()) != '\n' && getchar() != EOF);
 
-        switch (opcao) {
-            case 0:
-                strncpy(criptomoeda, "Bitcoin", sizeof(criptomoeda)-1);
-                saldo_cripto = usuarios[pos].saldo.bitcoin;
-                cotacao_cripto = cotacao.bitcoin;
-                taxa = 0.03;
-                break;
-            case 1:
-                strncpy(criptomoeda, "Ethereum", sizeof(criptomoeda)-1);
-                saldo_cripto = usuarios[pos].saldo.ethereum;
-                cotacao_cripto = cotacao.ethereum;
-                taxa = 0.02;
-                break;
-            case 2:
-                strncpy(criptomoeda, "Ripple", sizeof(criptomoeda)-1);
-                saldo_cripto = usuarios[pos].saldo.ripple;
-                cotacao_cripto = cotacao.ripple;
-                taxa = 0.01;
-                break;
-            default:
-                printf("Opcao nao encontrada\n");
-                break;
-        }
+        if(opcao < 0 || opcao > qnt_moedas -1) continue;
+
+        strcpy(criptomoeda, moedas[opcao].nome);
+        cotacao_cripto = moedas[opcao].cotacao;
+        taxa = moedas[opcao].taxa_compra;
+        saldo_cripto = usuarios[pos].saldos[opcao].saldo;
 
     }while(!opcao && opcao != 0);
 
@@ -530,24 +509,15 @@ void vender_criptomoeda(User usuarios[], int pos, Cotacoes cotacao){
 
     // Parte das operacoes
     preco_operacao = (qnt_moeda * cotacao_cripto)/ (1 + taxa);
-    usuarios[pos].saldo.reais += preco_operacao ;
+    usuarios[pos].reais += preco_operacao;
 
     // Adiciona a qnt de cripto na moeda selecionada
-    if (strcmp(criptomoeda, "Bitcoin") == 0) {
-        usuarios[pos].saldo.bitcoin -= qnt_moeda;
-    } else if (strcmp(criptomoeda, "Ethereum") == 0) {
-        usuarios[pos].saldo.ethereum -= qnt_moeda;
-    } else if (strcmp(criptomoeda, "Ripple") == 0) {
-        usuarios[pos].saldo.ripple -= qnt_moeda;
-    }
+    usuarios[pos].saldos[opcao].saldo -= qnt_moeda;
 
     printf("Venda realizada com sucesso! Total ganho com taxa: R$ %.2f, Taxa: R$ %.2f\n", preco_operacao, preco_operacao * (taxa));
-    printf("Saldo em reais atualizado: R$ %.2f\n", usuarios[pos].saldo.reais);
+    printf("Saldo em reais atualizado: R$ %.2f\n", usuarios[pos].reais);
     // Printa o saldo da criptomoeda selecionada atualizado
-    printf("Saldo em %s atualizado: %.2f\n", criptomoeda,
-           strcmp(criptomoeda, "Bitcoin") == 0 ? usuarios[pos].saldo.bitcoin :
-           strcmp(criptomoeda, "Ethereum") == 0 ? usuarios[pos].saldo.ethereum :
-           usuarios[pos].saldo.ripple);
+    printf("Saldo em %s atualizado: %.2f\n", criptomoeda, usuarios[pos].saldos[opcao].saldo -= qnt_moeda);
 
     salvar_extrato(usuarios, pos, "-", criptomoeda, cotacao_cripto, qnt_moeda, 0);
     salvar_extrato(usuarios, pos, "+", "Real", 1, preco_operacao, taxa);

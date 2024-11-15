@@ -1138,4 +1138,65 @@ int carregar_moedas(Moeda **moedas, int *qnt_moedas){
     return 1;
 }
 
+double obter_num_valido(char num_text[]){
+    double num;
+    do{
+        printf("%s\n", num_text);
+        scanf("%lf", &num);
+
+        if(num < 0.0){
+            printf("Insira um valor maior que 0!\n");
+        }
+        fflush(stdin);
+    } while (num < 0.0);
+
+    return num;
+}
+
+void cadastrar_criptomoeda(Moeda **moedas, int *qnt_moedas){
+    int nome_valido = 0;
+    char nome[50];
+    double cotacao;
+    double taxa_compra;
+    double taxa_venda;
+    int i;
+
+    *qnt_moedas += 1;
+
+    mostrar_menu("Adicionar Criptomoeda");
+
+    // Salva uma variável com a memoria temporariamente para colocar nas moedas
+    Moeda *temp = realloc(*moedas, (sizeof(Moeda) * (*qnt_moedas)));
+    *moedas = temp;
+
+    // Colocar um nome válido na moeda
+    while(!nome_valido){
+        nome_valido = 1;
+        // Colocar valores na moeda
+        printf("Insira o nome da moeda: \n");
+        scanf("%49s", nome);
+        for(i = 0; i < *qnt_moedas; i++){
+            if(strcmp((*moedas)[i].nome, nome) == 0){
+                printf("Ja existe uma moeda com esse nome!\n");
+                nome_valido = 0;
+            }
+        }
+
+    }
+
+    // Obter valores válidos para a moeda
+    cotacao = obter_num_valido("Insira a cotacao da moeda:");
+    taxa_venda = obter_num_valido("Insira a taxa de compra da moeda:");
+    taxa_compra = obter_num_valido("Insira a taxa de venda da moeda:");
+
+    strcpy((*moedas)[*qnt_moedas-1].nome , nome);
+    (*moedas)[*qnt_moedas-1].cotacao = cotacao;
+    (*moedas)[*qnt_moedas-1].taxa_venda = taxa_venda;
+    (*moedas)[*qnt_moedas-1].taxa_compra = taxa_compra;
+
+    salvar_moedas(*moedas, *qnt_moedas);
+
+    printf("Moeda criada com sucesso!\n");
+}
+
 #pragma clang diagnostic pop

@@ -13,6 +13,8 @@
 typedef struct {
     char nome[50];
     double cotacao;
+    double taxa_compra;
+    double taxa_venda;
 } Moeda;
 
 typedef struct {
@@ -84,3 +86,4 @@ int logar_administrador(Administrador administradores[]);
 void menu_opcoes_admin(Moeda *moedas, int *qnt_moedas, User usuarios[]);
 int salvar_moedas(Moeda moedas[], int qnt_moedas);
 int carregar_moedas(Moeda **moedas, int *qnt_moedas);
+void cadastrar_criptomoeda(Moeda **moedas, int *qnt_moedas);

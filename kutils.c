@@ -1199,5 +1199,52 @@ void cadastrar_criptomoeda(Moeda **moedas, int *qnt_moedas){
     printf("Moeda criada com sucesso!\n");
 }
 
+void excluir_criptomoeda(Moeda **moedas, int *qnt_moedas){
+    char nome[50];
+    int moeda_valida = 0;
+    int moeda_pos;
+    int i;
+
+    mostrar_menu("Remover Criptomoeda");
+
+    // Obtem uma moeda válida para remover
+    while(!moeda_valida){
+        printf("Para cancelar a operacao digite \"CANCELAR\".\n");
+        printf("Insira o nome da moeda que deseja remover: \n");
+        scanf("%49s", nome);
+
+        for(i = 0; i < *qnt_moedas; i++){
+            if(strcmp((*moedas)[i].nome, nome) == 0){
+                moeda_valida = 1;
+                moeda_pos = i;
+                break;
+            }
+        }
+
+        if(!moeda_valida){
+            printf("Moeda nao encontrada!\nMoedas disponiveis:\n");
+            printf("COLOCAR MOEDAS DISPONIVEIS AQUI NO FUTURO!\n");
+            for(i = 0; i < *qnt_moedas; i++){
+                printf("%s",(*moedas)[i].nome);
+            }
+        }
+
+        // Se cancelar sai da funcao e volta pro menu
+        if(strcmp(nome, "CANCELAR") == 0) return;
+    }
+
+    for(i = moeda_pos; i < *qnt_moedas - 1; i++){
+        (*moedas)[i] = (*moedas)[i+1];
+    }
+
+    *qnt_moedas -= 1;
+
+    Moeda *temp = realloc(*moedas, (sizeof(Moeda) * (*qnt_moedas)));
+    *moedas = temp;
+
+    salvar_moedas(*moedas, *qnt_moedas);
+
+    printf("Moeda removida com sucesso!\n");
+}
 
 #pragma clang diagnostic pop

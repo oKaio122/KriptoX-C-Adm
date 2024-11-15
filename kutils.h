@@ -82,7 +82,7 @@ void transferir_saldo(User usuarios[], int pos, Cotacoes cotacao);
 
 // Parte de Admin
 
-int encontrar_usuario(char *ptr_cpf_procurado[], int user, User usuarios[]);
+int encontrar_usuario(int *user_procurado, User usuarios[]);
 int logar_administrador(Administrador administradores[]);
 void menu_opcoes_admin(Moeda *moedas, int *qnt_moedas, User usuarios[]);
 int salvar_moedas(Moeda moedas[], int qnt_moedas);

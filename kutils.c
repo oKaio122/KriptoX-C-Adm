@@ -1323,12 +1323,13 @@ void excluir_criptomoeda(Moeda **moedas, int *qnt_moedas){
             }
         }
 
+        // Se cancelar sai da funcao e volta pro menu
+        if(strcmp(nome, "CANCELAR") == 0) return;
+
         if(!moeda_valida){
             printf("Moeda nao encontrada!\n");
         }
 
-        // Se cancelar sai da funcao e volta pro menu
-        if(strcmp(nome, "CANCELAR") == 0) return;
     }
 
     moeda_sel = (*moedas)[moeda_pos];

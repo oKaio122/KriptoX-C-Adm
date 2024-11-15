@@ -1495,7 +1495,7 @@ void consultar_extrato_admin(User usuarios[]){
     }
 }
 
-void criar_moeda(Moeda *moedas, int pos_moeda, char nome[50],
+void criar_moeda(Moeda *moedas, int pos_moeda, char *nome,
                  double cotacao, double taxa_compra, double taxa_venda){
 
     strcpy(moedas[pos_moeda].nome, nome);

@@ -40,16 +40,26 @@ int main(){
             case 1:
                 // A funcao retorna a posicao do usuario logado, se for para cancelar login retorna -1
                 pos = logar_usuario(usuarios);
+
                 // Caso retorne -1 ira cancelar o login
+
                 if (pos >= 0) menu_opcoes(usuarios, pos, moedas, qnt_moedas);
+
+                fflush(stdin); // Não deixa outros inputs serem pegos pelo getchar
+                printf("Aperte Enter para voltar ao menu de principal.\n");
+                getchar(); // Recebe o \n do Enter
+
                 break;
             case 2:
                 registrar_usuario(usuarios, &pos, qnt_moedas, moedas);
+
+                fflush(stdin); // Não deixa outros inputs serem pegos pelo getchar
+                printf("Aperte Enter para voltar ao menu de principal.\n");
+                getchar(); // Recebe o \n do Enter
+
                 break;
             default:
                 printf("Opcao nao encontrada\n");
-                printf("Aperte Enter para escolher novamente.\n");
-                getchar(); // Recebe o \n do Enter
         }
     }while(opcao != 0);
 
@@ -119,17 +129,17 @@ void menu_opcoes(User usuarios[10], int pos, Moeda *moedas, int qnt_moedas){
                 atualizar_cotacao(&moedas, qnt_moedas);
                 break;
             case 8:
-//                transferir_saldo(usuarios, pos);
+                transferir_saldo(usuarios, pos, moedas, qnt_moedas);
                 break;
-
             default:
                 printf("Opcao nao encontrada\n");
-                printf("Aperte Enter para escolher novamente.\n");
-                getchar(); // Recebe o \n do Enter
                 break;
         }
 
         fflush(stdin);
+        printf("Aperte Enter para escolher novamente.\n");
+        getchar(); // Recebe o \n do Enter
+
         // Limpar Console
         system("cls||clear");
 

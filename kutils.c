@@ -1282,6 +1282,16 @@ void cadastrar_criptomoeda(Moeda **moedas, int *qnt_moedas, User usuarios[]){
 
     adicionar_moeda_users(usuarios, nome);
 
+    for (i = 0; i < 10; i++) {
+        if(strcmp(usuarios[i].cpf, "") == 0){
+            break; // Pular usuários inativos
+        }
+        printf("Usuário: %s\n", usuarios[i].nome);
+        for(int j = 0; j < usuarios[i].saldos_size; j++){
+            printf("  Moeda: %s, Saldo: %.2lf\n", usuarios[i].saldos[j].nome, usuarios[i].saldos[j].saldo);
+        }
+        printf("\n");
+    }
     salvar_moedas(*moedas, *qnt_moedas);
 
     printf("Moeda criada com sucesso!\n");
@@ -1410,7 +1420,7 @@ int cadastrar_usuario(User usuarios[], int qnt_moedas, Moeda *moedas){
     strcpy(usuarios[i].nome, nome);
     strcpy(usuarios[i].cpf, cpf);
     strcpy(usuarios[i].senha, senha);
-    usuarios[i].saldos_size = qnt_moedas;
+    usuarios[i].saldos_size = 0;
     for (int j = 0; j < qnt_moedas; ++j) {
         adicionar_moeda_users(usuarios, moedas[j].nome);
     }
@@ -1509,6 +1519,9 @@ void criar_moeda(Moeda *moedas, int pos_moeda, char *nome,
 }
 
 void adicionar_moeda_users(User usuarios[], char *nome_moeda){
+
+    printf("Adicionando moeda %s!!\n", nome_moeda);
+
     for(int i = 0; i < 10; i++) {
 
         if (strcmp(usuarios[i].nome, "") == 0){

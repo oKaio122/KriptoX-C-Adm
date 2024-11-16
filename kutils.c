@@ -1075,6 +1075,8 @@ void mostrar_saldo(char titulo[], User usuario, int qnt_moedas) {
         int len = strlen(usuario.saldos[i].nome);
         if(len > max_nome_len) max_nome_len = len;
     }
+
+    // ajustar tamanho das caixas do texto
     int titulo_total_len = strlen(titulo) + 4; // "】 " + titulo + " 【"
     int row_length = 4 + max_nome_len + 3 + 10 + 2; // "┃ 1 " + nome + " - " + valor + " ┃"
     int box_width = (titulo_total_len > row_length) ? titulo_total_len : row_length;
@@ -1086,24 +1088,28 @@ void mostrar_saldo(char titulo[], User usuario, int qnt_moedas) {
     _setmode(_fileno(stdout), _O_U16TEXT);
     wchar_t w_titulo[255];
     mbstowcs(w_titulo, titulo, strlen(titulo)+1);
+
     // Printa ┏━━━━━━━━━】   Saldo do Usuario    【━━━━━━━━┓
     wprintf(L"┏");
     for(int i = 0; i < padding_left; i++) wprintf(L"━");
     wprintf(L"】 %ls 【", w_titulo);
     for(int i = 0; i < padding_right; i++) wprintf(L"━");
     wprintf(L"┓\n");
-    // Printa Reais
+
+    // Printa os reais
     wprintf(L"┃ %-*ls - %10.2lf", max_nome_len, L"Reais", usuario.reais);
     for(int i = 0; i < box_width - 2 - (max_nome_len + 3 + 10); i++) wprintf(L" ");
     wprintf(L"┃\n");
+
     // Printa as moedas
-    for(int i = 0; i < qnt_moedas - 1; i++) {
+    for(int i = 0; i < qnt_moedas; i++) {
         wchar_t w_nome[50];
         mbstowcs(w_nome, usuario.saldos[i].nome, strlen(usuario.saldos[i].nome)+1);
         wprintf(L"┃ %-*ls - %10.2lf", max_nome_len, w_nome, usuario.saldos[i].saldo);
         for(int j = 0; j < box_width - 2 - (max_nome_len + 3 + 10); j++) wprintf(L" ");
         wprintf(L"┃\n");
     }
+
     // Printa ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
     wprintf(L"┗");
     for(int i = 0; i < box_width -1; i++) wprintf(L"━");
@@ -1116,16 +1122,19 @@ void mostrar_saldo(char titulo[], User usuario, int qnt_moedas) {
     printf("】 %s 【", titulo);
     for(int i = 0; i < padding_right; i++) printf("━");
     printf("┓\n");
+
     // Printa Reais
     printf("┃ %-*s - %10.2lf", max_nome_len, "Reais", usuario.reais);
     for(int i = 0; i < box_width - 2 - (max_nome_len + 3 + 10); i++) printf(" ");
     printf("┃\n");
+
     // Printa as moedas
     for(int i = 0; i < qnt_moedas; i++) {
         printf("┃ %-*s - %10.2lf", max_nome_len, usuario.saldos[i].nome, usuario.saldos[i].saldo);
         for(int j = 0; j < box_width - 2 - (max_nome_len + 3 + 10); j++) printf(" ");
         printf("┃\n");
     }
+
     // Printa ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
     printf("┗");
     for(int i = 0; i < box_width -1; i++) printf("━");
@@ -1515,6 +1524,9 @@ void consultar_extrato_admin(User usuarios[]){
     int user;
     int i;
 
+    system("cls||clear");
+    mostrar_menu("Consultar Extrato Admin");
+
     do{
 
         printf("Insira o CPF do usuario para ver seu extrato:\n");
@@ -1642,6 +1654,9 @@ void consultar_saldo_admin(User usuarios[]){
     char cpf[12];
     int user;
     int i;
+
+    system("cls||clear");
+    mostrar_menu("Consultar Saldo Admin");
 
     do{
         printf("Insira o CPF do usuario para ver seu saldo:\n");

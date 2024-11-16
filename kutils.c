@@ -1341,7 +1341,6 @@ void cadastrar_criptomoeda(Moeda **moedas, int *qnt_moedas, User usuarios[]){
 }
 
 void excluir_criptomoeda(Moeda **moedas, int *qnt_moedas, User usuarios[]){
-    char nome[50];
     int moeda_valida = 0;
     int moeda_pos;
     int confirmar;
@@ -1358,27 +1357,21 @@ void excluir_criptomoeda(Moeda **moedas, int *qnt_moedas, User usuarios[]){
     // Obtem uma moeda válida para remover
     while(!moeda_valida){
 
-        printf("Moedas disponiveis: %d\n", *qnt_moedas);
-        for(i = 0; i < *qnt_moedas; i++){
-            printf("%s\n",(*moedas)[i].nome);
-        }
+        mostrar_moedas("Moedas disponiveis", *moedas, *qnt_moedas, 0);
 
-        printf("Para cancelar a operacao digite \"CANCELAR\".\n");
-        printf("Insira o nome da moeda que deseja remover: \n");
-        scanf("%49s", nome);
-
-        for(i = 0; i < *qnt_moedas; i++){
-            if(strcmp((*moedas)[i].nome, nome) == 0){
-                moeda_valida = 1;
-                moeda_pos = i;
-                break;
-            }
-        }
+        printf("Para cancelar a operacao digite -1.\n");
+        printf("Qual criptomoeda deseja remover? \n");
+        scanf("%d", &moeda_pos);
 
         // Se cancelar sai da funcao e volta pro menu
-        if(strcmp(nome, "CANCELAR") == 0){
-            printf("Operacao cancelada.");
+        if(moeda_pos == -1){
+            printf("Operacao cancelada.\n");
             return;
+        }
+
+        // forma de a moeda ser valida
+        if(moeda_pos > 0 || moeda_pos < *qnt_moedas -1){
+            moeda_valida = 1;
         }
 
         if(!moeda_valida){
@@ -1407,10 +1400,11 @@ void excluir_criptomoeda(Moeda **moedas, int *qnt_moedas, User usuarios[]){
 
     *qnt_moedas -= 1;
 
+    remover_moeda_users(usuarios, moedas[*qnt_moedas-1]->nome);
+
     Moeda *temp = realloc(*moedas, (sizeof(Moeda) * (*qnt_moedas)));
     *moedas = temp;
 
-    remover_moeda_users(usuarios, nome);
 
     salvar_moedas(*moedas, *qnt_moedas);
 

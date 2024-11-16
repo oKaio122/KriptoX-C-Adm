@@ -89,3 +89,4 @@ void mostrar_info_user(char titulo[], User usuario);
 void criar_moeda(Moeda *moedas, int pos_moeda, char *nome, double cotacao, double taxa_compra, double taxa_venda);
 void adicionar_moeda_users(User usuarios[], char *nome_moeda);
 void remover_moeda_users(User usuarios[], char *nome_moeda);
+void consultar_saldo_admin(User usuarios[]);

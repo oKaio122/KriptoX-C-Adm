@@ -1572,8 +1572,6 @@ void criar_moeda(Moeda *moedas, int pos_moeda, char *nome,
 
 void adicionar_moeda_users(User usuarios[], char *nome_moeda){
 
-    printf("Adicionando moeda %s!!\n", nome_moeda);
-
     for(int i = 0; i < 10; i++) {
 
         if (strcmp(usuarios[i].nome, "") == 0){

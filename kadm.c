@@ -81,7 +81,7 @@ void menu_opcoes_admin(Moeda *moedas, int *pos, int *qnt_moedas, User usuarios[]
                 excluir_criptomoeda(&moedas, qnt_moedas, usuarios);
                 break;
             case 5:
-//                consultar_saldo_admin();
+                consultar_saldo_admin(usuarios);
                 break;
             case 6:
                 consultar_extrato_admin(usuarios);
@@ -102,8 +102,6 @@ void menu_opcoes_admin(Moeda *moedas, int *pos, int *qnt_moedas, User usuarios[]
             printf("Aperte Enter para voltar ao menu de opcoes admin.\n");
             getchar(); // Recebe o \n do Enter
         }
-
-
 
         // Limpar Console
         system("cls||clear");

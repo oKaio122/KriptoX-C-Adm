@@ -38,6 +38,7 @@ int main(){
 
 void menu_opcoes_admin(Moeda *moedas, int *pos, int *qnt_moedas, User usuarios[]){
     int opcao;
+    char lixo;
 
     system("cls||clear");
 
@@ -98,9 +99,8 @@ void menu_opcoes_admin(Moeda *moedas, int *pos, int *qnt_moedas, User usuarios[]
         }
 
         if (!(opcao < 0 || opcao > 7)){
-            fflush(stdin);
             printf("Aperte Enter para voltar ao menu de opcoes admin.\n");
-            getchar(); // Recebe o \n do Enter
+            while ((lixo = getchar()) != '\n' && lixo != EOF);
         }
 
         // Limpar Console

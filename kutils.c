@@ -46,13 +46,12 @@ int registrar_usuario(User usuarios[], int *pos, int qnt_moedas, Moeda *moedas){
     strcpy(usuarios[i].nome, nome);
     strcpy(usuarios[i].cpf, cpf);
     strcpy(usuarios[i].senha, senha);
-    usuarios[i].saldos_size = qnt_moedas;
-    *pos = i;
-
+    usuarios[i].saldos_size = 0;
     for (int j = 0; j < qnt_moedas; ++j) {
         adicionar_moeda_users(usuarios, moedas[j].nome);
     }
 
+    *pos = i;
     // Salva o novo usuario
     salvar_usuarios(usuarios, pos, qnt_moedas);
 
@@ -433,7 +432,7 @@ void comprar_criptomoeda(User usuarios[], int pos, Moeda *moedas, int qnt_moedas
     system("cls||clear");
     mostrar_menu("Comprar Cripto");
 
-    printf("Valide sua senha antes de comprar criptomoedas, para cancelar digite \"CANCELAR\".");
+    printf("Valide sua senha antes de comprar criptomoedas, para cancelar digite \"CANCELAR\".\n");
 
     // Valida a senha antes do usuario poder comprar cripto, se o usuario digitar "CANCELAR" a operacao sera cancelada
     if (!validar_senha(usuarios, pos)) return;
@@ -505,7 +504,7 @@ void vender_criptomoeda(User usuarios[], int pos, Moeda *moedas, int qnt_moedas)
     system("cls||clear");
     mostrar_menu("Vender Cripto");
 
-    printf("Valide sua senha antes de vender cripto, para cancelar digite \"CANCELAR\".");
+    printf("Valide sua senha antes de vender cripto, para cancelar digite \"CANCELAR\".\n");
 
     // Valida a senha antes do usuario poder vender cripto, se o usuario digitar "CANCELAR" a operacao sera cancelada
     if (!validar_senha(usuarios, pos)) return;
@@ -515,7 +514,7 @@ void vender_criptomoeda(User usuarios[], int pos, Moeda *moedas, int qnt_moedas)
         for (int i = 0; i < qnt_moedas; ++i) {
             printf("%d - %s: %lf\n", i, moedas[i].nome, moedas[i].cotacao);
         }
-        printf("Escolha uma moeda para comprar.\n");
+        printf("Escolha uma moeda para vender.\n");
         scanf("%d", &opcao);
         while ((getchar()) != '\n' && getchar() != EOF);
 
@@ -537,7 +536,6 @@ void vender_criptomoeda(User usuarios[], int pos, Moeda *moedas, int qnt_moedas)
         }
 
     } while (qnt_moeda > saldo_cripto);
-
     printf("Para confirmar a venda digite 1: ");
     scanf("%d", &confirmacao);
     while ((getchar()) != '\n' && getchar() != EOF);
@@ -557,7 +555,7 @@ void vender_criptomoeda(User usuarios[], int pos, Moeda *moedas, int qnt_moedas)
     printf("Venda realizada com sucesso! Total ganho com taxa: R$ %.2f, Taxa: R$ %.2f\n", preco_operacao, preco_operacao * (taxa));
     printf("Saldo em reais atualizado: R$ %.2f\n", usuarios[pos].reais);
     // Printa o saldo da criptomoeda selecionada atualizado
-    printf("Saldo em %s atualizado: %.2f\n", criptomoeda, usuarios[pos].saldos[opcao].saldo -= qnt_moeda);
+    printf("Saldo em %s atualizado: %.2f\n", criptomoeda, usuarios[pos].saldos[opcao].saldo);
 
     salvar_extrato(usuarios, pos, "-", criptomoeda, cotacao_cripto, qnt_moeda, 0);
     salvar_extrato(usuarios, pos, "+", "Real", 1, preco_operacao, taxa);
@@ -1325,7 +1323,7 @@ void excluir_criptomoeda(Moeda **moedas, int *qnt_moedas, User usuarios[]){
     printf("Moeda removida com sucesso!\n");
 }
 
-int cadastrar_usuario(User usuarios[]){
+int cadastrar_usuario(User usuarios[], int qnt_moedas, Moeda *moedas){
 
     char cpf[12];
     char senha[9];
@@ -1374,6 +1372,10 @@ int cadastrar_usuario(User usuarios[]){
     strcpy(usuarios[i].nome, nome);
     strcpy(usuarios[i].cpf, cpf);
     strcpy(usuarios[i].senha, senha);
+    usuarios[i].saldos_size = qnt_moedas;
+    for (int j = 0; j < qnt_moedas; ++j) {
+        adicionar_moeda_users(usuarios, moedas[j].nome);
+    }
 
     printf("Cadastro concluido com sucesso!\n");
 

@@ -1040,7 +1040,7 @@ void mostrar_info_user(char titulo[], User usuario) {
 
     // Printa o meio do menu (█ Moeda: %lf         )
     for (i = 0; i < usuario.saldos_size; ++i) {
-        printf("█ %s: %lf", usuario.saldos[i].nome, usuario.saldos[i].saldo);
+        printf("█ %s: %lf\n", usuario.saldos[i].nome, usuario.saldos[i].saldo);
     }
 
 #endif

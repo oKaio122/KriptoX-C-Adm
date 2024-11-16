@@ -1572,7 +1572,18 @@ void criar_moeda(Moeda *moedas, int pos_moeda, char *nome,
 
 void adicionar_moeda_users(User usuarios[], char *nome_moeda){
 
+    int user_tem_moeda;
     for(int i = 0; i < 10; i++) {
+        user_tem_moeda = 0;
+
+        for (int j = 0; j < usuarios[i].saldos_size; ++j) {
+            if(strcmp(usuarios[i].saldos[j].nome, nome_moeda) == 0){
+                user_tem_moeda = 1;
+                break;
+            }
+        }
+
+        if(user_tem_moeda) continue;
 
         if (strcmp(usuarios[i].nome, "") == 0){
             break;

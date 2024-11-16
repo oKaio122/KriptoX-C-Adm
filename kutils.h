@@ -23,13 +23,6 @@ typedef struct {
 } Moedas_User;
 
 typedef struct {
-    float ethereum;
-    float bitcoin;
-    float ripple;
-    float reais;
-} Saldo;
-
-typedef struct {
     char data[255];
     char operacao[255];
     char moeda[50];
@@ -45,7 +38,6 @@ typedef struct {
     double reais;
     Moedas_User *saldos;
     int saldos_size;
-    Saldo saldo;
     Extrato extrato[100];
 } User;
 
@@ -62,7 +54,7 @@ typedef struct {
 } Administrador;
 
 // Funções gerais
-int registrar_usuario(User usuarios[10], int *pos);
+int registrar_usuario(User usuarios[], int *pos, int qnt_moedas, Moeda *moedas);
 int logar_usuario(User usuarios[10]);
 float receber_saldo_valido(char nome_saldo[], char operacao[]);
 void receber_cpf_valido(char *cpf, int cancelar_autorizado);

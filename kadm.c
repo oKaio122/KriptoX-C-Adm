@@ -10,10 +10,10 @@ int main(){
     int user;
     int pos;
 
-    carregar_moedas(&moedas, &qnt_moedas, usuarios);
-
     // Carregar usuarios tmb
     carregar_usuarios(usuarios, &pos);
+
+    carregar_moedas(&moedas, &qnt_moedas, usuarios);
 
     // Cria um usuário adm padrão
     strcpy(administradores[0].nome, "default");

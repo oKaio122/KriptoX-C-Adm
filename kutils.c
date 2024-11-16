@@ -1396,7 +1396,10 @@ void excluir_criptomoeda(Moeda **moedas, int *qnt_moedas, User usuarios[]){
         }
 
         // Se cancelar sai da funcao e volta pro menu
-        if(strcmp(nome, "CANCELAR") == 0) return;
+        if(strcmp(nome, "CANCELAR") == 0){
+            printf("Operacao cancelada.");
+            return;
+        }
 
         if(!moeda_valida){
             printf("Moeda nao encontrada!\n");

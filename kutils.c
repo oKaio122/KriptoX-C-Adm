@@ -430,6 +430,7 @@ void comprar_criptomoeda(User usuarios[], int pos, Moeda *moedas, int qnt_moedas
     do{
         // Mostrar moedas e cotacoes
         mostrar_cotacoes("Cotacoes das moedas", moedas, qnt_moedas);
+        mostrar_moedas("Moedas Disponiveis", moedas, qnt_moedas, 0);
         printf("Escolha uma moeda para comprar.\n");
         scanf("%d", &opcao);
         while ((getchar()) != '\n' && getchar() != EOF);
@@ -497,6 +498,7 @@ void vender_criptomoeda(User usuarios[], int pos, Moeda *moedas, int qnt_moedas)
 
     do{
         mostrar_cotacoes("Cotacoes das moedas", moedas, qnt_moedas);
+        mostrar_moedas("Moedas Disponiveis", moedas, qnt_moedas, 0);
         printf("Escolha uma moeda para vender.\n");
         scanf("%d", &opcao);
         while ((getchar()) != '\n' && getchar() != EOF);
@@ -615,10 +617,7 @@ void transferir_saldo(User usuarios[], int pos, Moeda *moedas, int qnt_moedas){
 
     // Obtem a moeda que vai ser utilizada
     do{
-        printf("0 - Real\n");
-        for (int i = 0; i < qnt_moedas ; ++i) {
-            printf("%d - %s\n", i+1, moedas[i].nome);
-        }
+        mostrar_moedas("Moedas Disponiveis", moedas, qnt_moedas, 1);
         printf("Escolha uma moeda para transferir.\n");
         scanf("%d", &opcao_moeda);
 
@@ -790,6 +789,105 @@ void mostrar_opcoes(char titulo[], char *opcoes[]){
         }
         printf("┃\n");
         i++;
+    }
+    // Fim do print
+
+    // Printa ┗━━━━━━━━━━━━━┛
+    printf("┗━━━");
+    for (i=0; i < nome_menu_len; i++){
+        printf("━");
+    }
+    printf("━━━━┛\n");
+    // Fim do print
+
+#endif
+}
+
+void mostrar_moedas(char titulo[], Moeda *moedas, int qnt_moedas, int mostrar_real){
+    setlocale(LC_ALL, "");
+    setlocale(LC_ALL, "portuguese");
+
+    int nome_menu_len;
+    int num_moeda;
+    int i, j;
+
+    nome_menu_len = strlen(titulo) + 3;
+    num_moeda = 0;
+
+#ifdef _WIN32
+    // Altera o padrao de texto para UTF-16 para printar caracteres especiais
+    _setmode(_fileno(stdout), _O_U16TEXT);
+
+    // Printa ┏━━「 titulo 」━━┓
+    wprintf(L"┏━━");
+    wprintf(L"】 ", titulo);
+    _setmode(_fileno(stdout), _O_TEXT);
+    printf("%s", titulo);
+    _setmode(_fileno(stdout), _O_U16TEXT);
+    wprintf(L" 【", titulo);
+    wprintf(L"━━┓\n");
+    // Fim do print
+
+    if(mostrar_real) {
+        num_moeda++;
+        wprintf(L"┃ ");
+        _setmode(_fileno(stdout), _O_TEXT);
+        printf("%d - %s", 0, "Real");
+        _setmode(_fileno(stdout), _O_U16TEXT);
+        for (j = 0; j < nome_menu_len + 2 - strlen("Real"); j++){
+            wprintf(L" ");
+        }
+        wprintf(L"┃\n");
+    }
+    // Printa o meio do menu (┃ i - Opcao                |)
+    for (i = 0; i < qnt_moedas; i++){
+        wprintf(L"┃ ");
+        _setmode(_fileno(stdout), _O_TEXT);
+        printf("%d - %s", num_moeda, moedas[i].nome);
+        _setmode(_fileno(stdout), _O_U16TEXT);
+        for (j = 0; j < nome_menu_len + 2 - strlen(moedas[i].nome); j++){
+            wprintf(L" ");
+        }
+        wprintf(L"┃\n");
+        num_moeda++;
+    }
+    // Fim do print
+
+    // Printa ┗━━━━━━━━━━━━━┛
+    wprintf(L"┗━━━");
+    for (i=0; i < nome_menu_len; i++){
+        wprintf(L"━");
+    }
+    wprintf(L"━━━━┛\n");
+    // Fim do print
+
+    // Volta o padrao de texto para o modo de texto padrao
+    _setmode(_fileno(stdout), _O_TEXT);
+
+#else // Caso de rodar no linux
+
+    // Printa ┏━━「 titulo 」━━┓
+    printf("┏━━");
+    printf("】 %s 【", titulo);
+    printf("━━┓\n");
+    // Fim do print
+
+    // Printa o meio do menu (┃ i - Opcao                |)
+    if(mostrar_real) {
+        num_moeda++;
+        printf("┃ %d - %s", num_moeda, "Real");
+        for (j = 0; j < nome_menu_len + 2 - strlen("Real"); j++){
+            printf(" ");
+        }
+        printf("┃\n");
+    }
+    for (i = 0; i < qnt_moedas; i++){
+        printf("┃ %d - %s", num_moeda, moedas[i].nome);
+        for (j = 0; j < nome_menu_len + 2 - strlen(moedas[i].nome); j++){
+            printf(" ");
+        }
+        printf("┃\n");
+        num_moeda++;
     }
     // Fim do print
 

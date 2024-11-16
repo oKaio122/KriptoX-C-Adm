@@ -1282,16 +1282,6 @@ void cadastrar_criptomoeda(Moeda **moedas, int *qnt_moedas, User usuarios[]){
 
     adicionar_moeda_users(usuarios, nome);
 
-    for (i = 0; i < 10; i++) {
-        if(strcmp(usuarios[i].cpf, "") == 0){
-            break; // Pular usuários inativos
-        }
-        printf("Usuário: %s\n", usuarios[i].nome);
-        for(int j = 0; j < usuarios[i].saldos_size; j++){
-            printf("  Moeda: %s, Saldo: %.2lf\n", usuarios[i].saldos[j].nome, usuarios[i].saldos[j].saldo);
-        }
-        printf("\n");
-    }
     salvar_moedas(*moedas, *qnt_moedas);
 
     printf("Moeda criada com sucesso!\n");
@@ -1403,8 +1393,6 @@ int cadastrar_usuario(User usuarios[], int qnt_moedas, Moeda *moedas){
             }
         }
     }while(!cpf_unico);
-
-
 
     // Obtem uma senha valida (8 digitos numericos)
     receber_senha_valida(senha, 0);
@@ -1572,6 +1560,48 @@ void remover_moeda_users(User usuarios[], char *nome_moeda){
             exit(EXIT_FAILURE);
         }
         usuarios[i].saldos = temp;
+    }
+}
+
+void consultar_saldo_admin(User usuarios[]){
+    char *extrato_data;
+    int user_valido;
+    char cpf[12];
+    int user;
+    int i;
+
+    do{
+        printf("Insira o CPF do usuario para ver seu saldo:\n");
+        // Obter CPF e senha para checar com a dos outros usuarios
+        receber_cpf_valido(cpf, 1);
+        if (strcmp(cpf, "CANCELAR") == 0){
+            return;
+        }
+
+        // Itera sobre os usuarios para achar o usuario com o CPF
+        for(user = 0; user < 10; user++){
+
+            if (strcmp(usuarios[user].cpf, "") == 0){
+                break;
+            }
+
+            if (strcmp(usuarios[user].cpf, cpf) == 0){
+                user_valido = 1;
+                break;
+            }
+        }
+
+        if (!user_valido)
+            printf("Usuario nao encontrado! Tente novamente.\n");
+
+    } while(!user_valido);
+
+    printf("Saldo de %s\n", usuarios[user].nome);
+
+    // itera sobre as moedas do usuario selecionado
+    printf("Saldo de Reais: %f\n", usuarios[user].reais);
+    for (i = 0; i < usuarios->saldos_size; i++) {
+        printf("Saldo de %s: %lf\n", usuarios[user].saldos[i].nome, usuarios[user].saldos[i].saldo);
     }
 }
 

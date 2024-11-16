@@ -211,7 +211,6 @@ int salvar_usuarios(User usuarios[], int *pos, int qnt_moedas) {
     return 1;
 }
 
-
 // Carrega os usuarios na variavel usuarios
 int carregar_usuarios(User usuarios[], int *pos) {
     FILE *f = fopen("usuarios.bin", "rb");
@@ -430,9 +429,7 @@ void comprar_criptomoeda(User usuarios[], int pos, Moeda *moedas, int qnt_moedas
 
     do{
         // Mostrar moedas e cotacoes
-        for (int i = 0; i < qnt_moedas; ++i) {
-            printf("%d - %s: %lf\n", i, moedas[i].nome, moedas[i].cotacao);
-        }
+        mostrar_cotacoes("Cotacoes das moedas", moedas, qnt_moedas);
         printf("Escolha uma moeda para comprar.\n");
         scanf("%d", &opcao);
         while ((getchar()) != '\n' && getchar() != EOF);
@@ -499,10 +496,7 @@ void vender_criptomoeda(User usuarios[], int pos, Moeda *moedas, int qnt_moedas)
     if (!validar_senha(usuarios, pos)) return;
 
     do{
-        // Mostrar moedas e cotacoes
-        for (int i = 0; i < qnt_moedas; ++i) {
-            printf("%d - %s: %lf\n", i, moedas[i].nome, moedas[i].cotacao);
-        }
+        mostrar_cotacoes("Cotacoes das moedas", moedas, qnt_moedas);
         printf("Escolha uma moeda para vender.\n");
         scanf("%d", &opcao);
         while ((getchar()) != '\n' && getchar() != EOF);
@@ -569,17 +563,15 @@ void atualizar_cotacao(Moeda **moedas, int qnt_moedas){
 
     mostrar_menu("Atualizar Cotacao");
     // Itera sobre as moedas dentro da cotação
-    for (moeda = 0; moeda < qnt_moedas; moeda++) {
-        printf("%s - %lf\n", (*moedas)[moeda].nome, (*moedas)[moeda].cotacao);
-    }
     for (moeda = 0; moeda < qnt_moedas; moeda++){
         // Num entre -5% e 5%
         variacao = gerar_varicao_cotacao();
 
         (*moedas)[moeda].cotacao += (*moedas)[moeda].cotacao * variacao;
 
-        printf("%s - %lf\n", (*moedas)[moeda].nome, (*moedas)[moeda].cotacao);
     }
+
+    mostrar_cotacoes("Cotacoes atualizadas", *moedas, qnt_moedas);
 
     salvar_moedas(*moedas, qnt_moedas);
 
@@ -812,87 +804,73 @@ void mostrar_opcoes(char titulo[], char *opcoes[]){
 #endif
 }
 
-void mostrar_cotacoes(char titulo[], Cotacoes cotacoes) {
-    setlocale(LC_ALL, "portuguese");
+void mostrar_cotacoes(char titulo[], Moeda *moedas, int qnt_moedas) {
     setlocale(LC_ALL, "");
 
-    int nome_menu_len;
-    int i, j;
-    float opcoes_cotacoes[] = {cotacoes.bitcoin, cotacoes.ethereum,
-                               cotacoes.ripple};
-    char *cotacoes_nomes[] = {"Bitcoin", "Ethereum", "Ripple"};
-    char cotacao_preco_str[10];
+    int max_nome_len = strlen(titulo);
+    for(int i = 0; i < qnt_moedas; i++) {
+        if(strlen(moedas[i].nome) > max_nome_len) {
+            max_nome_len = strlen(moedas[i].nome);
+        }
+    }
 
-    nome_menu_len = strlen(titulo) + 3;
+
+    // variaveis que controlam o tamanho da caixa e o espaçamento
+    int titulo_total_len = strlen(titulo) + 4;
+    int row_length = 4 + max_nome_len + 5 + 8 + 2;
+    int box_width = (titulo_total_len > row_length) ? titulo_total_len : row_length;
+    int padding_total = box_width - 2 - titulo_total_len;
+    int padding_left = padding_total / 2;
+    int padding_right = padding_total - padding_left - 1;
 
 #ifdef _WIN32
-    // Altera o padrao de texto para UTF-16 para printar caracteres especiais
     _setmode(_fileno(stdout), _O_U16TEXT);
 
-    // Printa ┏━━「 titulo 」━━┓
-    wprintf(L"┏━━");
-    wprintf(L"】 ", titulo);
-    _setmode(_fileno(stdout), _O_TEXT);
-    printf("%s", titulo);
-    _setmode(_fileno(stdout), _O_U16TEXT);
-    wprintf(L" 【", titulo);
-    wprintf(L"━━┓\n");
-    // Fim do print
+    wchar_t w_titulo[255];
+    mbstowcs(w_titulo, titulo, strlen(titulo)+1);
 
-    // Printa o meio do menu (┃ i - Opcao                |)
-    for (i = 0; i < 3; i++) {
-        sprintf(cotacao_preco_str, "%.2f", opcoes_cotacoes[i]);
-        wprintf(L"┃ 1 %s -> R$%s", cotacoes_nomes[i], cotacao_preco_str);
+    // Printa ┏━━━━━━━】   titulo    【━━━━━━┓
+    wprintf(L"┏");
+    for(int i = 0; i < padding_left; i++) wprintf(L"━");
+    wprintf(L"】 %ls 【", w_titulo);
+    for(int i = 0; i < padding_right; i++) wprintf(L"━");
+    wprintf(L"┓\n");
 
-        for (j = 0; j < nome_menu_len - 2 - strlen(cotacao_preco_str) -
-                        strlen(cotacoes_nomes[i]);
-             j++) {
-            wprintf(L" ");
-        }
-        wprintf(L"┃\n");
+    // Printa o meio do menu (┃ 1 <Moeda> -> R$<cotacao> ┃)
+    for(int i = 0; i < qnt_moedas; i++) {
+        wchar_t w_nome[50], w_cotacao[20];
+        mbstowcs(w_nome, moedas[i].nome, strlen(moedas[i].nome)+1);
+        swprintf(w_cotacao, sizeof(w_cotacao)/sizeof(wchar_t), L"%.2lf", moedas[i].cotacao);
+        wprintf(L"┃ 1 %-*ls -> R$%*ls ┃\n", max_nome_len, w_nome, 8, w_cotacao);
     }
-    // Fim do print
 
-    // Printa ┗━━━━━━━━━━━━━┛
-    wprintf(L"┗━━━");
-    for (i = 0; i < nome_menu_len; i++) {
-        wprintf(L"━");
-    }
-    wprintf(L"━━━━┛\n");
-    // Fim do print
+    // Printa ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+    wprintf(L"┗");
+    for(int i = 0; i < box_width -1; i++) wprintf(L"━");
+    wprintf(L"┛\n");
 
-    // Volta o padrao de texto para o modo de texto padrao
     _setmode(_fileno(stdout), _O_TEXT);
 
-#else // Caso de rodar no linux
+#else // Caso de rodar no Linux
 
-    // Printa ┏━━「 titulo 」━━┓
-  printf("┏━━");
-  printf("】 %s 【", titulo);
-  printf("━━┓\n");
-  // Fim do print
+    // Printa ┏━━━━━━━━━】   Cotacoes :)    【━━━━━━━━┓
+    printf("┏");
+    for(int i = 0; i < padding_left; i++) printf("━");
+    printf("】 %s 【", titulo);
+    for(int i = 0; i < padding_right; i++) printf("━");
+    printf("┓\n");
 
-  // Printa o meio do menu (┃ i - Opcao                |)
-  for (i = 0; i < 3; i++) {
-    sprintf(cotacao_preco_str, "%.2f", opcoes_cotacoes[i]);
-    printf("┃ 1 %s -> R$%s", cotacoes_nomes[i], cotacao_preco_str);
-
-    for (j = 0; j < nome_menu_len - 2 - strlen(cotacao_preco_str) -
-                        strlen(cotacoes_nomes[i]);
-         j++) {
-      printf(" ");
+    // Printa o meio do menu (┃ 1 <Moeda> -> R$<cotacao> ┃)
+    for(int i = 0; i < qnt_moedas; i++) {
+        char cotacao_preco_str[20];
+        sprintf(cotacao_preco_str, "%.2lf", moedas[i].cotacao);
+        printf("┃ 1 %-*s -> R$%*s ┃\n", max_nome_len, moedas[i].nome, 8, cotacao_preco_str);
     }
-    printf("┃\n");
-  }
-  // Fim do print
 
-  // Printa ┗━━━━━━━━━━━━━┛
-  printf("┗━━━");
-  for (i = 0; i < nome_menu_len; i++) {
-    printf("━");
-  }
-  printf("━━━━┛\n");
-  // Fim do print
+    // Printa ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+    printf("┗");
+    for(int i = 0; i < box_width -2; i++) printf("━");
+    printf("┛\n");
 
 #endif
 }

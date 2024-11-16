@@ -42,12 +42,6 @@ typedef struct {
 } User;
 
 typedef struct {
-    float bitcoin;
-    float ethereum;
-    float ripple;
-} Cotacoes;
-
-typedef struct {
     char nome[255];
     char cpf[12];
     char senha[9];
@@ -62,8 +56,7 @@ void receber_senha_valida(char *senha, int cancelar_autorizado);
 int validar_senha(User usuarios[], int pos);
 void mostrar_menu(char nome_menu[]);
 void mostrar_opcoes(char titulo[], char *opcoes[]);
-void mostrar_opcoes(char titulo[], char *opcoes[]);
-void mostrar_cotacoes(char titulo[], Cotacoes cotacoes);
+void mostrar_cotacoes(char titulo[], Moeda *moedas, int qnt_moedas);
 int salvar_usuarios(User usuarios[], int *pos, int qnt_moedas);
 int carregar_usuarios(User usuarios[], int *pos);
 void menu_opcoes(User usuarios[10], int pos, Moeda *moedas, int qnt_moedas);

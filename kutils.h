@@ -77,7 +77,7 @@ void consultar_saldo(User usuarios[], int pos, int qnt_moedas);
 void consultar_extrato(User usuarios[], int pos);
 void comprar_criptomoeda(User usuarios[], int pos, Moeda *moedas, int qnt_moedas);
 void vender_criptomoeda(User usuarios[], int pos, Moeda *moedas, int qnt_moedas);
-void transferir_saldo(User usuarios[], int pos, Cotacoes cotacao);
+void transferir_saldo(User usuarios[], int pos, Moeda *moedas, int qnt_moedas);
 
 // Parte de Admin
 int encontrar_usuario(int *user_procurado, User usuarios[]);

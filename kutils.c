@@ -296,10 +296,7 @@ void consultar_saldo(User usuarios[], int pos, int qnt_moedas){
     system("cls||clear");
     mostrar_menu("Consultar saldo");
 
-    printf("Saldo de Reais: %f\n", usuarios[pos].reais);
-    for (int i = 0; i < qnt_moedas; i++) {
-        printf("Saldo de %s: %lf\n", usuarios[pos].saldos[i].nome, usuarios[pos].saldos[i].saldo);
-    }
+    mostrar_saldo("Seu Saldo", usuarios[pos], usuarios[pos].saldos_size);
 
 }
 
@@ -1069,6 +1066,73 @@ void mostrar_info_user(char titulo[], User usuario) {
 #endif
 }
 
+// Função para mostrar o saldo do usuario
+void mostrar_saldo(char titulo[], User usuario, int qnt_moedas) {
+    setlocale(LC_ALL, "");
+    int max_nome_len = strlen(titulo);
+    if(strlen("Reais") > max_nome_len) max_nome_len = strlen("Reais");
+    for(int i = 0; i < qnt_moedas; i++) {
+        int len = strlen(usuario.saldos[i].nome);
+        if(len > max_nome_len) max_nome_len = len;
+    }
+    int titulo_total_len = strlen(titulo) + 4; // "】 " + titulo + " 【"
+    int row_length = 4 + max_nome_len + 3 + 10 + 2; // "┃ 1 " + nome + " - " + valor + " ┃"
+    int box_width = (titulo_total_len > row_length) ? titulo_total_len : row_length;
+    int padding_total = box_width - 2 - titulo_total_len;
+    int padding_left = padding_total / 2;
+    int padding_right = padding_total - padding_left - 1;
+
+#ifdef _WIN32
+    _setmode(_fileno(stdout), _O_U16TEXT);
+    wchar_t w_titulo[255];
+    mbstowcs(w_titulo, titulo, strlen(titulo)+1);
+    // Printa ┏━━━━━━━━━】   Saldo do Usuario    【━━━━━━━━┓
+    wprintf(L"┏");
+    for(int i = 0; i < padding_left; i++) wprintf(L"━");
+    wprintf(L"】 %ls 【", w_titulo);
+    for(int i = 0; i < padding_right; i++) wprintf(L"━");
+    wprintf(L"┓\n");
+    // Printa Reais
+    wprintf(L"┃ %-*ls - %10.2lf", max_nome_len, L"Reais", usuario.reais);
+    for(int i = 0; i < box_width - 2 - (max_nome_len + 3 + 10); i++) wprintf(L" ");
+    wprintf(L"┃\n");
+    // Printa as moedas
+    for(int i = 0; i < qnt_moedas - 1; i++) {
+        wchar_t w_nome[50];
+        mbstowcs(w_nome, usuario.saldos[i].nome, strlen(usuario.saldos[i].nome)+1);
+        wprintf(L"┃ %-*ls - %10.2lf", max_nome_len, w_nome, usuario.saldos[i].saldo);
+        for(int j = 0; j < box_width - 2 - (max_nome_len + 3 + 10); j++) wprintf(L" ");
+        wprintf(L"┃\n");
+    }
+    // Printa ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+    wprintf(L"┗");
+    for(int i = 0; i < box_width -1; i++) wprintf(L"━");
+    wprintf(L"┛\n");
+    _setmode(_fileno(stdout), _O_TEXT);
+#else
+    // Printa ┏━━━━━━━━━】   Saldo do Usuario    【━━━━━━━━┓
+    printf("┏");
+    for(int i = 0; i < padding_left; i++) printf("━");
+    printf("】 %s 【", titulo);
+    for(int i = 0; i < padding_right; i++) printf("━");
+    printf("┓\n");
+    // Printa Reais
+    printf("┃ %-*s - %10.2lf", max_nome_len, "Reais", usuario.reais);
+    for(int i = 0; i < box_width - 2 - (max_nome_len + 3 + 10); i++) printf(" ");
+    printf("┃\n");
+    // Printa as moedas
+    for(int i = 0; i < qnt_moedas; i++) {
+        printf("┃ %-*s - %10.2lf", max_nome_len, usuario.saldos[i].nome, usuario.saldos[i].saldo);
+        for(int j = 0; j < box_width - 2 - (max_nome_len + 3 + 10); j++) printf(" ");
+        printf("┃\n");
+    }
+    // Printa ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+    printf("┗");
+    for(int i = 0; i < box_width -1; i++) printf("━");
+    printf("┛\n");
+#endif
+}
+
 int encontrar_usuario(int *user_procurado, User usuarios[]){
     char cpf[12];
     int user_valido = 0;
@@ -1596,13 +1660,8 @@ void consultar_saldo_admin(User usuarios[]){
 
     } while(!user_valido);
 
-    printf("Saldo de %s\n", usuarios[user].nome);
+    mostrar_saldo("Saldo do usuario", usuarios[user], usuarios[user].saldos_size);
 
-    // itera sobre as moedas do usuario selecionado
-    printf("Saldo de Reais: %f\n", usuarios[user].reais);
-    for (i = 0; i < usuarios->saldos_size; i++) {
-        printf("Saldo de %s: %lf\n", usuarios[user].saldos[i].nome, usuarios[user].saldos[i].saldo);
-    }
 }
 
 

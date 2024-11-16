@@ -10,6 +10,7 @@ int main(){
     int qnt_moedas;
     int opcao;
     int pos;
+    int lixo;
 
     // Carrega as moedas na var moedas
     carregar_moedas(&moedas, &qnt_moedas, usuarios);
@@ -45,7 +46,7 @@ int main(){
 
                 if (pos >= 0) menu_opcoes(usuarios, pos, moedas, qnt_moedas);
 
-                fflush(stdin); // Não deixa outros inputs serem pegos pelo getchar
+                while ((lixo = getchar()) != '\n' && lixo != EOF); // Não deixa outros inputs serem pegos pelo getchar
                 printf("Aperte Enter para voltar ao menu de principal.\n");
                 getchar(); // Recebe o \n do Enter
 
@@ -53,7 +54,7 @@ int main(){
             case 2:
                 registrar_usuario(usuarios, &pos, qnt_moedas, moedas);
 
-                fflush(stdin); // Não deixa outros inputs serem pegos pelo getchar
+                while ((lixo = getchar()) != '\n' && lixo != EOF); // Não deixa outros inputs serem pegos pelo getchar
                 printf("Aperte Enter para voltar ao menu de principal.\n");
                 getchar(); // Recebe o \n do Enter
 
@@ -71,6 +72,7 @@ int main(){
 
 void menu_opcoes(User usuarios[10], int pos, Moeda *moedas, int qnt_moedas){
     int opcao;
+    char lixo;
     char boas_vindas[100];
 
     // Juntar boas vindas com o nome do usuário
@@ -136,10 +138,8 @@ void menu_opcoes(User usuarios[10], int pos, Moeda *moedas, int qnt_moedas){
                 break;
         }
 
-        fflush(stdin);
         printf("Aperte Enter para escolher novamente.\n");
-        getchar(); // Recebe o \n do Enter
-
+        while ((lixo = getchar()) != '\n' && lixo != EOF);
         // Limpar Console
         system("cls||clear");
 

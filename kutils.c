@@ -541,7 +541,7 @@ void vender_criptomoeda(User usuarios[], int pos, Moeda *moedas, int qnt_moedas)
     printf("Saldo em %s atualizado: %.2f\n", criptomoeda, usuarios[pos].saldos[opcao].saldo);
 
     salvar_extrato(usuarios, pos, "-", criptomoeda, cotacao_cripto, qnt_moeda, 0);
-    salvar_extrato(usuarios, pos, "+", "Real", 1, preco_operacao, taxa);
+    salvar_extrato(usuarios, pos, "+", "Real", 1, preco_operacao, preco_operacao * (taxa));
 
 }
 

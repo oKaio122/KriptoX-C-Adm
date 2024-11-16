@@ -1500,7 +1500,11 @@ void excluir_usuario(User usuarios[]){
     printf("Digite \"CANCELAR\" para cancelar a exclusao\n");
 
     printf("Insira o CPF do usuario que deseja excluir:\n");
-    encontrar_usuario(&user, usuarios);
+
+    if(encontrar_usuario(&user, usuarios) == -1){
+        printf("Operacao cancelada.\n");
+        return;
+    }
 
     mostrar_info_user("Infos do usuario", usuarios[user]);
 

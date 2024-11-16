@@ -2,7 +2,7 @@
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "UnusedParameter"
-int registrar_usuario(User usuarios[10], int *pos){
+int registrar_usuario(User usuarios[], int *pos, int qnt_moedas, Moeda *moedas){
 
     char cpf[12];
     char senha[9];
@@ -32,8 +32,6 @@ int registrar_usuario(User usuarios[10], int *pos){
         }
     }while(!cpf_unico);
 
-
-
     // Obtem uma senha valida (8 digitos numericos)
     receber_senha_valida(senha, 0);
 
@@ -48,14 +46,15 @@ int registrar_usuario(User usuarios[10], int *pos){
     strcpy(usuarios[i].nome, nome);
     strcpy(usuarios[i].cpf, cpf);
     strcpy(usuarios[i].senha, senha);
-    usuarios[i].saldo.bitcoin = 0;
-    usuarios[i].saldo.ethereum = 0;
-    usuarios[i].saldo.reais = 0;
-    usuarios[i].saldo.ripple = 0;
+    usuarios[i].saldos_size = qnt_moedas;
     *pos = i;
 
+    for (int j = 0; j < qnt_moedas; ++j) {
+        adicionar_moeda_users(usuarios, moedas[j].nome);
+    }
+
     // Salva o novo usuario
-//    salvar_usuarios(usuarios, pos, cotacao);
+    salvar_usuarios(usuarios, pos, qnt_moedas);
 
     printf("Registro concluido com sucesso!\n");
 
@@ -603,123 +602,123 @@ void atualizar_cotacao(Moeda **moedas, int qnt_moedas){
 
 }
 
-void transferir_saldo(User usuarios[], int pos, Cotacoes cotacao){
-
-    int opcao_moeda;
-    float saldo_moeda;
-    char nome_moeda[10];
-    float cotacao_moeda;
-    float qnt_transferir;
-
-    int pessoa_valida; // 0 invalido 1 valido
-    char cpf[12];
-    int user;
-    system("cls||clear");
-    mostrar_menu("Transferir Saldo");
-
-    // Obtem o usuario que quer transferir o saldo
-    do{
-        pessoa_valida = 0;
-        printf("Para qual CPF voce quer transferir o saldo? Para cancelar digite \"CANCELAR\"\n");
-        // Obtem o CPF
-        receber_cpf_valido(cpf, 1);
-        if (strcmp(cpf, "CANCELAR") == 0) return;
-        for(user = 0; user < 10; user++){
-            if (strcmp(usuarios[user].cpf, cpf) == 0){
-                pessoa_valida = 1;
-                break;
-            }
-        }
-        if (!pessoa_valida){
-            printf("CPF nao encontrado!\n");
-        }
-        if (user == pos){
-            printf("Você não pode transferir para si mesmo!\n");
-            pessoa_valida = 0;
-        }
-    } while (pessoa_valida == 0);
-
-    // Obtem a moeda que vai ser utilizada
-    do{
-        char *opcoes[] = {
-                "Real",
-                "Bitcoin",
-                "Ethereum",
-                "Ripple",
-                NULL
-        };
-        mostrar_opcoes("Moedas disponiveis a transferir", opcoes);
-        scanf("%d", &opcao_moeda);
-
-        switch (opcao_moeda) {
-            case 0:
-                saldo_moeda = usuarios[pos].saldo.reais;
-                strncpy(nome_moeda, "Real", sizeof(nome_moeda)-1);
-                cotacao_moeda = 1;
-                break;
-            case 1:
-                saldo_moeda = usuarios[pos].saldo.bitcoin;
-                strncpy(nome_moeda, "Bitcoin", sizeof(nome_moeda)-1);
-                cotacao_moeda = cotacao.bitcoin;
-                break;
-            case 2:
-                saldo_moeda = usuarios[pos].saldo.ethereum;
-                strncpy(nome_moeda, "Ethereum", sizeof(nome_moeda)-1);
-                cotacao_moeda = cotacao.ethereum;
-                break;
-            case 3:
-                saldo_moeda = usuarios[pos].saldo.ripple;
-                strncpy(nome_moeda, "Ripple", sizeof(nome_moeda)-1);
-                cotacao_moeda = cotacao.ripple;
-                break;
-            default:
-                opcao_moeda = -1;
-                printf("Opcao nao encontrada!\n");
-        }
-    } while (opcao_moeda == -1);
-
-    // Obter valor valido a transferir
-    do{
-        // Obtem um numero maior que 0 e que nao tem caracteres
-        qnt_transferir = receber_saldo_valido(nome_moeda, "transferir");
-
-        if (qnt_transferir > saldo_moeda){
-            printf("Saldo em %s insuficiente!\n", nome_moeda);
-        }
-
-    } while (qnt_transferir > saldo_moeda);
-
-    if (strcmp(nome_moeda, "Real") == 0){
-        usuarios[pos].saldo.reais -= qnt_transferir;
-        usuarios[user].saldo.reais += qnt_transferir;
-    }
-    else if (strcmp(nome_moeda, "Bitcoin") == 0){
-        usuarios[pos].saldo.bitcoin -= qnt_transferir;
-        usuarios[user].saldo.bitcoin += qnt_transferir;
-    }
-    else if (strcmp(nome_moeda, "Ethereum") == 0){
-        usuarios[pos].saldo.ethereum -= qnt_transferir;
-        usuarios[user].saldo.ethereum += qnt_transferir;
-    }
-    else if (strcmp(nome_moeda, "Ripple") == 0){
-        usuarios[pos].saldo.ripple -= qnt_transferir;
-        usuarios[user].saldo.ripple += qnt_transferir;
-    }
-
-    printf("Moeda selecionada: %s\nQnt Transferida: %.2f\nUsuário que recebeu: %s!\n",
-           nome_moeda, qnt_transferir, usuarios[user].nome);
-    printf("Saldo em %s atualizado: %.2f\n", nome_moeda,
-           strcmp(nome_moeda, "Real") == 0 ? usuarios[pos].saldo.reais :
-           strcmp(nome_moeda, "Bitcoin") == 0 ? usuarios[pos].saldo.bitcoin :
-           strcmp(nome_moeda, "Ethereum") == 0 ? usuarios[pos].saldo.ethereum :
-           usuarios[pos].saldo.ripple);
-
-    salvar_extrato(usuarios, pos, "-", nome_moeda, cotacao_moeda, qnt_transferir, 0);
-    salvar_extrato(usuarios, user, "+", nome_moeda, cotacao_moeda, qnt_transferir, 0);
-
-    printf("Aperte Enter para voltar ao menu de opcoes.\n");
-    getchar(); // Recebe o \n do Enter
-}
+//void transferir_saldo(User usuarios[], int pos, Cotacoes cotacao){
+//
+//    int opcao_moeda;
+//    float saldo_moeda;
+//    char nome_moeda[10];
+//    float cotacao_moeda;
+//    float qnt_transferir;
+//
+//    int pessoa_valida; // 0 invalido 1 valido
+//    char cpf[12];
+//    int user;
+//    system("cls||clear");
+//    mostrar_menu("Transferir Saldo");
+//
+//    // Obtem o usuario que quer transferir o saldo
+//    do{
+//        pessoa_valida = 0;
+//        printf("Para qual CPF voce quer transferir o saldo? Para cancelar digite \"CANCELAR\"\n");
+//        // Obtem o CPF
+//        receber_cpf_valido(cpf, 1);
+//        if (strcmp(cpf, "CANCELAR") == 0) return;
+//        for(user = 0; user < 10; user++){
+//            if (strcmp(usuarios[user].cpf, cpf) == 0){
+//                pessoa_valida = 1;
+//                break;
+//            }
+//        }
+//        if (!pessoa_valida){
+//            printf("CPF nao encontrado!\n");
+//        }
+//        if (user == pos){
+//            printf("Você não pode transferir para si mesmo!\n");
+//            pessoa_valida = 0;
+//        }
+//    } while (pessoa_valida == 0);
+//
+//    // Obtem a moeda que vai ser utilizada
+//    do{
+//        char *opcoes[] = {
+//                "Real",
+//                "Bitcoin",
+//                "Ethereum",
+//                "Ripple",
+//                NULL
+//        };
+//        mostrar_opcoes("Moedas disponiveis a transferir", opcoes);
+//        scanf("%d", &opcao_moeda);
+//
+//        switch (opcao_moeda) {
+//            case 0:
+//                saldo_moeda = usuarios[pos].saldo.reais;
+//                strncpy(nome_moeda, "Real", sizeof(nome_moeda)-1);
+//                cotacao_moeda = 1;
+//                break;
+//            case 1:
+//                saldo_moeda = usuarios[pos].saldo.bitcoin;
+//                strncpy(nome_moeda, "Bitcoin", sizeof(nome_moeda)-1);
+//                cotacao_moeda = cotacao.bitcoin;
+//                break;
+//            case 2:
+//                saldo_moeda = usuarios[pos].saldo.ethereum;
+//                strncpy(nome_moeda, "Ethereum", sizeof(nome_moeda)-1);
+//                cotacao_moeda = cotacao.ethereum;
+//                break;
+//            case 3:
+//                saldo_moeda = usuarios[pos].saldo.ripple;
+//                strncpy(nome_moeda, "Ripple", sizeof(nome_moeda)-1);
+//                cotacao_moeda = cotacao.ripple;
+//                break;
+//            default:
+//                opcao_moeda = -1;
+//                printf("Opcao nao encontrada!\n");
+//        }
+//    } while (opcao_moeda == -1);
+//
+//    // Obter valor valido a transferir
+//    do{
+//        // Obtem um numero maior que 0 e que nao tem caracteres
+//        qnt_transferir = receber_saldo_valido(nome_moeda, "transferir");
+//
+//        if (qnt_transferir > saldo_moeda){
+//            printf("Saldo em %s insuficiente!\n", nome_moeda);
+//        }
+//
+//    } while (qnt_transferir > saldo_moeda);
+//
+//    if (strcmp(nome_moeda, "Real") == 0){
+//        usuarios[pos].saldo.reais -= qnt_transferir;
+//        usuarios[user].saldo.reais += qnt_transferir;
+//    }
+//    else if (strcmp(nome_moeda, "Bitcoin") == 0){
+//        usuarios[pos].saldo.bitcoin -= qnt_transferir;
+//        usuarios[user].saldo.bitcoin += qnt_transferir;
+//    }
+//    else if (strcmp(nome_moeda, "Ethereum") == 0){
+//        usuarios[pos].saldo.ethereum -= qnt_transferir;
+//        usuarios[user].saldo.ethereum += qnt_transferir;
+//    }
+//    else if (strcmp(nome_moeda, "Ripple") == 0){
+//        usuarios[pos].saldo.ripple -= qnt_transferir;
+//        usuarios[user].saldo.ripple += qnt_transferir;
+//    }
+//
+//    printf("Moeda selecionada: %s\nQnt Transferida: %.2f\nUsuário que recebeu: %s!\n",
+//           nome_moeda, qnt_transferir, usuarios[user].nome);
+//    printf("Saldo em %s atualizado: %.2f\n", nome_moeda,
+//           strcmp(nome_moeda, "Real") == 0 ? usuarios[pos].saldo.reais :
+//           strcmp(nome_moeda, "Bitcoin") == 0 ? usuarios[pos].saldo.bitcoin :
+//           strcmp(nome_moeda, "Ethereum") == 0 ? usuarios[pos].saldo.ethereum :
+//           usuarios[pos].saldo.ripple);
+//
+//    salvar_extrato(usuarios, pos, "-", nome_moeda, cotacao_moeda, qnt_transferir, 0);
+//    salvar_extrato(usuarios, user, "+", nome_moeda, cotacao_moeda, qnt_transferir, 0);
+//
+//    printf("Aperte Enter para voltar ao menu de opcoes.\n");
+//    getchar(); // Recebe o \n do Enter
+//}
 
 void mostrar_menu(char nome_menu[]){
     int nome_menu_len;

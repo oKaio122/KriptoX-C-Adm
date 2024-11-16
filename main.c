@@ -44,7 +44,7 @@ int main(){
                 if (pos >= 0) menu_opcoes(usuarios, pos, moedas, qnt_moedas);
                 break;
             case 2:
-                registrar_usuario(usuarios, &pos);
+                registrar_usuario(usuarios, &pos, qnt_moedas, moedas);
                 break;
             default:
                 printf("Opcao nao encontrada\n");
@@ -74,7 +74,7 @@ void menu_opcoes(User usuarios[10], int pos, Moeda *moedas, int qnt_moedas){
     do{
 
         // Salva os dados atualizados do usuario apos ele fazer uma operacao
-        salvar_usuarios(usuarios, &pos);
+        salvar_usuarios(usuarios, &pos, qnt_moedas);
 
         mostrar_menu("Menu de Opcoes");
         char *opcoes[] = {

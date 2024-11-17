@@ -53,6 +53,18 @@ Para poder logar como administrador é preciso usar o CPF **12345678900** e a se
 
 ### Passo a Passo
 
+### Dando Fork no Replit
+
+1. **Clonando o Rpl**
+   - Acesse o **[Repl do KriptoX](https://replit.com/@unifksantos/KriptoXCAdmin)**
+   - Clique em **Fork**.
+   - Altere o nome e descrição para o que você quiser.
+   - Clique em **Fork Repl**.
+     
+2. **Executar o Projeto**
+   - Clique em **Run** para compilar e executar o programa automaticamente.
+   - Para rodar no modo **Usuário** abra o arquivo **.replit** e altere a segunda linha para "**run = "/tmp/build/KriptoX_C_User"**"
+   - Para rodar no modo **Admin** abra o arquivo **.replit** e altere a segunda linha para "**run = "/tmp/build/KriptoX_C_Admin"**"
 #### Usando Replit
 
 1. **Configurar o Repositório no Replit**
@@ -96,9 +108,11 @@ Você pode compilar o **KriptoX** localmente utilizando **CMake** ou comandos **
     ```bash
     cmake --build . --config Release
     ```
-
-   - Isso irá compilar ambos os executáveis: `KriptoX_Admin.exe` e `KriptoX_User.exe`.
-
+     
+5. **Executar o Projeto**
+   - Abra os arquivos executáveis gerados (`KriptoX_Admin.exe` ou `KriptoX_User.exe`).
+   - Escolha se deseja executar como **User** ou **Admin**.
+     
 ##### Usando Comandos GCC
 
 Se preferir não usar o CMake, você pode compilar as versões de **Admin** e **Usuário** separadamente utilizando comandos **gcc**. Siga os passos abaixo:
@@ -118,7 +132,11 @@ Se preferir não usar o CMake, você pode compilar as versões de **Admin** e **
     ```bash
     gcc kutils.c kadm.c -o KriptoX_Admin.exe
     ```
-
+    
+4. **Executar o Projeto**
+   - Abra os arquivos executáveis gerados (`KriptoX_Admin.exe` ou `KriptoX_User.exe`).
+   - Escolha se deseja executar como **User** ou **Admin**.
+     
 ## 👤 Criador
 
 **Kaio Angelo Posansky Santos**  

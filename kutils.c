@@ -313,6 +313,7 @@ void consultar_extrato(User usuarios[], int pos){
         // Verifica se o extrato atual e lixo, se for quebrar o loop
         extrato_data = usuarios[pos].extrato[i].data;
         if (strcmp(extrato_data, "") == 0){
+            if(i == 0) printf("Vazio.\n");
             break;
         }
 
@@ -427,7 +428,7 @@ void comprar_criptomoeda(User usuarios[], int pos, Moeda *moedas, int qnt_moedas
     do{
         // Mostrar moedas e cotacoes
         mostrar_cotacoes("Cotacoes das moedas", moedas, qnt_moedas);
-        mostrar_moedas("Moedas Disponiveis", moedas, qnt_moedas, 0);
+        mostrar_moedas("Moedas Disponiveis", moedas, qnt_moedas, 0, 1);
         printf("Escolha uma moeda para comprar.\n");
         scanf("%d", &opcao);
         while ((getchar()) != '\n' && getchar() != EOF);
@@ -448,7 +449,7 @@ void comprar_criptomoeda(User usuarios[], int pos, Moeda *moedas, int qnt_moedas
         preco_operacao = (qnt_moeda * (1 + taxa)  * cotacao_cripto);
 
         if (preco_operacao > usuarios[pos].reais){
-            printf("Saldo em reais insuficiente!");
+            printf("Saldo em reais insuficiente!\n");
         }
 
     } while (preco_operacao > usuarios[pos].reais);
@@ -495,7 +496,7 @@ void vender_criptomoeda(User usuarios[], int pos, Moeda *moedas, int qnt_moedas)
 
     do{
         mostrar_cotacoes("Cotacoes das moedas", moedas, qnt_moedas);
-        mostrar_moedas("Moedas Disponiveis", moedas, qnt_moedas, 0);
+        mostrar_moedas("Moedas Disponiveis", moedas, qnt_moedas, 0, 1);
         printf("Escolha uma moeda para vender.\n");
         scanf("%d", &opcao);
         while ((getchar()) != '\n' && getchar() != EOF);
@@ -614,7 +615,7 @@ void transferir_saldo(User usuarios[], int pos, Moeda *moedas, int qnt_moedas){
 
     // Obtem a moeda que vai ser utilizada
     do{
-        mostrar_moedas("Moedas Disponiveis", moedas, qnt_moedas, 1);
+        mostrar_moedas("Moedas Disponiveis", moedas, qnt_moedas, 1, 1);
         printf("Escolha uma moeda para transferir.\n");
         scanf("%d", &opcao_moeda);
 
@@ -800,7 +801,7 @@ void mostrar_opcoes(char titulo[], char *opcoes[]){
 #endif
 }
 
-void mostrar_moedas(char titulo[], Moeda *moedas, int qnt_moedas, int mostrar_real){
+void mostrar_moedas(char titulo[], Moeda *moedas, int qnt_moedas, int mostrar_real, int mostrar_numeros){
     setlocale(LC_ALL, "");
     setlocale(LC_ALL, "portuguese");
 
@@ -840,7 +841,9 @@ void mostrar_moedas(char titulo[], Moeda *moedas, int qnt_moedas, int mostrar_re
     for (i = 0; i < qnt_moedas; i++){
         wprintf(L"┃ ");
         _setmode(_fileno(stdout), _O_TEXT);
-        printf("%d - %s", num_moeda, moedas[i].nome);
+        if(mostrar_numeros) printf("%d - ",num_moeda);
+        if(!mostrar_numeros) printf("    ");
+        printf("%s", moedas[i].nome);
         _setmode(_fileno(stdout), _O_U16TEXT);
         for (j = 0; j < nome_menu_len + 2 - strlen(moedas[i].nome); j++){
             wprintf(L" ");
@@ -941,7 +944,7 @@ void mostrar_cotacoes(char titulo[], Moeda *moedas, int qnt_moedas) {
 
     // Printa ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
     wprintf(L"┗");
-    for(int i = 0; i < box_width -1; i++) wprintf(L"━");
+    for(int i = 0; i < box_width - 1; i++) wprintf(L"━");
     wprintf(L"┛\n");
 
     _setmode(_fileno(stdout), _O_TEXT);
@@ -964,7 +967,7 @@ void mostrar_cotacoes(char titulo[], Moeda *moedas, int qnt_moedas) {
 
     // Printa ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
     printf("┗");
-    for(int i = 0; i < box_width -2; i++) printf("━");
+    for(int i = 0; i < box_width - 1; i++) printf("━");
     printf("┛\n");
 
 #endif
@@ -1297,6 +1300,7 @@ double obter_num_valido(char num_text[]){
 void cadastrar_criptomoeda(Moeda **moedas, int *qnt_moedas, User usuarios[]){
     int nome_valido = 0;
     char nome[50];
+    char lixo;
     double cotacao;
     double taxa_compra;
     double taxa_venda;
@@ -1304,6 +1308,7 @@ void cadastrar_criptomoeda(Moeda **moedas, int *qnt_moedas, User usuarios[]){
 
     *qnt_moedas += 1;
 
+    system("cls||clear");
     mostrar_menu("Adicionar Criptomoeda");
 
     // Salva uma variável com a memoria temporariamente para colocar nas moedas
@@ -1338,16 +1343,22 @@ void cadastrar_criptomoeda(Moeda **moedas, int *qnt_moedas, User usuarios[]){
     salvar_moedas(*moedas, *qnt_moedas);
 
     printf("Moeda criada com sucesso!\n");
+    while ((lixo = getchar()) != '\n' && lixo != EOF);
 }
 
 void excluir_criptomoeda(Moeda **moedas, int *qnt_moedas, User usuarios[]){
+    char lixo;
+    char nome[50];
     int moeda_valida = 0;
     int moeda_pos;
     int confirmar;
     int i;
     Moeda moeda_sel;
 
+    system("cls||clear");
     mostrar_menu("Remover Criptomoeda");
+
+    printf("Qnt moedas: %d\n", *qnt_moedas);
 
     if(*qnt_moedas == 1){
         printf("No momento so existe uma criptomoeda no sistema, "
@@ -1357,21 +1368,24 @@ void excluir_criptomoeda(Moeda **moedas, int *qnt_moedas, User usuarios[]){
     // Obtem uma moeda válida para remover
     while(!moeda_valida){
 
-        mostrar_moedas("Moedas disponiveis", *moedas, *qnt_moedas, 0);
+        mostrar_moedas("Moedas disponiveis", *moedas, *qnt_moedas, 0, 0);
 
-        printf("Para cancelar a operacao digite -1.\n");
-        printf("Qual criptomoeda deseja remover? \n");
-        scanf("%d", &moeda_pos);
-
-        // Se cancelar sai da funcao e volta pro menu
-        if(moeda_pos == -1){
-            printf("Operacao cancelada.\n");
-            return;
+        printf("Para cancelar a operacao digite \"CANCELAR\".\n");
+        printf("Insira o nome da moeda que deseja remover: \n");
+        scanf("%49s", nome);
+        for(i = 0; i < *qnt_moedas; i++){
+            if(strcmp((*moedas)[i].nome, nome) == 0){
+                moeda_valida = 1;
+                moeda_pos = i;
+                break;
+            }
         }
 
-        // forma de a moeda ser valida
-        if(moeda_pos > 0 || moeda_pos < *qnt_moedas -1){
-            moeda_valida = 1;
+        // Se cancelar sai da funcao e volta pro menu
+        if(strcmp(nome, "CANCELAR") == 0) {
+            printf("Operacao cancelada.");
+            while ((lixo = getchar()) != '\n' && lixo != EOF);
+            return;
         }
 
         if(!moeda_valida){
@@ -1400,7 +1414,7 @@ void excluir_criptomoeda(Moeda **moedas, int *qnt_moedas, User usuarios[]){
 
     *qnt_moedas -= 1;
 
-    remover_moeda_users(usuarios, moedas[*qnt_moedas-1]->nome);
+    remover_moeda_users(usuarios, nome);
 
     Moeda *temp = realloc(*moedas, (sizeof(Moeda) * (*qnt_moedas)));
     *moedas = temp;
@@ -1408,7 +1422,8 @@ void excluir_criptomoeda(Moeda **moedas, int *qnt_moedas, User usuarios[]){
 
     salvar_moedas(*moedas, *qnt_moedas);
 
-    printf("Moeda removida com sucesso!\n");
+    printf("Moeda %s removida com sucesso!\n", nome);
+    while ((lixo = getchar()) != '\n' && lixo != EOF);
 }
 
 int cadastrar_usuario(User usuarios[], int qnt_moedas, Moeda *moedas){
@@ -1469,6 +1484,7 @@ int cadastrar_usuario(User usuarios[], int qnt_moedas, Moeda *moedas){
 }
 
 void excluir_usuario(User usuarios[]){
+    char lixo;
     int user;
     int confirmacao;
     int i;
@@ -1496,6 +1512,7 @@ void excluir_usuario(User usuarios[]){
     // Seta todos os bytes da struct para 0 resetando os dados do usuario
     memset(&usuarios[8], 0, sizeof(usuarios[user]));
     printf("Usuario excluido com sucesso!\n");
+    while ((lixo = getchar()) != '\n' && lixo != EOF);
 }
 
 void consultar_extrato_admin(User usuarios[]){
@@ -1541,6 +1558,7 @@ void consultar_extrato_admin(User usuarios[]){
         // Verifica se o extrato atual e lixo, se for quebrar o loop
         extrato_data = usuarios[user].extrato[i].data;
         if (strcmp(extrato_data, "") == 0){
+            if(i == 0) printf("Vazio.\n");
             break;
         }
 

@@ -896,7 +896,7 @@ void mostrar_moedas(char titulo[], Moeda *moedas, int qnt_moedas, int mostrar_re
     for (i=0; i < nome_menu_len; i++){
         printf("━");
     }
-    printf("━━━━┛\n");
+    printf("━━━━┛ \n");
     // Fim do print
 
 #endif

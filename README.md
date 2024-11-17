@@ -1,6 +1,6 @@
 # KriptoX
 
-![KriptoX Banner](https://via.placeholder.com/800x200?text=KriptoX+Banner)
+![KriptoX Banner](https://postimg.cc/t1ZKzMSV)
 
 **KriptoX** é uma **exchange de criptomoedas sandbox** desenvolvida em **C**, projetada para simular operações de compra, venda e gerenciamento de criptomoedas de forma segura e educativa. Ideal tanto para aprendizado quanto para entretenimento, o KriptoX permite que os usuários explorem o funcionamento de uma exchange real sem riscos financeiros.
 
@@ -16,8 +16,7 @@ O principal objetivo do **KriptoX** é ensinar de uma forma divertida as pessoas
 ### 🖥️ Uso
 
 **KriptoX** é extremamente fácil de usar! Após iniciar o programa, todas as informações necessárias são carregadas automaticamente. As opções são apresentadas diretamente no terminal, e para interagir, basta digitar o número correspondente à opção desejada e pressionar **Enter**. Em caso de erro, o programa solicitará a inserção de um valor válido, informando o formato correto.
-
-![Operações do KriptoX](https://via.placeholder.com/800x400?text=Operações+do+KriptoX)
+Para poder logar como administrador é preciso usar o CPF **12345678900** e a senha **63423594**.
 
 ### 🚀 Funcionalidades
 
@@ -31,6 +30,8 @@ O principal objetivo do **KriptoX** é ensinar de uma forma divertida as pessoas
 - **Consultar Saldo e Extrato**: Verifique seu saldo atual e suas transações.
 - **Atualizar Cotação**: Atualize a cotação das criptomoedas de forma aleatória.
 
+- ![Operações do User](https://postimg.cc/YjMpptDn)
+
 #### Para Administradores
 
 - **Cadastrar/Excluir Investidor**: Adicione ou remova usuários no KriptoX.
@@ -40,7 +41,7 @@ O principal objetivo do **KriptoX** é ensinar de uma forma divertida as pessoas
 - **Consultar Extrato**: Acesse o histórico de transações de um usuário.
 - **Atualizar Cotação**: Atualize a cotação das criptomoedas de forma aleatória.
 
-![Interface do KriptoX](https://via.placeholder.com/800x400?text=Interface+do+KriptoX)
+- ![Operações do Admin](https://postimg.cc/Q9rjKD8M)
 
 ## 🛠️ Compilar / Usar
 
@@ -104,7 +105,7 @@ Se preferir não usar o CMake, você pode compilar as versões de **Admin** e **
 
 1. **Clonar o Repositório**
     ```bash
-    git clone https://github.com/seu-usuario/KriptoX.git
+    git clone https://github.com/oKaio122/KriptoX-C-Adm
     cd KriptoX
     ```
 
@@ -121,7 +122,7 @@ Se preferir não usar o CMake, você pode compilar as versões de **Admin** e **
 ## 👤 Criador
 
 **Kaio Angelo Posansky Santos**  
-R.A. 24124058-9
+**R.A.** 24124058-9
 
 ![Kaio Angelo](./images/kaio-angelo.png)
 

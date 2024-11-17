@@ -103,7 +103,7 @@ void menu_opcoes(User usuarios[10], int pos, Moeda *moedas, int qnt_moedas){
         };
         mostrar_opcoes("Menu de Opcoes", opcoes);
         scanf("%d", &opcao);
-        while ((getchar()) != '\n' && getchar() != EOF);
+        while ((lixo = getchar()) != '\n' && lixo != EOF);
 
         switch (opcao)
         {

@@ -1,0 +1,5 @@
+compile = "cmake -B/tmp/build . && make -s -C /tmp/build"
+run = "/tmp/build/KriptoX_C_Admin"
+
+[nix]
+channel = "stable-22_11"

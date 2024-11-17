@@ -78,8 +78,8 @@ Para poder logar como administrador é preciso usar o CPF **12345678900** e a se
 
 3. **Executar o Projeto**
    - Clique em **Run** para compilar e executar o programa automaticamente.
-   - Para rodar no modo **Usuário** abra o arquivo **.replit** e altere a segunda linha para "**run = "/tmp/build/KriptoX_C_User"**"
-   - Para rodar no modo **Admin** abra o arquivo **.replit** e altere a segunda linha para "**run = "/tmp/build/KriptoX_C_Admin"**"
+   - Para rodar no modo **Usuário** abra o arquivo **.replit** e altere a segunda linha para **`run = "/tmp/build/KriptoX_C_User"`**.
+   - Para rodar no modo **Admin** abra o arquivo **.replit** e altere a segunda linha para **`run = "/tmp/build/KriptoX_C_Admin"`**.
 
 #### Compilando Localmente no Windows
 

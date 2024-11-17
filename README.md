@@ -30,7 +30,7 @@ Para poder logar como administrador é preciso usar o CPF **12345678900** e a se
 - **Consultar Saldo e Extrato**: Verifique seu saldo atual e suas transações.
 - **Atualizar Cotação**: Atualize a cotação das criptomoedas de forma aleatória.
 
-- ![Operações do User](https://i.postimg.cc/CMfds1Gg/image.png)
+![Operações do User](https://i.postimg.cc/CMfds1Gg/image.png)
 
 #### Para Administradores
 
@@ -41,7 +41,7 @@ Para poder logar como administrador é preciso usar o CPF **12345678900** e a se
 - **Consultar Extrato**: Acesse o histórico de transações de um usuário.
 - **Atualizar Cotação**: Atualize a cotação das criptomoedas de forma aleatória.
 
-- ![Operações do Admin](https://i.postimg.cc/RFWh8C2w/image.png)
+![Operações do Admin](https://i.postimg.cc/RFWh8C2w/image.png)
 
 ## 🛠️ Compilar / Usar
 

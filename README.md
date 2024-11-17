@@ -142,7 +142,7 @@ Se preferir não usar o CMake, você pode compilar as versões de **Admin** e **
 **Kaio Angelo Posansky Santos**  
 **R.A.** 24124058-9
 
-![Kaio Angelo](./images/kaio-angelo.png)
+![Kaio Angelo](https://pps.whatsapp.net/v/t61.24694-24/383808741_815246547073141_2415394164772611592_n.jpg?ccb=11-4&oh=01_Q5AaIJJzHWtJz0kxnYNwGWcZzrcTP80YOjgKHgnYSf_0xv4_&oe=6747AC28&_nc_sid=5e03e0&_nc_cat=103)
 
   
 

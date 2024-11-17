@@ -1,6 +1,6 @@
 # KriptoX
 
-![KriptoX Banner](https://postimg.cc/t1ZKzMSV)
+![KriptoX Banner](https://i.postimg.cc/TPCTT8nQ/kriptox.png)
 
 **KriptoX** é uma **exchange de criptomoedas sandbox** desenvolvida em **C**, projetada para simular operações de compra, venda e gerenciamento de criptomoedas de forma segura e educativa. Ideal tanto para aprendizado quanto para entretenimento, o KriptoX permite que os usuários explorem o funcionamento de uma exchange real sem riscos financeiros.
 
@@ -30,7 +30,7 @@ Para poder logar como administrador é preciso usar o CPF **12345678900** e a se
 - **Consultar Saldo e Extrato**: Verifique seu saldo atual e suas transações.
 - **Atualizar Cotação**: Atualize a cotação das criptomoedas de forma aleatória.
 
-- ![Operações do User](https://postimg.cc/YjMpptDn)
+- ![Operações do User](https://i.postimg.cc/CMfds1Gg/image.png)
 
 #### Para Administradores
 
@@ -41,7 +41,7 @@ Para poder logar como administrador é preciso usar o CPF **12345678900** e a se
 - **Consultar Extrato**: Acesse o histórico de transações de um usuário.
 - **Atualizar Cotação**: Atualize a cotação das criptomoedas de forma aleatória.
 
-- ![Operações do Admin](https://postimg.cc/Q9rjKD8M)
+- ![Operações do Admin](https://i.postimg.cc/RFWh8C2w/image.png)
 
 ## 🛠️ Compilar / Usar
 

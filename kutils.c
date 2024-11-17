@@ -882,7 +882,10 @@ void mostrar_moedas(char titulo[], Moeda *moedas, int qnt_moedas, int mostrar_re
         printf("┃\n");
     }
     for (i = 0; i < qnt_moedas; i++){
-        printf("┃ %d - %s", num_moeda, moedas[i].nome);
+        printf("┃ ");
+        if(mostrar_numeros) printf("%d - ",num_moeda);
+        if(!mostrar_numeros) printf("    ");
+        printf("%s", moedas[i].nome);
         for (j = 0; j < nome_menu_len + 2 - strlen(moedas[i].nome); j++){
             printf(" ");
         }
@@ -1309,7 +1312,7 @@ void cadastrar_criptomoeda(Moeda **moedas, int *qnt_moedas, User usuarios[]){
     *qnt_moedas += 1;
 
     system("cls||clear");
-    mostrar_menu("Adicionar Criptomoeda");
+    mostrar_menu("Cadastrar Criptomoeda");
 
     // Salva uma variável com a memoria temporariamente para colocar nas moedas
     Moeda *temp = realloc(*moedas, (sizeof(Moeda) * (*qnt_moedas)));
@@ -1356,9 +1359,7 @@ void excluir_criptomoeda(Moeda **moedas, int *qnt_moedas, User usuarios[]){
     Moeda moeda_sel;
 
     system("cls||clear");
-    mostrar_menu("Remover Criptomoeda");
-
-    printf("Qnt moedas: %d\n", *qnt_moedas);
+    mostrar_menu("Excluir Criptomoeda");
 
     if(*qnt_moedas == 1){
         printf("No momento so existe uma criptomoeda no sistema, "
@@ -1383,7 +1384,7 @@ void excluir_criptomoeda(Moeda **moedas, int *qnt_moedas, User usuarios[]){
 
         // Se cancelar sai da funcao e volta pro menu
         if(strcmp(nome, "CANCELAR") == 0) {
-            printf("Operacao cancelada.");
+            printf("Operacao cancelada.\n");
             while ((lixo = getchar()) != '\n' && lixo != EOF);
             return;
         }
